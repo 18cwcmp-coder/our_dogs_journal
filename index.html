@@ -1,121 +1,104 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mia & Thor — Puppy Journal</title>
+<title>Mia & Thor — Puppy Journal (Editable)</title>
 <style>
-:root{--border:#e2e8f0;--accent:#2563eb}
-*{box-sizing:border-box}
+:root{--b:#e2e8f0;--a:#2563eb}*{box-sizing:border-box}
 body{font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;background:#f7fafc;color:#0f172a}
-header{padding:12px 16px;background:#fff;border-bottom:1px solid var(--border)}
+header{padding:12px 16px;background:#fff;border-bottom:1px solid var(--b)}
 .container{max-width:1100px;margin:0 auto;padding:16px}
-.card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 2px 6px rgba(15,23,42,.06);margin:16px 0}
-.banner{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:9}
-.banner .bar{display:flex;align-items:center;gap:10px;padding:8px 16px}
-.banner img{width:72px;height:72px;border-radius:10px;border:1px solid var(--border);object-fit:cover}
-.banner button{margin-left:auto;border:1px solid var(--border);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
+.card{background:#fff;border:1px solid var(--b);border-radius:14px;padding:16px;box-shadow:0 2px 6px rgba(15,23,42,.06);margin:16px 0}
+.banner{display:flex;align-items:center;gap:10px;border:1px dashed var(--b);padding:8px;border-radius:10px;background:#fff}
+.banner img{width:72px;height:72px;border-radius:10px;border:1px solid var(--b);object-fit:cover}
+.btn{border:1px solid var(--b);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer}
+.btnp{background:var(--a);color:#fff;border-color:var(--a)}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.tabs button{padding:10px 14px;border:1px solid var(--border);background:#fff;border-radius:10px;cursor:pointer}
-.tabs button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.panel{display:none} .panel.active{display:block}
-table{width:100%;border-collapse:collapse;margin-top:8px} th,td{border:1px solid var(--border);padding:8px;text-align:center}
-#chart{width:100%;height:520px} .legend{display:flex;gap:12px;margin:8px 0 12px 0;flex-wrap:wrap}
-.legend label{display:flex;gap:6px;align-items:center;border:1px solid var(--border);border-radius:8px;background:#fff;padding:6px 10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
-details{border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden}
-summary{list-style:none;cursor:pointer;padding:12px 14px;background:#f8fafc;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center}
-summary::-webkit-details-marker{display:none}
-.badge{background:#e2e8f0;border-radius:999px;padding:4px 10px;font-size:12px;color:#334155}
-.checklist label{display:flex;align-items:center;gap:8px;margin:6px 0}
+.tabs button{padding:10px 14px;border:1px solid var(--b);background:#fff;border-radius:10px;cursor:pointer}
+.tabs button.active{background:var(--a);color:#fff;border-color:var(--a)}
+.panel{display:none}.panel.active{display:block}
+table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid var(--b);padding:8px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+legend{font-weight:600}
+input,select{border:1px solid var(--b);border-radius:8px;padding:8px;font-size:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.small{font-size:12px;color:#475569}
+#chart{width:100%;height:520px} .legend{display:flex;gap:12px;margin:8px 0;flex-wrap:wrap}
+.legend label{display:flex;gap:6px;align-items:center;border:1px solid var(--b);border-radius:8px;background:#fff;padding:6px 10px}
 </style></head>
 <body>
 <header><h1 style="margin:0">Mia & Thor — Puppy Journal</h1></header>
+<main class="container">
 
-<div class="banner" id="topbar">
-  <div class="bar">
+  <div class="card banner">
     <img id="thorImg" src="photos/thor.jpg" alt="Thor" onerror="this.src='https://via.placeholder.com/72x72.png?text=Thor'">
     <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"  onerror="this.src='https://via.placeholder.com/72x72.png?text=Mia'">
     <div style="color:#334155">Thor (Cane Corso) • Mia (Rottweiler)</div>
-    <button id="togglePhotos">Hide photos ▴</button>
+    <label class="btn" style="margin-left:auto">Pick photos<input id="pickPhotos" type="file" accept="image/*" multiple hidden></label>
+    <button id="dlThor" class="btn">Download Thor.jpg</button>
+    <button id="dlMia"  class="btn">Download Mia.jpg</button>
   </div>
-</div>
 
-<main class="container">
   <div class="card">
     <div class="tabs">
       <button class="tab active" data-tab="overview">Overview</button>
       <button class="tab" data-tab="weights">Weights & Lengths</button>
       <button class="tab" data-tab="care">Care Roadmap</button>
       <button class="tab" data-tab="birth">Birth Log</button>
-      <button class="tab" data-tab="parents">Parents</button>
+      <button class="tab" data-tab="parents">Parents & Vet</button>
     </div>
 
     <section class="panel active" id="overview">
       <h2>Litter Summary</h2>
-      <table>
-        <tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
-        <tr><td>6</td><td>3</td><td>3</td><td>12–13 Sep 2025</td></tr>
-      </table>
-      <details class="checklist" open>
-        <summary><b>Milestones Checklist</b> (saved on this device)</summary>
-        <div id="checks"></div>
-      </details>
+      <table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+      <tr><td>6</td><td>3</td><td>3</td><td>12–13 Sep 2025</td></tr></table>
     </section>
 
     <section class="panel" id="weights">
       <h2>Weights & Interactive Chart</h2>
       <div class="legend" id="legend"></div>
       <svg id="chart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
+
       <div class="grid" style="margin-top:12px">
-        <details open><summary><b>Weights table</b> (from <code>data/weights.json</code>)</summary>
-          <table id="tblW"><thead><tr><th>Day</th><th>Pup 2 (Blue ♂)</th><th>Pup 3 (Pink ♀)</th><th>Pup 5 (Orange ♂)</th></tr></thead><tbody></tbody></table>
-        </details>
-        <details open><summary><b>Lengths table</b> (from <code>data/lengths.json</code>)</summary>
-          <table id="tblL"><thead><tr><th>Day</th><th>Pup 2 (Blue ♂)</th><th>Pup 3 (Pink ♀)</th><th>Pup 5 (Orange ♂)</th></tr></thead><tbody></tbody></table>
-        </details>
+        <fieldset><legend>Add Weight / Length</legend>
+          <div class="row">
+            <label>Pup
+              <select id="wlPup">
+                <option value="pup2">Pup 2 (Blue ♂)</option>
+                <option value="pup3">Pup 3 (Pink ♀)</option>
+                <option value="pup5">Pup 5 (Orange ♂)</option>
+              </select>
+            </label>
+            <label>Day <input type="number" id="wlDay" min="1" step="1" required></label>
+            <label>Weight (g) <input type="number" id="wlWeight" min="1" step="1"></label>
+            <label>Length (cm) <input type="number" id="wlLength" min="1" step="0.1"></label>
+            <button id="addWL" class="btnp" type="button">Add</button>
+          </div>
+          <div class="small">Changes save in your browser; use the export buttons to update the repo.</div>
+        </fieldset>
+
+        <div>
+          <details open><summary><b>Weights table</b> (data/weights.json + local)</summary>
+            <table id="tblW"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
+            <div class="small">Export merged → <button id="exportWeights" class="btnp">Download weights.json</button></div>
+          </details>
+          <details open><summary><b>Lengths table</b> (data/lengths.json + local)</summary>
+            <table id="tblL"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
+            <div class="small">Export merged → <button id="exportLengths" class="btnp">Download lengths.json</button></div>
+          </details>
+        </div>
       </div>
     </section>
 
     <section class="panel" id="care">
-      <h2>Care Roadmap (collapsible by week)</h2>
-      <div class="grid">
-        <details id="w2"><summary><b>Week 2 — Worming</b> <span class="badge">Fri 26 Sep 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Worm all pups (pyrantel), dose by weight; log doses.</li>
-            <li>Short, gentle handling; warm, dry bedding.</li>
-            <li>Quiet time with Mia; keep area 26–28°C.</li>
-          </ul></div>
-        </details>
-        <details id="w3"><summary><b>Week 3 — Handling & Sounds</b> <span class="badge">Fri 03 Oct 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Daily handling; introduce household sounds.</li>
-            <li>Shallow water dish; nails trim if sharp.</li>
-          </ul></div>
-        </details>
-        <details id="w4"><summary><b>Week 4 — Worming + Start Puppy Mush</b> <span class="badge">Fri 10 Oct 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Second worming; start puppy mush 3–4x/day.</li>
-            <li>Supervised intro of Thor through barriers with Mia present.</li>
-            <li>Toilet area/pads to begin house training.</li>
-          </ul></div>
-        </details>
-        <details id="w6"><summary><b>Week 6 — Vet Check + Vax & Microchip</b> <span class="badge">Fri 24 Oct 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Third worming.</li>
-            <li>First vaccination + microchips; short car rides; 2–3 calm visitors.</li>
-          </ul></div>
-        </details>
-        <details id="w7"><summary><b>Week 7 — Training Foundations</b> <span class="badge">Fri 31 Oct 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Crate naps, recall games; soft chew toys; different surfaces.</li>
-          </ul></div>
-        </details>
-        <details id="w8"><summary><b>Week 8 — Rehoming Prep + Parasite Preventatives</b> <span class="badge">Fri 07 Nov 2025</span></summary>
-          <div style="padding:12px 14px"><ul>
-            <li>Final worming; start flea/tick prevention per vet.</li>
-            <li>Puppy packs; microchip transfer; owner handover checklist.</li>
-          </ul></div>
-        </details>
-      </div>
+      <h2>Care Roadmap</h2>
+      <ul>
+        <li><b>Week 2:</b> Worming (pyrantel), gentle handling, warm bedding.</li>
+        <li><b>Week 3:</b> Handling & sounds; water dish; nails trim.</li>
+        <li><b>Week 4:</b> Worming + start puppy mush; careful intro to Thor.</li>
+        <li><b>Week 6:</b> Vet check + 1st vax + microchip; short car rides.</li>
+        <li><b>Week 7:</b> Basic training; crate naps; explore surfaces.</li>
+        <li><b>Week 8:</b> Final worming; flea/tick per vet; rehoming prep.</li>
+      </ul>
     </section>
 
     <section class="panel" id="birth">
@@ -132,12 +115,25 @@ summary::-webkit-details-marker{display:none}
     </section>
 
     <section class="panel" id="parents">
-      <h2>Parents</h2>
+      <h2>Parents & Vet</h2>
       <table>
         <tr><th>Dog</th><th>Breed</th><th>Sex</th><th>DOB / Age</th><th>Approx. Weight</th><th>Notes</th></tr>
-        <tr><td>Mia</td><td>Rottweiler</td><td>Female</td><td>15 Jan 2020 (5y 8m+)</td><td>~45 kg</td><td>First litter; calm, attentive mum</td></tr>
+        <tr><td>Mia</td><td>Rottweiler</td><td>Female</td><td>15 Jan 2020</td><td>~45 kg</td><td>First litter; calm mum</td></tr>
         <tr><td>Thor</td><td>Cane Corso</td><td>Male</td><td>~2 years</td><td>~45 kg</td><td>Desexed (Jul 2025)</td></tr>
       </table>
+      <details class="card" style="margin:12px 0">
+        <summary><b>Add Vet/Worming Event</b> (local, export to CSV)</summary>
+        <div class="row">
+          <select id="evWho"><option>Mia</option><option>Thor</option><option>Pup 2</option><option>Pup 3</option><option>Pup 5</option></select>
+          <input type="date" id="evDate">
+          <select id="evType"><option>Vet visit</option><option>Worming</option><option>Vaccination</option><option>Microchip</option><option>Flea/Tick</option><option>Other</option></select>
+          <input type="number" step="0.01" id="evCost" placeholder="Cost (AUD)">
+          <input type="text" id="evNotes" placeholder="Notes">
+          <button id="addEvent" class="btnp">Add</button>
+          <button id="exportEvents" class="btn">Download events.csv</button>
+        </div>
+        <table id="tblEvents"><thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Cost</th><th>Notes</th></tr></thead><tbody></tbody></table>
+      </details>
     </section>
 
   </div>
@@ -146,76 +142,127 @@ summary::-webkit-details-marker{display:none}
 <script>
 // Tabs
 document.querySelectorAll('.tab').forEach(btn=>{
-  btn.addEventListener('click', () => {
+  btn.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
     document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
-// Photo collapse
-const bar=document.getElementById('topbar'), tbtn=document.getElementById('togglePhotos');
-function setPhotosCollapsed(c){ bar.style.display = c ? 'none' : 'block'; tbtn.textContent = c ? 'Show photos ▾' : 'Hide photos ▴'; localStorage.setItem('photos_collapsed', c?'1':'0'); }
-setPhotosCollapsed(localStorage.getItem('photos_collapsed')==='1');
-tbtn.addEventListener('click',()=> setPhotosCollapsed(bar.style.display!=='none'));
-
-// Checklist (saved to localStorage)
-const checklistItems = [
-  'Week 2 worming done',
-  'Week 4 worming done',
-  'Week 6 vet check completed',
-  'Week 6 first vaccination given',
-  'Week 6 microchips implanted',
-  'Week 8 worming done',
-  'Flea/tick prevention started',
-  'Puppy packs prepared',
-  'Microchip transfers submitted'
-];
-const checksDiv = document.getElementById('checks');
-const stored = JSON.parse(localStorage.getItem('mt_checks') || '[]');
-checklistItems.forEach((txt, i) => {
-  const id = 'chk_'+i;
-  const wrap = document.createElement('label');
-  const cb = document.createElement('input'); cb.type='checkbox'; cb.id=id; cb.checked = !!stored[i];
-  const span = document.createElement('span'); span.textContent = txt;
-  wrap.appendChild(cb); wrap.appendChild(span); checksDiv.appendChild(wrap);
-  cb.addEventListener('change', () => {
-    const cur = Array.from(checksDiv.querySelectorAll('input')).map(x=>x.checked);
-    localStorage.setItem('mt_checks', JSON.stringify(cur));
+    btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active');
   });
 });
 
-// Load weights & lengths and draw chart/table
-async function load() {
+// Photos: local preview + download
+const pick = document.getElementById('pickPhotos');
+pick.addEventListener('change', async (e)=>{
+  const [thor,mia] = [...e.target.files];
+  if (thor){ const r=new FileReader(); r.onload=()=>{ localStorage.setItem('thor_local', r.result); document.getElementById('thorImg').src=r.result; }; r.readAsDataURL(thor); }
+  if (mia){ const r=new FileReader(); r.onload=()=>{ localStorage.setItem('mia_local', r.result); document.getElementById('miaImg').src=r.result; }; r.readAsDataURL(mia); }
+});
+(function restore(){ const t=localStorage.getItem('thor_local'); const m=localStorage.getItem('mia_local'); if(t) document.getElementById('thorImg').src=t; if(m) document.getElementById('miaImg').src=m; })();
+function downloadBinary(filename, dataUrl){
+  if(!dataUrl) return alert('No photo selected yet.');
+  const arr = dataUrl.split(',');
+  const bstr = atob(arr[1]); const len = bstr.length; const u8 = new Uint8Array(len);
+  for (let i=0;i<len;i++) u8[i]=bstr.charCodeAt(i);
+  const blob = new Blob([u8], {type:'image/jpeg'}); const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download=filename; a.click(); URL.revokeObjectURL(a.href);
+}
+document.getElementById('dlThor').onclick = ()=> downloadBinary('thor.jpg', localStorage.getItem('thor_local'));
+document.getElementById('dlMia').onclick  = ()=> downloadBinary('mia.jpg',  localStorage.getItem('mia_local'));
+
+// Weights/Lengths load + local additions + chart
+let W=[], L=[], addW=JSON.parse(localStorage.getItem('mt_add_weights')||'[]'), addL=JSON.parse(localStorage.getItem('mt_add_lengths')||'[]');
+async function loadBase(){
   const jw = await fetch('data/weights.json', {cache:'no-store'}).then(r=>r.json());
   const jl = await fetch('data/lengths.json', {cache:'no-store'}).then(r=>r.json());
-  // Tables
-  const tbw=document.querySelector('#tblW tbody'); jw.weights.forEach(r=>{const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2}</td><td>${r.pup3}</td><td>${r.pup5}</td>`; tbw.appendChild(tr);});
-  const tbl=document.querySelector('#tblL tbody'); jl.records.forEach(r=>{const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2}</td><td>${r.pup3}</td><td>${r.pup5}</td>`; tbl.appendChild(tr);});
-
-  // Chart
-  const days = jw.weights.map(r=>r.day), p2 = jw.weights.map(r=>r.pup2), p3 = jw.weights.map(r=>r.pup3), p5 = jw.weights.map(r=>r.pup5);
-  const svg=document.getElementById('chart'), W=960,H=520,M={l:64,r:24,t:24,b:46}, innerW=W-M.l-M.r, innerH=H-M.t-M.b;
-  const all=[...p2,...p3,...p5]; const yMin=Math.floor((Math.min(...all)-40)/20)*20, yMax=Math.ceil((Math.max(...all)+60)/20)*20;
-  const x=d=>M.l+((d-days[0])/(15-days[0]))*innerW, y=v=>M.t+innerH-((v-yMin)/(yMax-yMin))*innerH;
+  W = jw.weights; L = jl.records; render();
+}
+function mergeRows(base, add, keyDay='day'){
+  const m={}; base.forEach(r=>m[r[keyDay]]=Object.assign({},r)); add.forEach(r=>m[r[keyDay]]=Object.assign({},m[r[keyDay]]||{[keyDay]:r[keyDay]}, r)); return Object.values(m).sort((a,b)=>a[keyDay]-b[keyDay]);
+}
+function render(){
+  const M = mergeRows(W, addW);
+  const tbw=document.querySelector('#tblW tbody'); tbw.innerHTML=''; M.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td>`; tbw.appendChild(tr); });
+  const ML = mergeRows(L, addL);
+  const tbl=document.querySelector('#tblL tbody'); tbl.innerHTML=''; ML.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td>`; tbl.appendChild(tr); });
+  drawChart(M);
+}
+function drawChart(rows){
+  const svg=document.getElementById('chart'); while(svg.firstChild) svg.removeChild(svg.firstChild);
+  if (!rows.length) return;
+  const days=rows.map(r=>r.day), p2=rows.map(r=>r.pup2), p3=rows.map(r=>r.pup3), p5=rows.map(r=>r.pup5);
+  const all=[...p2,...p3,...p5].filter(v=>v!=null);
+  const Wd=960,H=520,Mg={l:64,r:24,t:24,b:46}, iw=Wd-Mg.l-Mg.r, ih=H-Mg.t-Mg.b;
+  const ymin=Math.floor((Math.min(...all)-40)/20)*20, ymax=Math.ceil((Math.max(...all)+60)/20)*20;
+  const X=d=>Mg.l+((d-days[0])/(Math.max(15,days[days.length-1])-days[0]))*iw, Y=v=>Mg.t+ih-((v-ymin)/(ymax-ymin))*ih;
   function L(x1,y1,x2,y2,c){const e=document.createElementNS('http://www.w3.org/2000/svg','line');e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);e.setAttribute('stroke',c||'#e2e8f0');return e;}
-  function T(x0,y0,t){const e=document.createElementNS('http://www.w3.org/2000/svg','text');e.setAttribute('x',x0);e.setAttribute('y',y0);e.setAttribute('font-size','12');e.setAttribute('fill','#334155');e.setAttribute('text-anchor','middle');e.textContent=t;return e;}
+  function T(x,y,t){const e=document.createElementNS('http://www.w3.org/2000/svg','text');e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size','12');e.setAttribute('fill','#334155');e.setAttribute('text-anchor','middle');e.textContent=t;return e;}
   function P(d,c,w=2.5){const e=document.createElementNS('http://www.w3.org/2000/svg','path');e.setAttribute('d',d);e.setAttribute('fill','none');e.setAttribute('stroke',c);e.setAttribute('stroke-width',w);return e;}
   function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle');e.setAttribute('cx',cx);e.setAttribute('cy',cy);e.setAttribute('r',4);e.setAttribute('fill',c);return e;}
-  for(let gy=yMin; gy<=yMax; gy+=50){const yy=y(gy); svg.appendChild(L(M.l,yy,W-M.r,yy));}
-  svg.appendChild(L(M.l,M.t,M.l,H-M.b,'#94a3b8')); svg.appendChild(L(M.l,H-M.b,W-M.r,H-M.b,'#94a3b8'));
-  for(let d=days[0]; d<=15; d++){svg.appendChild(T(x(d),H-M.b+18,'Day '+d));}
-  for(let gy=yMin; gy<=yMax; gy+=100){const yy=y(gy); const t=T(M.l-10,yy+4,gy); t.setAttribute('text-anchor','end'); svg.appendChild(t);}
-  svg.appendChild(T(M.l-42,M.t-6,'Weight (g)'));
-  const colors=['#1f77b4','#e45756','#4c9a2a'];
-  const legend=document.getElementById('legend'); const series=[{k:'Pup 2',v:p2,c:colors[0]},{k:'Pup 3',v:p3,c:colors[1]},{k:'Pup 5',v:p5,c:colors[2]}];
+  for(let gy=ymin; gy<=ymax; gy+=50){const yy=Y(gy); svg.appendChild(L(Mg.l,yy,Wd-Mg.r,yy));}
+  svg.appendChild(L(Mg.l,Mg.t,Mg.l,H-Mg.b,'#94a3b8')); svg.appendChild(L(Mg.l,H-Mg.b,Wd-Mg.r,H-Mg.b,'#94a3b8'));
+  for(let d=days[0]; d<=Math.max(15,days[days.length-1]); d++){svg.appendChild(T(X(d),H-Mg.b+18,'Day '+d));}
+  for(let gy=ymin; gy<=ymax; gy+=100){const yy=Y(gy); const t=T(Mg.l-10,yy+4,gy); t.setAttribute('text-anchor','end'); svg.appendChild(t);}
+  svg.appendChild(T(Mg.l-42,Mg.t-6,'Weight (g)'));
+  const colors=['#1f77b4','#e45756','#4c9a2a']; const legend=document.getElementById('legend'); legend.innerHTML='';
+  const sList=[{k:'Pup 2',v:p2,c:colors[0]},{k:'Pup 3',v:p3,c:colors[1]},{k:'Pup 5',v:p5,c:colors[2]}];
   const layer=document.createElementNS('http://www.w3.org/2000/svg','g'); svg.appendChild(layer);
-  series.forEach(s=>{const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:12px;height:12px;border-radius:6px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.k; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appendChild(lab); s.cb=cb;});
+  sList.forEach(s=>{const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:12px;height:12px;border-radius:6px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.k; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appendChild(lab); s.cb=cb;});
   function draw(){ while(layer.firstChild) layer.removeChild(layer.firstChild);
-    series.forEach(s=>{ if(!s.cb.checked) return; let d=''; s.v.forEach((v,i)=>{ d+=(i?'L':'M')+x(days[i])+' '+y(v)+' '; }); layer.appendChild(P(d,s.c)); s.v.forEach((v,i)=> layer.appendChild(C(x(days[i]),y(v),s.c))); });
+    sList.forEach((s,si)=>{ if(!s.cb.checked) return; let d=''; s.v.forEach((v,i)=>{ if(v==null) return; d+=(d?'L':'M')+X(days[i])+' '+Y(v)+' '; }); layer.appendChild(P(d,s.c)); s.v.forEach((v,i)=>{ if(v!=null) layer.appendChild(C(X(days[i]),Y(v),s.c)); }); });
   }
   legend.addEventListener('change', draw); draw();
 }
-load();
+// Add entries
+document.getElementById('addWL').addEventListener('click',()=>{
+  const who = document.getElementById('wlPup').value;
+  const day = parseInt(document.getElementById('wlDay').value);
+  const w   = document.getElementById('wlWeight').value ? parseFloat(document.getElementById('wlWeight').value) : null;
+  const l   = document.getElementById('wlLength').value ? parseFloat(document.getElementById('wlLength').value) : null;
+  if(!day || (!w && !l)) return alert('Enter a Day and at least a Weight or Length.');
+  if (w!=null){ let r=addW.find(x=>x.day===day); if(!r){r={day}; addW.push(r);} r[who]=w; localStorage.setItem('mt_add_weights', JSON.stringify(addW)); }
+  if (l!=null){ let r=addL.find(x=>x.day===day); if(!r){r={day}; addL.push(r);} r[who]=l; localStorage.setItem('mt_add_lengths', JSON.stringify(addL)); }
+  render();
+  document.getElementById('wlDay').value=''; document.getElementById('wlWeight').value=''; document.getElementById('wlLength').value='';
+});
+// Export merged to repo files
+document.getElementById('exportWeights').addEventListener('click',()=>{
+  const m={}; W.forEach(r=>m[r.day]=Object.assign({},r)); addW.forEach(r=>m[r.day]=Object.assign({},m[r.day]||{day:r.day},r));
+  const merged=Object.values(m).sort((a,b)=>a.day-b.day);
+  const blob=new Blob([JSON.stringify({dob:'2025-09-12', weights: merged},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='weights.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+document.getElementById('exportLengths').addEventListener('click',()=>{
+  const m={}; L.forEach(r=>m[r.day]=Object.assign({},r)); addL.forEach(r=>m[r.day]=Object.assign({},m[r.day]||{day:r.day},r));
+  const merged=Object.values(m).sort((a,b)=>a.day-b.day);
+  const blob=new Blob([JSON.stringify({units:'cm', records: merged},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='lengths.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+// Events (local + CSV export)
+let EV = JSON.parse(localStorage.getItem('mt_events')||'[]');
+function renderEvents(){
+  const tb=document.querySelector('#tblEvents tbody'); if(!tb) return; tb.innerHTML='';
+  EV.sort((a,b)=> (a.date||'').localeCompare(b.date||''));
+  EV.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${e.date||''}</td><td>${e.who||''}</td><td>${e.type||''}</td><td>${e.cost||''}</td><td>${e.notes||''}</td>`; tb.appendChild(tr); });
+}
+renderEvents();
+document.getElementById('addEvent')?.addEventListener('click',()=>{
+  const row={
+    who:document.getElementById('evWho').value,
+    date:document.getElementById('evDate').value,
+    type:document.getElementById('evType').value,
+    cost:document.getElementById('evCost').value,
+    notes:document.getElementById('evNotes').value,
+  };
+  EV.push(row); localStorage.setItem('mt_events', JSON.stringify(EV)); renderEvents();
+});
+document.getElementById('exportEvents')?.addEventListener('click',()=>{
+  const header=['date','who','type','cost','notes'];
+  const lines=[header.join(',')].concat(EV.map(r=>header.map(k=>(''+(r[k]||'')).replace(/"/g,'""')).map(v=>v.includes(',')?`"${v}"`:v).join(',')));
+  const blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='events.csv'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+// Init
+loadBase();
 </script>
 </body></html>
