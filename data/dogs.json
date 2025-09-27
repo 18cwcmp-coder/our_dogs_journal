@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Thor",
+    "breed": "Cane Corso",
+    "dob": "10 Jul 2023",
+    "weight": "~45 kg",
+    "microchip": "74582",
+    "last_vet": "10 Jul 2025 (Castration & lump removal)",
+    "photo": "photos/thor.jpg"
+  },
+  {
+    "name": "Mia",
+    "breed": "Rottweiler",
+    "dob": "15 Jan 2020",
+    "weight": "~45 kg",
+    "microchip": "Not provided",
+    "last_vet": "23 Nov 2023 (C4 Vaccination)",
+    "photo": "photos/mia.jpg"
+  }
+]

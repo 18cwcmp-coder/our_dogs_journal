@@ -1,6 +1,9 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Puppy Journal v2</title>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cato Dogs Journal</title>
 <style>
 body{font-family:sans-serif;margin:0;background:#f7fafc;color:#0f172a;}
 header{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;}
@@ -10,28 +13,26 @@ header{background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 16px;}
 .tabs button{padding:10px 14px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;}
 .tabs button.active{background:#2563eb;color:#fff;}
 .panel{display:none;} .panel.active{display:block;}
-.week-tile{border:2px solid #2563eb;border-radius:10px;padding:12px;margin:8px 0;background:#fff;display:flex;justify-content:space-between;align-items:center;}
-.week-tile.overdue{border-color:#dc2626;background:#fee2e2;}
-.week-title{font-weight:600;}
-button.complete-btn{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:6px 10px;cursor:pointer;}
-.photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;}
-.photos-grid img{width:100%;border-radius:8px;border:1px solid #e2e8f0;}
-</style></head>
+.dog-bio{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.dog-bio img{width:100px;height:100px;object-fit:cover;border-radius:8px;border:1px solid #ccc;}
+table{border-collapse:collapse;width:100%;margin-top:12px;}
+td,th{border:1px solid #e2e8f0;padding:6px;text-align:left;}
+</style>
+</head>
 <body>
-<header><h1>Puppy Journal v2</h1></header>
+<header><h1>Cato Dogs Journal</h1></header>
 <main class="container">
-<div class="card">
 <div class="tabs">
 <button class="tab active" data-tab="overview">Overview</button>
 <button class="tab" data-tab="weights">Weights & Lengths</button>
 <button class="tab" data-tab="care">Care Plan</button>
 <button class="tab" data-tab="photos">Photos</button>
+<button class="tab" data-tab="parents">Parents</button>
 </div>
 
-<section class="panel active" id="overview"><h2>Overview</h2><p>3 pups live, 3 stillborn</p></section>
+<section class="panel active" id="overview"><h2>Overview</h2><div id="overviewData"></div></section>
 
-<section class="panel" id="weights">
-<h2>Weights & Lengths</h2>
+<section class="panel" id="weights"><h2>Weights & Lengths</h2>
 <svg id="chart" viewBox="0 0 960 520"></svg>
 <details><summary><b>Length Growth Chart</b></summary>
 <svg id="lengthChart" viewBox="0 0 960 520"></svg>
@@ -41,9 +42,10 @@ button.complete-btn{background:#2563eb;color:#fff;border:none;border-radius:8px;
 <section class="panel" id="care"><h2>Care Plan</h2><div id="careTiles"></div>
 <details><summary>Completed Weeks</summary><div id="completedWeeks"></div></details></section>
 
-<section class="panel" id="photos"><h2>Photo Gallery</h2><input type="file" id="addPhoto" multiple>
-<div class="photos-grid" id="photoGrid"></div></section>
-</div></main>
+<section class="panel" id="photos"><h2>Photo Gallery</h2><input type="file" id="addPhoto" multiple><div id="photoGrid"></div></section>
+
+<section class="panel" id="parents"><h2>Parents</h2><div id="dogs"></div></section>
+</main>
 
 <script>
 document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
@@ -52,21 +54,24 @@ document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
 btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');
 }));
 
-const weeks=[{week:2,text:"Worming"},{week:3,text:"Handling & sounds"},{week:4,text:"Mush + worming"},{week:6,text:"Vet + vax"},{week:7,text:"Training"},{week:8,text:"Rehoming prep"}];
-let done=JSON.parse(localStorage.getItem('weeks_done')||'[]');
-function renderWeeks(){
-document.getElementById('careTiles').innerHTML='';document.getElementById('completedWeeks').innerHTML='';
-weeks.forEach(w=>{
-const tile=document.createElement('div');tile.className='week-tile'+(done.includes(w.week)?' done':'');
-tile.innerHTML=`<span class="week-title">Week ${w.week}</span><span>${w.text}</span>`;
-const btn=document.createElement('button');btn.textContent='Complete';btn.className='complete-btn';
-btn.onclick=()=>{done.push(w.week);localStorage.setItem('weeks_done',JSON.stringify(done));renderWeeks();};
-if(done.includes(w.week)){document.getElementById('completedWeeks').appendChild(tile);}else{tile.appendChild(btn);document.getElementById('careTiles').appendChild(tile);}
-});}
-renderWeeks();
+// Fetch JSON data
+async function loadData(){
+ const ov = await (await fetch('data/overview.json')).json();
+ document.getElementById('overviewData').innerHTML=`
+  <table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+  <tr><td>${ov.total_pups}</td><td>${ov.live}</td><td>${ov.stillborn}</td><td>${ov.dob_range}</td></tr></table>`;
 
-let photos=JSON.parse(localStorage.getItem('photos')||'[]');
-function renderPhotos(){document.getElementById('photoGrid').innerHTML='';photos.forEach(p=>{const img=document.createElement('img');img.src=p;document.getElementById('photoGrid').appendChild(img);});}
-document.getElementById('addPhoto').addEventListener('change',e=>{[...e.target.files].forEach(f=>{const r=new FileReader();r.onload=()=>{photos.push(r.result);localStorage.setItem('photos',JSON.stringify(photos));renderPhotos();};r.readAsDataURL(f);});});
-renderPhotos();
-</script></body></html>
+ const dogs = await (await fetch('data/dogs.json')).json();
+ document.getElementById('dogs').innerHTML = dogs.map(d=>`
+  <div class="dog-bio">
+   <img src="${d.photo}" alt="${d.name}">
+   <div><h3>${d.name} (${d.breed})</h3>
+   <p><b>DOB:</b> ${d.dob}</p>
+   <p><b>Weight:</b> ${d.weight}</p>
+   <p><b>Microchip:</b> ${d.microchip}</p>
+   <p><b>Last Vet Visit:</b> ${d.last_vet}</p></div>
+  </div>`).join("");
+}
+loadData();
+</script>
+</body></html>
