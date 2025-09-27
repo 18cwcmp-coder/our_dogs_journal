@@ -1,0 +1,50 @@
+[
+  {
+    "pup": "1",
+    "time": "19:15",
+    "sex": "\u2014",
+    "status": "Stillborn",
+    "placenta": "\u2014",
+    "notes": "Green fluid"
+  },
+  {
+    "pup": "2",
+    "time": "19:16",
+    "sex": "Female",
+    "status": "Alive",
+    "placenta": "\u2014",
+    "notes": "Top-ups overnight; nursed"
+  },
+  {
+    "pup": "3",
+    "time": "19:42",
+    "sex": "Male",
+    "status": "Alive",
+    "placenta": "Eaten",
+    "notes": "Latched well"
+  },
+  {
+    "pup": "4",
+    "time": "\u2014",
+    "sex": "\u2014",
+    "status": "Stillborn",
+    "placenta": "\u2014",
+    "notes": ""
+  },
+  {
+    "pup": "5",
+    "time": "07:30",
+    "sex": "Male",
+    "status": "Alive",
+    "placenta": "Eaten",
+    "notes": "Strong latch"
+  },
+  {
+    "pup": "6",
+    "time": "10:30",
+    "sex": "\u2014",
+    "status": "Stillborn",
+    "placenta": "Eaten",
+    "notes": "Expected instinct"
+  }
+]

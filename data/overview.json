@@ -1,6 +1,9 @@
 {
-  "total_pups": 6,
-  "live": 3,
-  "stillborn": 3,
-  "dob_range": "12\u201313 Sep 2025"
+  "litter_summary": {
+    "total_pups": 6,
+    "live": 3,
+    "stillborn": 3,
+    "whelping_window": "12\u201313 Sep 2025"
+  },
+  "notes": "Whelping began evening 12 Sep 2025; active through morning of 13 Sep 2025."
 }

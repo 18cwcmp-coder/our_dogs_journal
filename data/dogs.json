@@ -1,20 +1,22 @@
 [
   {
-    "name": "Thor",
-    "breed": "Cane Corso",
-    "dob": "10 Jul 2023",
-    "weight": "~45 kg",
-    "microchip": "74582",
-    "last_vet": "10 Jul 2025 (Castration & lump removal)",
-    "photo": "photos/thor.jpg"
-  },
-  {
     "name": "Mia",
     "breed": "Rottweiler",
+    "sex": "Female",
     "dob": "15 Jan 2020",
     "weight": "~45 kg",
-    "microchip": "Not provided",
-    "last_vet": "23 Nov 2023 (C4 Vaccination)",
+    "microchip": "(add if available)",
+    "last_vet": "23 Nov 2023 \u2014 C4 vaccination; routine checks",
     "photo": "photos/mia.jpg"
+  },
+  {
+    "name": "Thor",
+    "breed": "Cane Corso",
+    "sex": "Male",
+    "dob": "10 Jul 2023",
+    "weight": "~45 kg",
+    "microchip": "74582 (Melton)",
+    "last_vet": "10 Jul 2025 \u2014 desexed; mass removed; bloods/x\u2011rays",
+    "photo": "photos/thor.jpg"
   }
 ]
