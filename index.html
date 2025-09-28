@@ -26,6 +26,11 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
 .complete-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
 .photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
 .photos-grid img{width:100%;border-radius:8px;border:1px solid var(--b)}
+/* Fullscreen chart modal */
+#fsModal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
+#fsInner{background:#fff;border-radius:12px;max-width:98vw;max-height:92vh;padding:10px}
+#fsInner svg{width:92vw;height:80vh}
+#fsClose{position:absolute;top:10px;right:14px;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -70,15 +75,23 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
           <button id="addWL" class="btnp">Save entry</button>
           <button id="expW" class="btn">Download weights.json</button>
           <button id="expL" class="btn">Download lengths.json</button>
+          <button id="expAll" class="btn">Download ALL data (bundle)</button>
           <button id="toggleCharts" class="btn">Hide charts</button>
         </div>
       </div>
 
       <div class="legend" id="legend"></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0">
+        <button id="fsWeightBtn" class="btn">Full‑screen weights chart</button>
+      </div>
       <svg id="chart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
 
-      <details open style="margin-top:10px"><summary><b>Length Growth Chart</b></summary>
+      <details open style="margin-top:10px">
+        <summary><b>Length Growth Chart</b></summary>
         <div class="legend" id="legendL"></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0">
+          <button id="fsLengthBtn" class="btn">Full‑screen length chart</button>
+        </div>
         <svg id="lengthChart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
       </details>
 
@@ -106,7 +119,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
       <h2>Editable Bios (Parents & Pups)</h2>
       <div id="bioList"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <button id="expBios" class="btn">Download bios.json</button>
+        <button id="expBios" class="btn">Download dogs.json</button>
       </div>
     </section>
 
@@ -135,6 +148,12 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
     </section>
   </div>
 </main>
+
+<!-- Fullscreen modal -->
+<div id="fsModal">
+  <button id="fsClose">Close</button>
+  <div id="fsInner"><!-- chart SVG will be cloned here --></div>
+</div>
 
 <script>
 // Tab logic
@@ -180,7 +199,7 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
 async function loadOverview(){
   const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
   const s=ov?.litter_summary||{};
-  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
   <tr><td>${s.total_pups||''}</td><td>${s.live||''}</td><td>${s.stillborn||''}</td><td>${s.whelping_window||''}</td></tr></table>`;
   document.getElementById('ovNotes').textContent = ov?.notes||'';
   const bl = await fetch('data/birth_log.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
@@ -232,11 +251,34 @@ document.getElementById('expL').addEventListener('click',()=>{
   const merged=mergeByDay(baseL,addL);
   blobDownload('lengths.json', new Blob([JSON.stringify({units:'cm',records:merged},null,2)],{type:'application/json'}));
 });
+document.getElementById('expAll').addEventListener('click',()=>{
+  const bundle = {
+    overview: JSON.parse(localStorage.getItem('overview_override')||'null'),
+    weights: {dob:'2025-09-12', weights: mergeByDay(baseW,addW)},
+    lengths: {units:'cm', records: mergeByDay(baseL,addL)},
+    dogs: JSON.parse(localStorage.getItem('bios')||'null'),
+    events: JSON.parse(localStorage.getItem('events')||'[]')
+  };
+  blobDownload('journal_export.json', new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'}));
+});
 document.getElementById('toggleCharts').onclick=()=>{
   const c=document.getElementById('chart'); const l=document.getElementById('lengthChart');
   const hide=c.style.display!=='none'; c.style.display= hide?'none':'block'; l.parentElement.style.display= hide?'none':'block';
   document.getElementById('toggleCharts').textContent = hide?'Show charts':'Hide charts';
 };
+
+// Fullscreen modal controls
+const fsModal = document.getElementById('fsModal');
+const fsInner = document.getElementById('fsInner');
+document.getElementById('fsClose').onclick = ()=>{ fsModal.style.display='none'; fsInner.innerHTML=''; };
+function openFsFrom(svgId){
+  const src = document.getElementById(svgId);
+  const clone = src.cloneNode(true);
+  clone.removeAttribute('id');
+  fsInner.innerHTML=''; fsInner.appendChild(clone); fsModal.style.display='flex';
+}
+document.getElementById('fsWeightBtn').onclick = ()=> openFsFrom('chart');
+document.getElementById('fsLengthBtn').onclick = ()=> openFsFrom('lengthChart');
 
 // Care plan
 const DOB='2025-09-12', WEEK_MS=7*24*3600*1000;
@@ -286,7 +328,12 @@ function bioCard(d,i){
       <label style="grid-column:1/-1">Notes<textarea rows="2" data-k="notes" data-i="${i}">${d.notes or ''}</textarea></label>
       ${isPup ? `<div style="grid-column:1/-1"><b>Rehoming</b></div>
       <label>Price (AU$)<input value="${(d.rehoming||{}).price_aud or ''}" data-r="price_aud" data-i="${i}"></label>
-      <label>Available from<input type="date" value="${(d.rehoming||{}).available_from or ''}" data-r="available_from" data-i="${i}"></label>`:''}
+      <label>Available from<input type="date" value="${(d.rehoming||{}).available_from or ''}" data-r="available_from" data-i="${i}"></label>
+      <label>Adoption link<input value="${(d.rehoming||{}).adoption_link or ''}" data-r="adoption_link" data-i="${i}"></label>
+      <label>Desexing<input value="${(d.rehoming||{}).desexing or ''}" data-r="desexing" data-i="${i}"></label>
+      <label>Vaccinations<input value="${(d.rehoming||{}).vaccinations or ''}" data-r="vaccinations" data-i="${i}"></label>
+      <label>Worming<input value="${(d.rehoming||{}).worming or ''}" data-r="worming" data-i="${i}"></label>
+      <label>Flea/Tick<input value="${(d.rehoming||{}).flea_tick or ''}" data-r="flea_tick" data-i="${i}"></label>`:''}
     </div>`;
   return wrap;
 }
