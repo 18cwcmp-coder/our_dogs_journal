@@ -4,47 +4,36 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cato Dogs Journal</title>
 <style>
-:root{--b:#e2e8f0;--a:#2563eb;--text:#0f172a;--fs-base:18px;--fs-small:14px}
-*{box-sizing:border-box}
-body{font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;background:#f7fafc;color:var(--text);font-size:var(--fs-base)}
-header{position:sticky;top:0;z-index:1000;padding:14px 18px;background:#fff;border-bottom:1px solid var(--b)}
+:root{--b:#e2e8f0;--a:#2563eb;--text:#0f172a;--fs:18px}
+*{box-sizing:border-box}body{font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f7fafc;color:var(--text);margin:0;font-size:var(--fs)}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);padding:14px 18px;z-index:10}
 .container{max-width:1100px;margin:0 auto;padding:18px}
 .card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.08);margin:18px 0}
 .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.tabs button{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer;font-size:1.06em}
+.tabs button{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer}
 .tabs button.active{background:var(--a);color:#fff;border-color:var(--a)}
 .panel{display:none}.panel.active{display:block}
 .banner{display:flex;gap:10px;align-items:center;border:1px dashed var(--b);padding:10px;border-radius:12px;background:#fff}
-.banner img{width:96px;height:96px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
-.btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-size:1em}
+.banner img{width:84px;height:84px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
+.btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
 .btnp{background:var(--a);color:#fff;border-color:var(--a)}
-table{width:100%;border-collapse:collapse;margin-top:8px}
-th,td{border:1px solid var(--b);padding:10px;text-align:center}
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
-.legend label{display:flex;gap:8px;align-items:center;border:1px solid var(--b);border-radius:10px;background:#fff;padding:8px 12px}
-#chart,#lengthChart{width:100%;height:820px}
-.week-tile{border:2px solid var(--a);border-radius:12px;padding:14px;margin:10px 0;background:#fff;display:flex;justify-content:space-between;align-items:center;font-size:1.06em}
-.week-tile.overdue{border-color:#dc2626;background:#fee2e2}
-.week-title{font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid var(--b);padding:10px;text-align:center}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}.legend label{display:flex;gap:8px;align-items:center;border:1px solid var(--b);border-radius:10px;background:#fff;padding:8px 12px}
+#chart,#lengthChart{width:100%;height:760px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:8px 0}
+.form-grid input,.form-grid select,.form-grid textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:10px}
+.week-tile{border:2px solid var(--a);border-radius:12px;padding:14px;margin:10px 0;background:#fff;display:flex;justify-content:space-between;align-items:center}
 .complete-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
 .photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
 .photos-grid img{width:100%;border-radius:8px;border:1px solid var(--b)}
-.dog-bio{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;margin-bottom:12px}
-.dog-bio img{width:96px;height:96px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:8px 0}
-.form-grid input,.form-grid select,.form-grid textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:10px;font-size:1em}
-.small{font-size:var(--fs-small);color:#475569}
-.sale-card{border:2px dashed var(--b);border-radius:16px;padding:16px;max-width:720px;background:#fff}
-.sale-card h3{margin:0 0 8px 0}
-@media (max-width:768px){ #chart,#lengthChart{height:900px} }
 </style>
 </head>
 <body>
 <header><h1 style="margin:0">Cato Dogs Journal</h1></header>
 <main class="container">
   <div class="card banner">
-    <img id="thorImg" src="photos/thor.jpg" alt="Thor" onerror="this.src='https://via.placeholder.com/96x96.png?text=Thor'"/>
-    <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"  onerror="this.src='https://via.placeholder.com/96x96.png?text=Mia'"/>
+    <img id="thorImg" src="photos/thor.jpg" alt="Thor"/>
+    <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"/>
     <div>Thor (Cane Corso) • Mia (Rottweiler)</div>
     <label class="btn" style="margin-left:auto">Update Thor<input id="pickThor" type="file" accept="image/*" hidden></label>
     <label class="btn">Update Mia<input id="pickMia" type="file" accept="image/*" hidden></label>
@@ -64,7 +53,7 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
     <section class="panel active" id="overview">
       <h2>Overview</h2>
       <div id="ovSummary"></div>
-      <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" class="small"></div></details>
+      <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" style="color:#475569"></div></details>
     </section>
 
     <section class="panel" id="weights">
@@ -72,11 +61,7 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
       <div class="card" style="margin:10px 0;background:#f8fafc">
         <h3 style="margin-top:0">Add new entry</h3>
         <div class="form-grid">
-          <label>Pup<select id="wlPup">
-            <option value="pup2">Pup 2 (Blue)</option>
-            <option value="pup3">Pup 3 (Pink)</option>
-            <option value="pup5">Pup 5 (Orange)</option>
-          </select></label>
+          <label>Pup<select id="wlPup"><option value="pup2">Pup 2 (Blue)</option><option value="pup3">Pup 3 (Pink)</option><option value="pup5">Pup 5 (Orange)</option></select></label>
           <label>Day<input type="number" id="wlDay" min="1" placeholder="e.g., 15"></label>
           <label>Weight (g)<input type="number" id="wlWeight" min="1" placeholder="grams"></label>
           <label>Length (cm)<input type="number" id="wlLength" step="0.1" min="1" placeholder="centimetres"></label>
@@ -87,7 +72,6 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
           <button id="expL" class="btn">Download lengths.json</button>
           <button id="toggleCharts" class="btn">Hide charts</button>
         </div>
-        <div class="small" style="margin-top:6px">Edits save locally; export JSONs to update the GitHub repo.</div>
       </div>
 
       <div class="legend" id="legend"></div>
@@ -121,7 +105,6 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
     <section class="panel" id="bios">
       <h2>Editable Bios (Parents & Pups)</h2>
       <div id="bioList"></div>
-      <div class="small">Photos/changes save to this device. Use “Export bios.json” to commit to repo. You can also export a printable Sale Card for each pup.</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
         <button id="expBios" class="btn">Download bios.json</button>
       </div>
@@ -150,11 +133,11 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
       <input type="file" id="addPhoto" accept="image/*" multiple>
       <div class="photos-grid" id="photoGrid"></div>
     </section>
-
   </div>
 </main>
 
 <script>
+// Tab logic
 document.querySelectorAll('.tab').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
@@ -162,12 +145,13 @@ document.querySelectorAll('.tab').forEach(btn=>{
     btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active');
   });
 });
+// Helpers
 function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500); }
 function setLocalImg(input, key, imgEl){ input.addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ localStorage.setItem(key, r.result); imgEl.src=r.result; }; r.readAsDataURL(f); }); const exist=localStorage.getItem(key); if(exist) imgEl.src=exist; }
 setLocalImg(document.getElementById('pickThor'),'thor_local',document.getElementById('thorImg'));
 setLocalImg(document.getElementById('pickMia'),'mia_local',document.getElementById('miaImg'));
 
-// CHARTS
+// Simple SVG charts
 function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const svg=document.getElementById(svgId); while(svg.firstChild) svg.removeChild(svg.firstChild);
   if(!rows.length) return;
@@ -175,7 +159,7 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const xs=rows.map(r=>r[xKey]); const maxX=Math.max(...xs), minX=Math.min(...xs);
   const vals=[]; series.forEach(s=> rows.forEach(r=>{ if(r[s.k]!=null) vals.push(r[s.k]); }));
   const minY=Math.floor((Math.min(...vals)-yPad)/20)*20, maxY=Math.ceil((Math.max(...vals)+yPad)/20)*20;
-  const X=d=>M.l + ((d-minX) / (Math.max(minX+15,maxX)-minX)) * iw;
+  const X=d=>M.l + ((d-minX) / (Math.max(15,maxX)-minX)) * iw;
   const Y=v=>M.t + ih - ((v-minY)/(maxY-minY)) * ih;
   function L(x1,y1,x2,y2,c){const e=document.createElementNS('http://www.w3.org/2000/svg','line'); e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);e.setAttribute('stroke',c||'#e2e8f0'); e.setAttribute('stroke-width','1'); return e;}
   function T(x,y,t,anc='middle'){const e=document.createElementNS('http://www.w3.org/2000/svg','text'); e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size','18');e.setAttribute('fill','#334155');e.setAttribute('text-anchor',anc); e.textContent=t; return e;}
@@ -183,28 +167,26 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle'); e.setAttribute('cx',cx); e.setAttribute('cy',cy); e.setAttribute('r',5.2); e.setAttribute('fill',c); return e;}
   for(let gy=minY; gy<=maxY; gy+=50){ const yy=Y(gy); svg.appendChild(L(M.l,yy,W-M.r,yy)); }
   svg.appendChild(L(M.l,M.t,M.l,H-M.b,'#94a3b8')); svg.appendChild(L(M.l,H-M.b,W-M.r,H-M.b,'#94a3b8'));
-  const step = (window.innerWidth<=768)?2:1; for(let d=minX; d<=Math.max(15,maxX); d+=step){ svg.appendChild(T(X(d),H-M.b+28,'Day '+d)); }
-  for(let gy=minY; gy<=maxY; gy+=100){ const yy=Y(gy); svg.appendChild(T(M.l-18,yy+5,gy,'end')); }
-  if(legendId){ const legend=document.getElementById(legendId); legend.innerHTML=''; series.forEach(s=>{ const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:18px;height:18px;border-radius:9px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.name; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appen...
+  const step=(window.innerWidth<=768)?2:1; for(let d=minX; d<=Math.max(15,maxX); d+=step){ svg.appendChild(T(X(d),H-M.b+28,'Day '+d)); }
+  for(let gy=minY; gy<=maxY; gy+=100){ svg.appendChild(T(M.l-18,Y(gy)+5,gy,'end')); }
+  if(legendId){ const legend=document.getElementById(legendId); legend.innerHTML=''; series.forEach(s=>{ const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:18px;height:18px;border-radius:9px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.name; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appendChild(lab); s.cb=cb; }); }
   const layer=document.createElementNS('http://www.w3.org/2000/svg','g'); svg.appendChild(layer);
   function draw(){ while(layer.firstChild) layer.removeChild(layer.firstChild);
     series.forEach(s=>{ if(s.cb && !s.cb.checked) return; let d=''; rows.forEach(r=>{ const v=r[s.k]; if(v==null) return; d+=(d?'L':'M')+X(r[xKey])+' '+Y(v)+' '; }); if(d) layer.appendChild(P(d,s.c)); rows.forEach(r=>{ const v=r[s.k]; if(v==null) return; layer.appendChild(C(X(r[xKey]),Y(v),s.c)); }); });
   }
   if(legendId) document.getElementById(legendId).addEventListener('change', draw); draw();
 }
-
 // Overview & Birth
 async function loadOverview(){
   const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
   const s=ov?.litter_summary||{};
-  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
-    <tr><td>${s.total_pups||''}</td><td>${s.live||''}</td><td>${s.stillborn||''}</td><td>${s.whelping_window||''}</td></tr></table>`;
+  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+  <tr><td>${s.total_pups||''}</td><td>${s.live||''}</td><td>${s.stillborn||''}</td><td>${s.whelping_window||''}</td></tr></table>`;
   document.getElementById('ovNotes').textContent = ov?.notes||'';
   const bl = await fetch('data/birth_log.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
   const tb=document.querySelector('#birthTable tbody'); tb.innerHTML=''; (bl||[]).forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.p||i+1}</td><td>${r.time||''}</td><td>${r.sex||''}</td><td>${r.status||''}</td><td>${r.placenta||''}</td><td>${r.notes||''}</td>`; tb.appendChild(tr); });
 }
 loadOverview();
-
 // WL
 let baseW=[], baseL=[], addW=JSON.parse(localStorage.getItem('add_weights')||'[]'), addL=JSON.parse(localStorage.getItem('add_lengths')||'[]');
 function mergeByDay(base, add){ const m={}; base.forEach(r=>m[r.day]=Object.assign({},r)); add.forEach(r=>m[r.day]=Object.assign({},m[r.day]||{day:r.day},r)); return Object.values(m).sort((a,b)=>a.day-b.day); }
@@ -252,8 +234,7 @@ document.getElementById('expL').addEventListener('click',()=>{
 });
 document.getElementById('toggleCharts').onclick=()=>{
   const c=document.getElementById('chart'); const l=document.getElementById('lengthChart');
-  const hide=c.style.display!=='none' ? true:false;
-  c.style.display= hide?'none':'block'; l.parentElement.style.display= hide?'none':'block';
+  const hide=c.style.display!=='none'; c.style.display= hide?'none':'block'; l.parentElement.style.display= hide?'none':'block';
   document.getElementById('toggleCharts').textContent = hide?'Show charts':'Hide charts';
 };
 
@@ -273,8 +254,8 @@ function isOverdue(dob, w){ return new Date() > new Date(weekStart(dob,w).getTim
 function renderCare(){
   const wrap=document.getElementById('careTiles'); const comp=document.getElementById('completedWeeks'); wrap.innerHTML=''; comp.innerHTML='';
   careWeeks.forEach(k=>{
-    const tile=document.createElement('div'); tile.className='week-tile'; if(isOverdue(DOB,k.w) && !doneWeeks.includes(k.w)) tile.classList.add('overdue');
-    tile.innerHTML=`<span class="week-title">Week ${k.w}</span><span>${k.text}</span>`;
+    const tile=document.createElement('div'); tile.className='week-tile'; if(isOverdue(DOB,k.w) && !doneWeeks.includes(k.w)) tile.style.borderColor='#dc2626';
+    tile.innerHTML=`<span><b>Week ${k.w}</b> — ${k.text}</span>`;
     const btn=document.createElement('button'); btn.textContent='Complete'; btn.className='complete-btn';
     btn.onclick=()=>{ if(!doneWeeks.includes(k.w)) { doneWeeks.push(k.w); localStorage.setItem('done_weeks',JSON.stringify(doneWeeks)); renderCare(); } };
     if(doneWeeks.includes(k.w)){ comp.appendChild(tile); } else { tile.appendChild(btn); wrap.appendChild(tile); }
@@ -282,7 +263,7 @@ function renderCare(){
 }
 renderCare();
 
-// Bios with rehoming + sale card
+// Bios
 let BIO = [];
 async function loadBios(){
   const fromRepo = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
@@ -294,32 +275,18 @@ function bioCard(d,i){
   const isPup = (d.id||'').startsWith('pup');
   const wrap=document.createElement('div'); wrap.className='card';
   wrap.innerHTML=`
-    <div class="dog-bio">
-      <img src="${(d.photo||'').startsWith('data:')?d.photo:(d.photo||'https://via.placeholder.com/96?text=Photo')}" alt="${d.name||''}">
-      <div class="form-grid">
-        <label>Name<input value="${d.name||''}" data-k="name" data-i="${i}"></label>
-        <label>Breed<input value="${d.breed||''}" data-k="breed" data-i="${i}"></label>
-        <label>Sex<input value="${d.sex||''}" data-k="sex" data-i="${i}"></label>
-        <label>DOB<input value="${d.dob||''}" data-k="dob" data-i="${i}"></label>
-        <label>Weight<input value="${d.weight||''}" data-k="weight" data-i="${i}"></label>
-        <label>Microchip<input value="${d.microchip||''}" data-k="microchip" data-i="${i}"></label>
-        <label style="grid-column:1/-1">Last vet<input value="${d.last_vet||''}" data-k="last_vet" data-i="${i}"></label>
-        <label style="grid-column:1/-1">Notes<textarea rows="2" data-k="notes" data-i="${i}" placeholder="Temperament, training, sale blurb">${d.notes or ''}</textarea></label>
-        <label>Update photo<input type="file" accept="image/*" data-photo="${i}"></label>
-        ${isPup ? `
-        <div style="grid-column:1/-1"><b>Rehoming</b></div>
-        <label>Price (AU$)<input value="${(d.rehoming||{}).price_aud or ''}" data-r="price_aud" data-i="${i}"></label>
-        <label>Available from<input type="date" value="${(d.rehoming||{}).available_from or ''}" data-r="available_from" data-i="${i}"></label>
-        <label>Adoption link<input value="${(d.rehoming||{}).adoption_link or ''}" data-r="adoption_link" data-i="${i}" placeholder="URL / contact"></label>
-        <label>Desexing<input value="${(d.rehoming||{}).desexing or ''}" data-r="desexing" data-i="${i}" placeholder="e.g., not yet / voucher"></label>
-        <label>Vaccinations<input value="${(d.rehoming||{}).vaccinations or ''}" data-r="vaccinations" data-i="${i}"></label>
-        <label>Worming<input value="${(d.rehoming||{}).worming or ''}" data-r="worming" data-i="${i}"></label>
-        <label>Flea/Tick<input value="${(d.rehoming||{}).flea_tick or ''}" data-r="flea_tick" data-i="${i}"></label>
-        <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn" data-card="${i}">Download Sale Card</button>
-        </div>
-        `:''}
-      </div>
+    <div class="form-grid">
+      <label>Name<input value="${d.name||''}" data-k="name" data-i="${i}"></label>
+      <label>Breed<input value="${d.breed||''}" data-k="breed" data-i="${i}"></label>
+      <label>Sex<input value="${d.sex||''}" data-k="sex" data-i="${i}"></label>
+      <label>DOB<input value="${d.dob||''}" data-k="dob" data-i="${i}"></label>
+      <label>Weight<input value="${d.weight||''}" data-k="weight" data-i="${i}"></label>
+      <label>Microchip<input value="${d.microchip||''}" data-k="microchip" data-i="${i}"></label>
+      <label style="grid-column:1/-1">Last vet<input value="${d.last_vet||''}" data-k="last_vet" data-i="${i}"></label>
+      <label style="grid-column:1/-1">Notes<textarea rows="2" data-k="notes" data-i="${i}">${d.notes or ''}</textarea></label>
+      ${isPup ? `<div style="grid-column:1/-1"><b>Rehoming</b></div>
+      <label>Price (AU$)<input value="${(d.rehoming||{}).price_aud or ''}" data-r="price_aud" data-i="${i}"></label>
+      <label>Available from<input type="date" value="${(d.rehoming||{}).available_from or ''}" data-r="available_from" data-i="${i}"></label>`:''}
     </div>`;
   return wrap;
 }
@@ -327,61 +294,15 @@ function renderBios(){
   const host=document.getElementById('bioList'); host.innerHTML='';
   BIO.forEach((d,i)=>{ host.appendChild(bioCard(d,i)); });
   host.querySelectorAll('input[data-k],textarea[data-k]').forEach(inp=>{
-    inp.addEventListener('input', e=>{ const i=+e.target.dataset.i, k=e.target.dataset.k; BIO[i][k]=e.target.value; saveBios(); });
+    inp.addEventListener('input', e=>{ const i=+e.target.dataset.i, k=e.target.dataset.k; BIO[i][k]=e.target.value; localStorage.setItem('bios', JSON.stringify(BIO)); });
   });
   host.querySelectorAll('input[data-r]').forEach(inp=>{
-    inp.addEventListener('input', e=>{ const i=+e.target.dataset.i, k=e.target.dataset.r; BIO[i].rehoming = BIO[i].rehoming||{}; BIO[i].rehoming[k]=e.target.value; saveBios(); });
-  });
-  host.querySelectorAll('input[data-photo]').forEach(inp=>{
-    inp.addEventListener('change', e=>{
-      const i=+e.target.dataset.photo; const f=e.target.files[0]; if(!f) return;
-      const r=new FileReader(); r.onload=()=>{ BIO[i].photo=r.result; saveBios(); renderBios(); }; r.readAsDataURL(f);
-    });
-  });
-  host.querySelectorAll('button[data-card]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const i=+e.target.dataset.card; downloadSaleCard(BIO[i]);
-    });
+    inp.addEventListener('input', e=>{ const i=+e.target.dataset.i, k=e.target.dataset.r; BIO[i].rehoming = BIO[i].rehoming||{}; BIO[i].rehoming[k]=e.target.value; localStorage.setItem('bios', JSON.stringify(BIO)); });
   });
 }
-function saveBios(){ localStorage.setItem('bios', JSON.stringify(BIO)); }
 document.getElementById('expBios').onclick=()=>{
   blobDownload('dogs.json', new Blob([JSON.stringify(BIO,null,2)],{type:'application/json'}));
 };
-function downloadSaleCard(d){
-  const html = `<!doctype html><meta charset="utf-8"><title>${d.name||'Pup'} — Sale Card</title>
-  <style>
-  body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:24px;background:#f7fafc;color:#0f172a}
-  .card{max-width:720px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px}
-  .row{display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:start}
-  img{width:160px;height:160px;object-fit:cover;border-radius:12px;border:1px solid #e2e8f0}
-  h1{margin:0 0 6px 0}
-  table{width:100%;border-collapse:collapse;margin-top:12px}
-  td{border:1px solid #e2e8f0;padding:10px}
-  .muted{color:#475569}
-  </style>
-  <div class="card">
-    <div class="row">
-      <img src="${(d.photo||'').startsWith('data:')?d.photo:'https://via.placeholder.com/160?text=Photo'}">
-      <div>
-        <h1>${d.name||'Pup'}</h1>
-        <div class="muted">${d.breed||''} • ${d.sex||''} • DOB ${d.dob||''}</div>
-        <div style="margin-top:8px">${d.notes||''}</div>
-      </div>
-    </div>
-    <table>
-      <tr><td><b>Price (AU$)</b></td><td>${(d.rehoming||{}).price_aud||''}</td></tr>
-      <tr><td><b>Available from</b></td><td>${(d.rehoming||{}).available_from||''}</td></tr>
-      <tr><td><b>Desexing</b></td><td>${(d.rehoming||{}).desexing||''}</td></tr>
-      <tr><td><b>Vaccinations</b></td><td>${(d.rehoming||{}).vaccinations||''}</td></tr>
-      <tr><td><b>Worming</b></td><td>${(d.rehoming||{}).worming||''}</td></tr>
-      <tr><td><b>Flea/Tick</b></td><td>${(d.rehoming||{}).flea_tick||''}</td></tr>
-      <tr><td><b>Contact / Link</b></td><td>${(d.rehoming||{}).adoption_link||''}</td></tr>
-    </table>
-  </div>`;
-  const blob = new Blob([html],{type:'text/html'});
-  blobDownload(`${(d.name||'pup').replace(/\s+/g,'_').toLowerCase()}_sale_card.html`, blob);
-}
 loadBios();
 
 // Events
@@ -391,11 +312,6 @@ renderEvents();
 document.getElementById('addEvent').addEventListener('click',()=>{
   const row={who:evWho.value,date:evDate.value,type:evType.value,cost:evCost.value,notes:evNotes.value};
   EV.push(row); localStorage.setItem('events', JSON.stringify(EV)); renderEvents();
-  if(row.type === 'Vet visit'){
-    const map={'Mia':'mia','Thor':'thor','Pup 2':'pup2','Pup 3':'pup3','Pup 5':'pup5'};
-    const id = map[row.who]; const i = BIO.findIndex(b=>b.id===id);
-    if(i>=0){ BIO[i].last_vet = `${row.date} — ${row.notes||'Vet visit'}`; saveBios(); renderBios(); }
-  }
 });
 
 // Photos
