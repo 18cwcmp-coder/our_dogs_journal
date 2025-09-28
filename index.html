@@ -4,55 +4,48 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cato Dogs Journal</title>
 <style>
-:root{--b:#e2e8f0;--a:#2563eb;--text:#0f172a;--fs-base:17px;--fs-small:13px}
+:root{--b:#e2e8f0;--a:#2563eb;--text:#0f172a;--fs-base:18px;--fs-small:14px}
 *{box-sizing:border-box}
 body{font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;margin:0;background:#f7fafc;color:var(--text);font-size:var(--fs-base)}
 header{position:sticky;top:0;z-index:1000;padding:14px 18px;background:#fff;border-bottom:1px solid var(--b)}
 .container{max-width:1100px;margin:0 auto;padding:18px}
 .card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.08);margin:18px 0}
 .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.tabs button{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer;font-size:1.05em}
+.tabs button{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer;font-size:1.06em}
 .tabs button.active{background:var(--a);color:#fff;border-color:var(--a)}
 .panel{display:none}.panel.active{display:block}
 .banner{display:flex;gap:10px;align-items:center;border:1px dashed var(--b);padding:10px;border-radius:12px;background:#fff}
-.banner img{width:84px;height:84px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
-.btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+.banner img{width:96px;height:96px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
+.btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer;font-size:1em}
 .btnp{background:var(--a);color:#fff;border-color:var(--a)}
 table{width:100%;border-collapse:collapse;margin-top:8px}
 th,td{border:1px solid var(--b);padding:10px;text-align:center}
 .legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
 .legend label{display:flex;gap:8px;align-items:center;border:1px solid var(--b);border-radius:10px;background:#fff;padding:8px 12px}
-#chart,#lengthChart{width:100%;height:640px}
+#chart,#lengthChart{width:100%;height:820px}
 .week-tile{border:2px solid var(--a);border-radius:12px;padding:14px;margin:10px 0;background:#fff;display:flex;justify-content:space-between;align-items:center;font-size:1.06em}
 .week-tile.overdue{border-color:#dc2626;background:#fee2e2}
 .week-title{font-weight:600}
-.complete-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:8px 12px;cursor:pointer}
+.complete-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
 .photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
 .photos-grid img{width:100%;border-radius:8px;border:1px solid var(--b)}
-.dog-bio{display:flex;gap:12px;align-items:center;margin-bottom:12px}
-.dog-bio img{width:112px;height:112px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
+.dog-bio{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;margin-bottom:12px}
+.dog-bio img{width:96px;height:96px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:8px 0}
+.form-grid input,.form-grid select{width:100%;padding:10px;border:1px solid var(--b);border-radius:10px;font-size:1em}
 .small{font-size:var(--fs-small);color:#475569}
-@media (max-width: 768px){
-  :root{--fs-base:18px;--fs-small:15px}
-  header{padding:16px 20px}
-  .container{padding:20px 16px}
-  .tabs button{padding:14px 18px;font-size:1.12em}
-  #chart,#lengthChart{height:760px}
-  .banner img{width:96px;height:96px}
-}
+@media (max-width:768px){ #chart,#lengthChart{height:900px} }
 </style>
 </head>
 <body>
 <header><h1 style="margin:0">Cato Dogs Journal</h1></header>
 <main class="container">
   <div class="card banner">
-    <img id="thorImg" src="photos/thor.jpg" alt="Thor" onerror="this.src='https://via.placeholder.com/84x84.png?text=Thor'"/>
-    <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"  onerror="this.src='https://via.placeholder.com/84x84.png?text=Mia'"/>
+    <img id="thorImg" src="photos/thor.jpg" alt="Thor" onerror="this.src='https://via.placeholder.com/96x96.png?text=Thor'"/>
+    <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"  onerror="this.src='https://via.placeholder.com/96x96.png?text=Mia'"/>
     <div>Thor (Cane Corso) • Mia (Rottweiler)</div>
     <label class="btn" style="margin-left:auto">Update Thor<input id="pickThor" type="file" accept="image/*" hidden></label>
     <label class="btn">Update Mia<input id="pickMia" type="file" accept="image/*" hidden></label>
-    <button class="btn" id="dlThor">Download thor.jpg</button>
-    <button class="btn" id="dlMia">Download mia.jpg</button>
   </div>
 
   <div class="card">
@@ -61,7 +54,8 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
       <button class="tab" data-tab="weights">Weights & Lengths</button>
       <button class="tab" data-tab="care">Care Plan</button>
       <button class="tab" data-tab="birth">Birth Log</button>
-      <button class="tab" data-tab="parents">Parents & Vet</button>
+      <button class="tab" data-tab="bios">Bios</button>
+      <button class="tab" data-tab="vet">Vet & Worming</button>
       <button class="tab" data-tab="photos">Photos</button>
     </div>
 
@@ -69,48 +63,48 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
       <h2>Overview</h2>
       <div id="ovSummary"></div>
       <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" class="small"></div></details>
-      <details style="margin-top:10px"><summary><b>Overview Photos</b></summary>
-        <div class="photos-grid">
-          <img id="ov1" src="photos/mia.jpg" alt="Mia">
-          <img id="ov2" src="photos/thor.jpg" alt="Thor">
-        </div>
-      </details>
     </section>
 
     <section class="panel" id="weights">
       <h2>Weights & Lengths</h2>
-      <div class="legend" id="legend"></div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:6px">
-        <button class="btn" id="expandW">Expand</button><button class="btn" id="resetW">Reset</button>
+
+      <!-- Add/Edit at top -->
+      <div class="card" style="margin:10px 0;background:#f8fafc">
+        <h3 style="margin-top:0">Add new entry</h3>
+        <div class="form-grid">
+          <label>Pup<select id="wlPup">
+            <option value="pup2">Pup 2 (Blue)</option>
+            <option value="pup3">Pup 3 (Pink)</option>
+            <option value="pup5">Pup 5 (Orange)</option>
+          </select></label>
+          <label>Day<input type="number" id="wlDay" min="1" placeholder="e.g., 15"></label>
+          <label>Weight (g)<input type="number" id="wlWeight" min="1" placeholder="grams"></label>
+          <label>Length (cm)<input type="number" id="wlLength" step="0.1" min="1" placeholder="centimetres"></label>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="addWL" class="btnp">Save entry</button>
+          <button id="expW" class="btn">Download weights.json</button>
+          <button id="expL" class="btn">Download lengths.json</button>
+          <button id="toggleCharts" class="btn">Hide charts</button>
+        </div>
+        <div class="small" style="margin-top:6px">Edits save to this device; export JSONs to update the GitHub repo.</div>
       </div>
+
+      <div class="legend" id="legend"></div>
       <svg id="chart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
+
       <details open style="margin-top:10px"><summary><b>Length Growth Chart</b></summary>
         <div class="legend" id="legendL"></div>
-        <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:6px">
-          <button class="btn" id="expandL">Expand</button><button class="btn" id="resetL">Reset</button>
-        </div>
         <svg id="lengthChart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
       </details>
 
-      <details style="margin-top:10px"><summary><b>Add entry / Export</b></summary>
-        <div>
-          <label>Pup
-            <select id="wlPup">
-              <option value="pup2">Pup 2 (Blue)</option>
-              <option value="pup3">Pup 3 (Pink)</option>
-              <option value="pup5">Pup 5 (Orange)</option>
-            </select>
-          </label>
-          <label>Day <input type="number" id="wlDay" min="1"></label>
-          <label>Weight (g) <input type="number" id="wlWeight" min="1"></label>
-          <label>Length (cm) <input type="number" id="wlLength" step="0.1" min="1"></label>
-          <button id="addWL" class="btnp">Add</button>
-          <span class="small">Changes save locally; export JSON to update repo.</span>
-          <div style="margin-top:8px">
-            <button class="btn" id="expW">Download weights.json</button>
-            <button class="btn" id="expL">Download lengths.json</button>
-          </div>
-        </div>
+      <!-- Tables -->
+      <details open style="margin-top:10px">
+        <summary><b>Data tables</b></summary>
+        <h3>Weights</h3>
+        <table id="tblW"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
+        <h3 style="margin-top:16px">Lengths</h3>
+        <table id="tblL"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
       </details>
     </section>
 
@@ -122,25 +116,32 @@ th,td{border:1px solid var(--b);padding:10px;text-align:center}
 
     <section class="panel" id="birth">
       <h2>Birth Log</h2>
-      <table id="birthTable"><thead><tr><th>Pup</th><th>Time</th><th>Sex</th><th>Status</th><th>Placenta</th><th>Notes</th></tr></thead><tbody></tbody></table>
+      <table id="birthTable"><thead><tr><th>#</th><th>Time</th><th>Sex</th><th>Status</th><th>Placenta</th><th>Notes</th></tr></thead><tbody></tbody></table>
     </section>
 
-    <section class="panel" id="parents">
-      <h2>Parents & Vet</h2>
-      <div id="dogBios"></div>
-      <details class="card" style="margin:12px 0">
-        <summary><b>Add Vet/Worming Event</b> (local; export CSV)</summary>
-        <div>
-          <select id="evWho"><option>Mia</option><option>Thor</option><option>Pup 2</option><option>Pup 3</option><option>Pup 5</option></select>
-          <input type="date" id="evDate">
-          <select id="evType"><option>Vet visit</option><option>Worming</option><option>Vaccination</option><option>Microchip</option><option>Flea/Tick</option><option>Other</option></select>
-          <input type="number" id="evCost" step="0.01" placeholder="Cost">
-          <input type="text" id="evNotes" placeholder="Notes">
-          <button id="addEvent" class="btnp">Add</button>
+    <section class="panel" id="bios">
+      <h2>Editable Bios (Parents & Pups)</h2>
+      <div id="bioList"></div>
+      <div class="small">Photos/changes save to this device. Use “Export bios.json” to commit to repo.</div>
+      <button id="expBios" class="btn" style="margin-top:8px">Download bios.json</button>
+    </section>
+
+    <section class="panel" id="vet">
+      <h2>Vet & Worming</h2>
+      <div class="card" style="background:#f8fafc">
+        <div class="form-grid">
+          <label>Who<select id="evWho"><option>Mia</option><option>Thor</option><option>Pup 2</option><option>Pup 3</option><option>Pup 5</option></select></label>
+          <label>Date<input type="date" id="evDate"></label>
+          <label>Type<select id="evType"><option>Vet visit</option><option>Worming</option><option>Vaccination</option><option>Microchip</option><option>Flea/Tick</option><option>Other</option></select></label>
+          <label>Cost (AU$)<input type="number" id="evCost" step="0.01" placeholder="0.00"></label>
+          <label style="grid-column:1/-1">Notes<input type="text" id="evNotes" placeholder="e.g., C3 @ Melton Family Vets"></label>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="addEvent" class="btnp">Add record</button>
           <button id="expCSV" class="btn">Download events.csv</button>
         </div>
-        <table id="tblEvents"><thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Cost</th><th>Notes</th></tr></thead><tbody></tbody></table>
-      </details>
+      </div>
+      <table id="tblEvents"><thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Cost</th><th>Notes</th></tr></thead><tbody></tbody></table>
     </section>
 
     <section class="panel" id="photos">
@@ -163,28 +164,33 @@ document.querySelectorAll('.tab').forEach(btn=>{
 });
 
 // Helpers
-function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
-function dataURLtoBlob(dataUrl){ const arr=dataUrl.split(','), mime=arr[0].match(/:(.*?);/)[1], bstr=atob(arr[1]); let n=bstr.length; const u8=new Uint8Array(n); while(n--) u8[n]=bstr.charCodeAt(n); return new Blob([u8],{type:mime}); }
+function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500); }
 function setLocalImg(input, key, imgEl){ input.addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ localStorage.setItem(key, r.result); imgEl.src=r.result; }; r.readAsDataURL(f); }); const exist=localStorage.getItem(key); if(exist) imgEl.src=exist; }
+function dataURLtoBlob(dataUrl){ const arr=dataUrl.split(','), mime=arr[0].match(/:(.*?);/)[1], bstr=atob(arr[1]); let n=bstr.length; const u8=new Uint8Array(n); while(n--) u8[n]=bstr.charCodeAt(n); return new Blob([u8],{type:mime}); }
 
-function simpleLineChart(svgId, rows, series, xKey, yMinPad=40, legendId){
+// Banner picks
+setLocalImg(document.getElementById('pickThor'),'thor_local',document.getElementById('thorImg'));
+setLocalImg(document.getElementById('pickMia'),'mia_local',document.getElementById('miaImg'));
+
+// Simple SVG line chart
+function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const svg=document.getElementById(svgId); while(svg.firstChild) svg.removeChild(svg.firstChild);
   if(!rows.length) return;
-  const W=960,H=520,M={l:72,r:24,t:28,b:64}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const W=960,H=520,M={l:86,r:28,t:30,b:70}, iw=W-M.l-M.r, ih=H-M.t-M.b;
   const xs=rows.map(r=>r[xKey]); const maxX=Math.max(...xs), minX=Math.min(...xs);
   const vals=[]; series.forEach(s=> rows.forEach(r=>{ if(r[s.k]!=null) vals.push(r[s.k]); }));
-  const minY=Math.floor((Math.min(...vals)-yMinPad)/20)*20, maxY=Math.ceil((Math.max(...vals)+yMinPad)/20)*20;
+  const minY=Math.floor((Math.min(...vals)-yPad)/20)*20, maxY=Math.ceil((Math.max(...vals)+yPad)/20)*20;
   const X=d=>M.l + ((d-minX) / (Math.max(minX+15,maxX)-minX)) * iw;
   const Y=v=>M.t + ih - ((v-minY)/(maxY-minY)) * ih;
-  function L(x1,y1,x2,y2,c){const e=document.createElementNS('http://www.w3.org/2000/svg','line'); e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);e.setAttribute('stroke',c||'#e2e8f0'); return e;}
-  function T(x,y,t,anc='middle'){const e=document.createElementNS('http://www.w3.org/2000/svg','text'); e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size','16');e.setAttribute('fill','#334155');e.setAttribute('text-anchor',anc); e.textContent=t; return e;}
-  function P(d,c,w=3){const e=document.createElementNS('http://www.w3.org/2000/svg','path'); e.setAttribute('d',d); e.setAttribute('fill','none'); e.setAttribute('stroke',c); e.setAttribute('stroke-width',w); return e;}
-  function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle'); e.setAttribute('cx',cx);e.setAttribute('cy',cy);e.setAttribute('r',4.8);e.setAttribute('fill',c); return e;}
+  function L(x1,y1,x2,y2,c){const e=document.createElementNS('http://www.w3.org/2000/svg','line'); e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);e.setAttribute('stroke',c||'#e2e8f0'); e.setAttribute('stroke-width','1'); return e;}
+  function T(x,y,t,anc='middle'){const e=document.createElementNS('http://www.w3.org/2000/svg','text'); e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size','18');e.setAttribute('fill','#334155');e.setAttribute('text-anchor',anc); e.textContent=t; return e;}
+  function P(d,c,w=3.5){const e=document.createElementNS('http://www.w3.org/2000/svg','path'); e.setAttribute('d',d); e.setAttribute('fill','none'); e.setAttribute('stroke',c); e.setAttribute('stroke-width',w); return e;}
+  function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle'); e.setAttribute('cx',cx); e.setAttribute('cy',cy); e.setAttribute('r',5.2); e.setAttribute('fill',c); return e;}
   for(let gy=minY; gy<=maxY; gy+=50){ const yy=Y(gy); svg.appendChild(L(M.l,yy,W-M.r,yy)); }
   svg.appendChild(L(M.l,M.t,M.l,H-M.b,'#94a3b8')); svg.appendChild(L(M.l,H-M.b,W-M.r,H-M.b,'#94a3b8'));
-  const step = (window.innerWidth<=768)?2:1; for(let d=minX; d<=Math.max(15,maxX); d+=step){ svg.appendChild(T(X(d),H-M.b+24,'Day '+d)); }
-  for(let gy=minY; gy<=maxY; gy+=100){ const yy=Y(gy); svg.appendChild(T(M.l-14,yy+4,gy,'end')); }
-  if(legendId){ const legend=document.getElementById(legendId); legend.innerHTML=''; series.forEach(s=>{ const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:16px;height:16px;border-radius:8px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.name; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appendChild(lab); s.cb=cb; }); }
+  const step = (window.innerWidth<=768)?2:1; for(let d=minX; d<=Math.max(15,maxX); d+=step){ svg.appendChild(T(X(d),H-M.b+28,'Day '+d)); }
+  for(let gy=minY; gy<=maxY; gy+=100){ const yy=Y(gy); svg.appendChild(T(M.l-18,yy+5,gy,'end')); }
+  if(legendId){ const legend=document.getElementById(legendId); legend.innerHTML=''; series.forEach(s=>{ const lab=document.createElement('label'); const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:18px;height:18px;border-radius:9px;background:'+s.c; const tx=document.createElement('span'); tx.textContent=' '+s.name; lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx); legend.appendChild(lab); s.cb=cb; }); }
   const layer=document.createElementNS('http://www.w3.org/2000/svg','g'); svg.appendChild(layer);
   function draw(){ while(layer.firstChild) layer.removeChild(layer.firstChild);
     series.forEach(s=>{ if(s.cb && !s.cb.checked) return; let d=''; rows.forEach(r=>{ const v=r[s.k]; if(v==null) return; d+=(d?'L':'M')+X(r[xKey])+' '+Y(v)+' '; }); layer.appendChild(P(d,s.c)); rows.forEach(r=>{ const v=r[s.k]; if(v==null) return; layer.appendChild(C(X(r[xKey]),Y(v),s.c)); }); });
@@ -192,52 +198,38 @@ function simpleLineChart(svgId, rows, series, xKey, yMinPad=40, legendId){
   if(legendId) document.getElementById(legendId).addEventListener('change', draw); draw();
 }
 
-// Load Overview/Dogs/Birth
+// Overview and Birth
 async function loadOverview(){
   const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
-  const s = ov?.litter_summary || {total_pups:'?',live:'?',stillborn:'?',whelping_window:'?'};
-  document.getElementById('ovSummary').innerHTML = `
-    <table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
-    <tr><td>${s.total_pups}</td><td>${s.live}</td><td>${s.stillborn}</td><td>${s.whelping_window}</td></tr></table>`;
-  document.getElementById('ovNotes').textContent = ov?.notes || '';
+  const s=ov?.litter_summary||{};
+  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+    <tr><td>${s.total_pups||''}</td><td>${s.live||''}</td><td>${s.stillborn||''}</td><td>${s.whelping_window||''}</td></tr></table>`;
+  document.getElementById('ovNotes').textContent = ov?.notes||'';
   const bl = await fetch('data/birth_log.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
-  const tb=document.querySelector('#birthTable tbody'); tb.innerHTML=''; bl.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.pup}</td><td>${r.time}</td><td>${r.sex}</td><td>${r.status}</td><td>${r.placenta}</td><td>${r.notes||''}</td>`; tb.appendChild(tr); });
-  const dogs = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
-  const dwrap=document.getElementById('dogBios'); dwrap.innerHTML='';
-  dogs.forEach(d=>{
-    const el=document.createElement('div'); el.className='dog-bio';
-    el.innerHTML=`<img src="${d.photo}" alt="${d.name}" onerror="this.src='https://via.placeholder.com/112?text=${d.name}'">
-      <div><h3 style="margin:0">${d.name} <span class="small">(${d.breed}, ${d.sex})</span></h3>
-      <div class="small"><b>DOB:</b> ${d.dob} &nbsp; • &nbsp; <b>Weight:</b> ${d.weight}</div>
-      <div class="small"><b>Microchip:</b> ${d.microchip} &nbsp; • &nbsp; <b>Last vet:</b> ${d.last_vet}</div></div>`;
-    dwrap.appendChild(el);
-  });
+  const tb=document.querySelector('#birthTable tbody'); tb.innerHTML=''; (bl||[]).forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.p||i+1}</td><td>${r.time||''}</td><td>${r.sex||''}</td><td>${r.status||''}</td><td>${r.placenta||''}</td><td>${r.notes||''}</td>`; tb.appendChild(tr); });
 }
 loadOverview();
 
-// Photo banner pickers
-setLocalImg(document.getElementById('pickThor'),'thor_local',document.getElementById('thorImg'));
-setLocalImg(document.getElementById('pickMia'),'mia_local',document.getElementById('miaImg'));
-document.getElementById('dlThor').onclick=()=>{ const d=localStorage.getItem('thor_local'); if(!d) return alert('Pick a Thor photo first.'); blobDownload('thor.jpg', dataURLtoBlob(d)); };
-document.getElementById('dlMia').onclick=()=>{ const d=localStorage.getItem('mia_local'); if(!d) return alert('Pick a Mia photo first.'); blobDownload('mia.jpg', dataURLtoBlob(d)); };
-
-// Weights & Lengths
+// WL data
 let baseW=[], baseL=[], addW=JSON.parse(localStorage.getItem('add_weights')||'[]'), addL=JSON.parse(localStorage.getItem('add_lengths')||'[]');
 function mergeByDay(base, add){ const m={}; base.forEach(r=>m[r.day]=Object.assign({},r)); add.forEach(r=>m[r.day]=Object.assign({},m[r.day]||{day:r.day},r)); return Object.values(m).sort((a,b)=>a.day-b.day); }
+function renderTables(W,L){
+  const tw=document.querySelector('#tblW tbody'); tw.innerHTML=''; W.forEach(r=>{ tw.innerHTML += `<tr><td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td></tr>`; });
+  const tl=document.querySelector('#tblL tbody'); tl.innerHTML=''; L.forEach(r=>{ tl.innerHTML += `<tr><td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td></tr>`; });
+}
 function renderWL(){
   const W = mergeByDay(baseW, addW);
   const L = mergeByDay(baseL, addL);
-  const tw=document.querySelector('#tblW tbody'); if(tw){ tw.innerHTML=''; W.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td>`; tw.appendChild(tr); }); }
-  const tl=document.querySelector('#tblL tbody'); if(tl){ tl.innerHTML=''; L.forEach(r=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.day}</td><td>${r.pup2??''}</td><td>${r.pup3??''}</td><td>${r.pup5??''}</td>`; tl.appendChild(tr); }); }
+  renderTables(W,L);
   simpleLineChart('chart', W, [
-    {k:'pup2', name:'Pup 2 (Blue)', c:'#1f77b4'},
-    {k:'pup3', name:'Pup 3 (Pink)', c:'#e45756'},
-    {k:'pup5', name:'Pup 5 (Orange)', c:'#4c9a2a'},
+    {k:'pup2', name:'Pup 2 (Blue)',  c:'#1f77b4'},
+    {k:'pup3', name:'Pup 3 (Pink)',  c:'#e45756'},
+    {k:'pup5', name:'Pup 5 (Orange)',c:'#4c9a2a'},
   ], 'day', 60, 'legend');
   simpleLineChart('lengthChart', L, [
-    {k:'pup2', name:'Pup 2 (Blue)', c:'#1f77b4'},
-    {k:'pup3', name:'Pup 3 (Pink)', c:'#e45756'},
-    {k:'pup5', name:'Pup 5 (Orange)', c:'#4c9a2a'},
+    {k:'pup2', name:'Pup 2 (Blue)',  c:'#1f77b4'},
+    {k:'pup3', name:'Pup 3 (Pink)',  c:'#e45756'},
+    {k:'pup5', name:'Pup 5 (Orange)',c:'#4c9a2a'},
   ], 'day', 2, 'legendL');
 }
 async function loadWL(){
@@ -247,31 +239,30 @@ async function loadWL(){
 }
 loadWL();
 document.getElementById('addWL').addEventListener('click',()=>{
-  const who=document.getElementById('wlPup').value;
-  const day=parseInt(document.getElementById('wlDay').value||'0',10);
-  const w=document.getElementById('wlWeight').value?parseFloat(document.getElementById('wlWeight').value):null;
-  const l=document.getElementById('wlLength').value?parseFloat(document.getElementById('wlLength').value):null;
+  const who=wlPup.value; const day=parseInt(wlDay.value||'0',10);
+  const w=wlWeight.value?parseFloat(wlWeight.value):null;
+  const l=wlLength.value?parseFloat(wlLength.value):null;
   if(!day || (!w && !l)) return alert('Enter a Day and at least a Weight or Length.');
   if(w!=null){ let r=addW.find(x=>x.day===day); if(!r){r={day}; addW.push(r);} r[who]=w; localStorage.setItem('add_weights',JSON.stringify(addW)); }
   if(l!=null){ let r=addL.find(x=>x.day===day); if(!r){r={day}; addL.push(r);} r[who]=l; localStorage.setItem('add_lengths',JSON.stringify(addL)); }
-  renderWL(); wlDay.value=''; wlWeight.value=''; wlLength.value='';
+  wlDay.value=''; wlWeight.value=''; wlLength.value=''; renderWL();
 });
 document.getElementById('expW').addEventListener('click',()=>{
-  const merged = mergeByDay(baseW, addW);
+  const merged=mergeByDay(baseW,addW);
   blobDownload('weights.json', new Blob([JSON.stringify({dob:'2025-09-12',weights:merged},null,2)],{type:'application/json'}));
 });
 document.getElementById('expL').addEventListener('click',()=>{
-  const merged = mergeByDay(baseL, addL);
+  const merged=mergeByDay(baseL,addL);
   blobDownload('lengths.json', new Blob([JSON.stringify({units:'cm',records:merged},null,2)],{type:'application/json'}));
 });
+document.getElementById('toggleCharts').onclick=()=>{
+  const c=document.getElementById('chart'); const l=document.getElementById('lengthChart');
+  const hide=c.style.display!=='none' ? true:false;
+  c.style.display= hide?'none':'block'; l.parentElement.style.display= hide?'none':'block';
+  document.getElementById('toggleCharts').textContent = hide?'Show charts':'Hide charts';
+};
 
-// Expand / Reset chart sizes
-document.getElementById('expandW').onclick=()=>{ document.getElementById('chart').style.height = Math.max(window.innerHeight*0.7, 700)+'px'; };
-document.getElementById('resetW').onclick =()=>{ document.getElementById('chart').style.height = (window.innerWidth<=768? '760px' : '640px'); };
-document.getElementById('expandL').onclick=()=>{ document.getElementById('lengthChart').style.height = Math.max(window.innerHeight*0.7, 700)+'px'; };
-document.getElementById('resetL').onclick =()=>{ document.getElementById('lengthChart').style.height = (window.innerWidth<=768? '760px' : '640px'); };
-
-// Care plan
+// Care Plan (tiles + overdue)
 const DOB='2025-09-12', WEEK_MS=7*24*3600*1000;
 const careWeeks=[
   {w:2, text:"Worming (pyrantel); gentle handling"},
@@ -296,28 +287,82 @@ function renderCare(){
 }
 renderCare();
 
-// Events
+// Editable Bios (parents + pups)
+let BIO = [];
+async function loadBios(){
+  const fromRepo = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
+  const local = JSON.parse(localStorage.getItem('bios')||'null');
+  BIO = Array.isArray(local) ? local : fromRepo;
+  renderBios();
+}
+function bioCard(d,i){
+  const wrap=document.createElement('div'); wrap.className='card';
+  wrap.innerHTML=`
+    <div class="dog-bio">
+      <img src="${(d.photo||'').startsWith('data:')?d.photo:(d.photo||'https://via.placeholder.com/96?text=Photo')}" alt="${d.name}">
+      <div class="form-grid">
+        <label>Name<input value="${d.name||''}" data-k="name" data-i="${i}"></label>
+        <label>Breed<input value="${d.breed||''}" data-k="breed" data-i="${i}"></label>
+        <label>Sex<input value="${d.sex||''}" data-k="sex" data-i="${i}"></label>
+        <label>DOB<input value="${d.dob||''}" data-k="dob" data-i="${i}"></label>
+        <label>Weight<input value="${d.weight||''}" data-k="weight" data-i="${i}"></label>
+        <label>Microchip<input value="${d.microchip||''}" data-k="microchip" data-i="${i}"></label>
+        <label style="grid-column:1/-1">Last vet<input value="${d.last_vet||''}" data-k="last_vet" data-i="${i}"></label>
+        <label style="grid-column:1/-1">Notes<input value="${d.notes||''}" data-k="notes" data-i="${i}" placeholder="Temperament, training, sale blurb"></label>
+        <label>Update photo<input type="file" accept="image/*" data-photo="${i}"></label>
+      </div>
+    </div>`;
+  return wrap;
+}
+function renderBios(){
+  const host=document.getElementById('bioList'); host.innerHTML='';
+  BIO.forEach((d,i)=>{ host.appendChild(bioCard(d,i)); });
+  host.querySelectorAll('input[data-k]').forEach(inp=>{
+    inp.addEventListener('input', e=>{ const i=+e.target.dataset.i, k=e.target.dataset.k; BIO[i][k]=e.target.value; saveBios(); });
+  });
+  host.querySelectorAll('input[data-photo]').forEach(inp=>{
+    inp.addEventListener('change', e=>{
+      const i=+e.target.dataset.photo; const f=e.target.files[0]; if(!f) return;
+      const r=new FileReader(); r.onload=()=>{ BIO[i].photo=r.result; saveBios(); renderBios(); }; r.readAsDataURL(f);
+    });
+  });
+}
+function saveBios(){ localStorage.setItem('bios', JSON.stringify(BIO)); }
+document.getElementById('expBios').onclick=()=>{
+  blobDownload('dogs.json', new Blob([JSON.stringify(BIO,null,2)],{type:'application/json'}));
+};
+loadBios();
+
+// Vet/Worming Events
 let EV = JSON.parse(localStorage.getItem('events')||'[]');
-function renderEvents(){ const tb=document.querySelector('#tblEvents tbody'); if(!tb) return; tb.innerHTML=''; EV.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${e.date||''}</td><td>${e.who||''}</td><td>${e.type||''}</td><td>${e.cost||''}</td><td>${e.notes||''}</td>`; tb.appendChild(tr); }); }
+function renderEvents(){
+  const tb=document.querySelector('#tblEvents tbody'); tb.innerHTML='';
+  EV.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML = `<td>${e.date||''}</td><td>${e.who||''}</td><td>${e.type||''}</td><td>${e.cost||''}</td><td>${e.notes||''}</td>`; tb.appendChild(tr); });
+}
 renderEvents();
 document.getElementById('addEvent').addEventListener('click',()=>{
   const row={who:evWho.value,date:evDate.value,type:evType.value,cost:evCost.value,notes:evNotes.value};
-  EV.push(row); localStorage.setItem('events',JSON.stringify(EV)); renderEvents();
+  EV.push(row); localStorage.setItem('events', JSON.stringify(EV)); renderEvents();
+  // Auto-update 'last vet' in BIO when logging a Vet visit
+  if(row.type === 'Vet visit'){
+    const map={'Mia':'mia','Thor':'thor','Pup 2':'pup2','Pup 3':'pup3','Pup 5':'pup5'};
+    const id = map[row.who]; const i = BIO.findIndex(b=>b.id===id);
+    if(i>=0){ BIO[i].last_vet = `${row.date} — ${row.notes||'Vet visit'}`; saveBios(); renderBios(); }
+  }
 });
 document.getElementById('expCSV').addEventListener('click',()=>{
   const H=['date','who','type','cost','notes'];
   const lines=[H.join(',')].concat(EV.map(r=>H.map(k=>(''+(r[k]||'')).replace(/\"/g,'\"\"')).map(v=>v.includes(',')?`\"${v}\"`:v).join(',')));
-  blobDownload('events.csv', new Blob([lines.join('\\n')],{type:'text/csv'}));
+  blobDownload('events.csv', new Blob([lines.join('\n')],{type:'text/csv'}));
 });
 
-// Gallery
+// Photos gallery
 let photos=JSON.parse(localStorage.getItem('gallery')||'[]');
 function renderGallery(){ const g=document.getElementById('photoGrid'); g.innerHTML=''; photos.forEach(u=>{ const img=document.createElement('img'); img.src=u; g.appendChild(img); }); }
 renderGallery();
 document.getElementById('addPhoto').addEventListener('change',e=>{
   [...e.target.files].forEach(f=>{ const r=new FileReader(); r.onload=()=>{ photos.push(r.result); localStorage.setItem('gallery',JSON.stringify(photos)); renderGallery(); }; r.readAsDataURL(f); });
 });
-
 </script>
 </body>
 </html>
