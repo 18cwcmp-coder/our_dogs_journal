@@ -9,10 +9,26 @@
 header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);padding:14px 18px;z-index:10}
 .container{max-width:1100px;margin:0 auto;padding:18px}
 .card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.08);margin:18px 0}
+/* Radio tabs */
 .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.tabs button{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer}
-.tabs button.active{background:var(--a);color:#fff;border-color:var(--a)}
-.panel{display:none}.panel.active{display:block}
+.tabs label{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer}
+input[name="tab"]{position:absolute;left:-9999px}
+#tab-overview:checked ~ .panels #panel-overview,
+#tab-weights:checked  ~ .panels #panel-weights,
+#tab-care:checked     ~ .panels #panel-care,
+#tab-birth:checked    ~ .panels #panel-birth,
+#tab-bios:checked     ~ .panels #panel-bios,
+#tab-vet:checked      ~ .panels #panel-vet,
+#tab-photos:checked   ~ .panels #panel-photos{display:block}
+.panels > section{display:none}
+/* selected tab style */
+#tab-overview:checked ~ .tabs label[for="tab-overview"],
+#tab-weights:checked  ~ .tabs label[for="tab-weights"],
+#tab-care:checked     ~ .tabs label[for="tab-care"],
+#tab-birth:checked    ~ .tabs label[for="tab-birth"],
+#tab-bios:checked     ~ .tabs label[for="tab-bios"],
+#tab-vet:checked      ~ .tabs label[for="tab-vet"],
+#tab-photos:checked   ~ .tabs label[for="tab-photos"]{background:var(--a);color:#fff;border-color:var(--a)}
 .banner{display:flex;gap:10px;align-items:center;border:1px dashed var(--b);padding:10px;border-radius:12px;background:#fff}
 .banner img{width:84px;height:84px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
 .btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
@@ -44,24 +60,33 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
     <label class="btn">Update Mia<input id="pickMia" type="file" accept="image/*" hidden></label>
   </div>
 
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active" data-tab="overview">Overview</button>
-      <button class="tab" data-tab="weights">Weights & Lengths</button>
-      <button class="tab" data-tab="care">Care Plan</button>
-      <button class="tab" data-tab="birth">Birth Log</button>
-      <button class="tab" data-tab="bios">Bios</button>
-      <button class="tab" data-tab="vet">Vet & Worming</button>
-      <button class="tab" data-tab="photos">Photos</button>
-    </div>
+  <!-- Radio controls (no JS needed) -->
+  <input type="radio" name="tab" id="tab-overview" checked>
+  <input type="radio" name="tab" id="tab-weights">
+  <input type="radio" name="tab" id="tab-care">
+  <input type="radio" name="tab" id="tab-birth">
+  <input type="radio" name="tab" id="tab-bios">
+  <input type="radio" name="tab" id="tab-vet">
+  <input type="radio" name="tab" id="tab-photos">
 
-    <section class="panel active" id="overview">
+  <div class="tabs">
+    <label for="tab-overview">Overview</label>
+    <label for="tab-weights">Weights & Lengths</label>
+    <label for="tab-care">Care Plan</label>
+    <label for="tab-birth">Birth Log</label>
+    <label for="tab-bios">Bios</label>
+    <label for="tab-vet">Vet & Worming</label>
+    <label for="tab-photos">Photos</label>
+  </div>
+
+  <div class="panels card">
+    <section id="panel-overview">
       <h2>Overview</h2>
       <div id="ovSummary"></div>
       <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" style="color:#475569"></div></details>
     </section>
 
-    <section class="panel" id="weights">
+    <section id="panel-weights">
       <h2>Weights & Lengths</h2>
       <div class="card" style="margin:10px 0;background:#f8fafc">
         <h3 style="margin-top:0">Add new entry</h3>
@@ -72,17 +97,17 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
           <label>Length (cm)<input type="number" id="wlLength" step="0.1" min="1" placeholder="centimetres"></label>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button id="addWL" class="btnp">Save entry</button>
-          <button id="expW" class="btn">Download weights.json</button>
-          <button id="expL" class="btn">Download lengths.json</button>
-          <button id="expAll" class="btn">Download ALL data (bundle)</button>
-          <button id="toggleCharts" class="btn">Hide charts</button>
+          <button id="addWL" class="btnp" type="button">Save entry</button>
+          <button id="expW" class="btn" type="button">Download weights.json</button>
+          <button id="expL" class="btn" type="button">Download lengths.json</button>
+          <button id="expAll" class="btn" type="button">Download ALL data (bundle)</button>
+          <button id="toggleCharts" class="btn" type="button">Hide charts</button>
         </div>
       </div>
 
       <div class="legend" id="legend"></div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0">
-        <button id="fsWeightBtn" class="btn">Full‑screen weights chart</button>
+        <button id="fsWeightBtn" class="btn" type="button">Full‑screen weights chart</button>
       </div>
       <svg id="chart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
 
@@ -90,7 +115,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
         <summary><b>Length Growth Chart</b></summary>
         <div class="legend" id="legendL"></div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0">
-          <button id="fsLengthBtn" class="btn">Full‑screen length chart</button>
+          <button id="fsLengthBtn" class="btn" type="button">Full‑screen length chart</button>
         </div>
         <svg id="lengthChart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
       </details>
@@ -104,26 +129,26 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
       </details>
     </section>
 
-    <section class="panel" id="care">
+    <section id="panel-care">
       <h2>Care Plan</h2>
       <div id="careTiles"></div>
       <details><summary>Completed Weeks</summary><div id="completedWeeks"></div></details>
     </section>
 
-    <section class="panel" id="birth">
+    <section id="panel-birth">
       <h2>Birth Log</h2>
       <table id="birthTable"><thead><tr><th>#</th><th>Time</th><th>Sex</th><th>Status</th><th>Placenta</th><th>Notes</th></tr></thead><tbody></tbody></table>
     </section>
 
-    <section class="panel" id="bios">
+    <section id="panel-bios">
       <h2>Editable Bios (Parents & Pups)</h2>
       <div id="bioList"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <button id="expBios" class="btn">Download dogs.json</button>
+        <button id="expBios" class="btn" type="button">Download dogs.json</button>
       </div>
     </section>
 
-    <section class="panel" id="vet">
+    <section id="panel-vet">
       <h2>Vet & Worming</h2>
       <div class="card" style="background:#f8fafc">
         <div class="form-grid">
@@ -134,14 +159,14 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
           <label style="grid-column:1/-1">Notes<input type="text" id="evNotes" placeholder="e.g., C3 @ Melton Family Vets"></label>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button id="addEvent" class="btnp">Add record</button>
-          <button id="expCSV" class="btn">Download events.csv</button>
+          <button id="addEvent" class="btnp" type="button">Add record</button>
+          <button id="expCSV" class="btn" type="button">Download events.csv</button>
         </div>
       </div>
       <table id="tblEvents"><thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Cost</th><th>Notes</th></tr></thead><tbody></tbody></table>
     </section>
 
-    <section class="panel" id="photos">
+    <section id="panel-photos">
       <h2>Photos</h2>
       <input type="file" id="addPhoto" accept="image/*" multiple>
       <div class="photos-grid" id="photoGrid"></div>
@@ -156,21 +181,12 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
 </div>
 
 <script>
-// Tab logic
-document.querySelectorAll('.tab').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active'); document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
-// Helpers
+// Minimal JS (optional). Tabs already work via CSS radios.
 function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500); }
 function setLocalImg(input, key, imgEl){ input.addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ localStorage.setItem(key, r.result); imgEl.src=r.result; }; r.readAsDataURL(f); }); const exist=localStorage.getItem(key); if(exist) imgEl.src=exist; }
 setLocalImg(document.getElementById('pickThor'),'thor_local',document.getElementById('thorImg'));
 setLocalImg(document.getElementById('pickMia'),'mia_local',document.getElementById('miaImg'));
 
-// Simple SVG charts (fixed legend code)
 function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const svg=document.getElementById(svgId); while(svg.firstChild) svg.removeChild(svg.firstChild);
   if(!rows.length) return;
@@ -212,7 +228,7 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   if(legendId) document.getElementById(legendId).addEventListener('change', draw);
   draw();
 }
-// Overview & Birth
+
 async function loadOverview(){
   const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
   const s=ov?.litter_summary||{};
@@ -223,7 +239,7 @@ async function loadOverview(){
   const tb=document.querySelector('#birthTable tbody'); tb.innerHTML=''; (bl||[]).forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.p||i+1}</td><td>${r.time||''}</td><td>${r.sex||''}</td><td>${r.status||''}</td><td>${r.placenta||''}</td><td>${r.notes||''}</td>`; tb.appendChild(tr); });
 }
 loadOverview();
-// WL
+
 let baseW=[], baseL=[], addW=JSON.parse(localStorage.getItem('add_weights')||'[]'), addL=JSON.parse(localStorage.getItem('add_lengths')||'[]');
 function mergeByDay(base, add){ const m={}; base.forEach(r=>m[r.day]=Object.assign({},r)); add.forEach(r=>m[r.day]=Object.assign({},m[r.day]||{day:r.day},r)); return Object.values(m).sort((a,b)=>a.day-b.day); }
 function renderTables(W,L){
@@ -278,13 +294,8 @@ document.getElementById('expAll').addEventListener('click',()=>{
   };
   blobDownload('journal_export.json', new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'}));
 });
-document.getElementById('toggleCharts').onclick=()=>{
-  const c=document.getElementById('chart'); const l=document.getElementById('lengthChart');
-  const hide=c.style.display!=='none'; c.style.display= hide?'none':'block'; l.parentElement.style.display= hide?'none':'block';
-  document.getElementById('toggleCharts').textContent = hide?'Show charts':'Hide charts';
-};
 
-// Fullscreen modal controls
+// Fullscreen modal
 const fsModal = document.getElementById('fsModal');
 const fsInner = document.getElementById('fsInner');
 document.getElementById('fsClose').onclick = ()=>{ fsModal.style.display='none'; fsInner.innerHTML=''; };
