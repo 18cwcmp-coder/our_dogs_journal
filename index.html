@@ -4,11 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cato Dogs Journal</title>
 <style>
-:root{
-  --b:#dbe3ef; --a:#2563eb; --a-700:#1d4ed8; --text:#0f172a; --muted:#475569;
-  --fs:19px; --radius:18px; --shadow:0 6px 20px rgba(15,23,42,.10);
-}
-*{box-sizing:border-box} body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#f6f9ff;color:var(--text);margin:0;font-size:var(--fs)}
+:root{--b:#dbe3ef;--a:#2563eb;--a-700:#1d4ed8;--text:#0f172a;--muted:#475569;--fs:19px;--radius:18px;--shadow:0 6px 20px rgba(15,23,42,.10)}
+*{box-sizing:border-box}body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#f6f9ff;color:var(--text);margin:0;font-size:var(--fs)}
 header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);padding:16px 18px;z-index:20}
 h1{margin:0;font-weight:800;letter-spacing:.2px}
 .container{max-width:1100px;margin:0 auto;padding:18px}
@@ -19,7 +16,6 @@ h1{margin:0;font-weight:800;letter-spacing:.2px}
 .btn:hover{border-color:#c6d0e2;background:#f8fbff}
 .btnp{background:var(--a);color:#fff;border-color:var(--a);box-shadow:0 4px 14px rgba(37,99,235,.35)}
 .btnp:hover{background:var(--a-700)}
-/* Radio tabs */
 .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 14px}
 .tabs label{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer}
 input[name="tab"]{position:absolute;left:-9999px}
@@ -51,17 +47,11 @@ th{background:#f1f6ff}
 .complete-btn{background:var(--a);color:#fff;border:none;border-radius:12px;padding:12px 16px;cursor:pointer}
 .photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
 .photos-grid img{width:100%;border-radius:10px;border:1px solid var(--b)}
-/* Fullscreen chart modal */
 #fsModal{position:fixed;inset:0;background:rgba(0,0,0,.84);display:none;align-items:center;justify-content:center;z-index:50}
 #fsInner{background:#fff;border-radius:14px;max-width:98vw;max-height:92vh;padding:10px}
 #fsInner svg{width:92vw;height:80vh}
 #fsClose{position:absolute;top:12px;right:16px;background:#ef4444;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
-/* Mobile tweaks */
-@media (max-width:640px){
-  :root{--fs:20px}
-  .banner img{width:84px;height:84px}
-  #chart,#lengthChart{height:680px}
-}
+@media (max-width:640px){:root{--fs:20px}.banner img{width:84px;height:84px}#chart,#lengthChart{height:680px}}
 </style>
 </head>
 <body>
@@ -194,10 +184,7 @@ th{background:#f1f6ff}
   </div>
 </main>
 
-<div id="fsModal">
-  <button id="fsClose">Close</button>
-  <div id="fsInner"></div>
-</div>
+<div id="fsModal"><button id="fsClose">Close</button><div id="fsInner"></div></div>
 
 <script>
 function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500); }
@@ -248,13 +235,32 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
 }
 
 async function loadOverview(){
-  const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>null);
-  const s=ov?.litter_summary||{};
-  document.getElementById('ovSummary').innerHTML = `<table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
-  <tr><td>${s.total_pups||''}</td><td>${s.live||''}</td><td>${s.stillborn||''}</td><td>${s.whelping_window||''}</td></tr></table>`;
-  document.getElementById('ovNotes').textContent = ov?.notes||'';
-  const bl = await fetch('data/birth_log.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
-  const tb=document.querySelector('#birthTable tbody'); tb.innerHTML=''; (bl||[]).forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${r.p||i+1}</td><td>${r.time||''}</td><td>${r.sex||''}</td><td>${r.status||''}</td><td>${r.placenta||''}</td><td>${r.notes||''}</td>`; tb.appendChild(tr); });
+  try {
+    const ov = await fetch('data/overview.json',{cache:'no-store'}).then(r=>r.json());
+    const s = ov?.litter_summary || {};
+    document.getElementById('ovSummary').innerHTML =
+      `<table><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>
+        <tr><td>${s.total_pups ?? ''}</td><td>${s.live ?? ''}</td><td>${s.stillborn ?? ''}</td><td>${s.whelping_window ?? ''}</td></tr>
+      </table>`;
+    document.getElementById('ovNotes').textContent = ov?.notes || '';
+  } catch (e) {
+    console.warn('overview.json failed:', e);
+    document.getElementById('ovSummary').innerHTML =
+      `<div style="color:#64748b">Overview not available (check /data/overview.json)</div>`;
+  }
+
+  try {
+    const bl = await fetch('data/birth_log.json',{cache:'no-store'}).then(r=>r.json());
+    const tb = document.querySelector('#birthTable tbody'); tb.innerHTML='';
+    (bl || []).forEach((r,i)=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.p || i+1}</td><td>${r.time || ''}</td><td>${r.sex || ''}</td>
+                      <td>${r.status || ''}</td><td>${r.placenta || ''}</td><td>${r.notes || ''}</td>`;
+      tb.appendChild(tr);
+    });
+  } catch (e) {
+    console.warn('birth_log.json failed:', e);
+  }
 }
 loadOverview();
 
@@ -280,9 +286,17 @@ function renderWL(){
   ], 'day', 2, 'legendL');
 }
 async function loadWL(){
-  const jw = await fetch('data/weights.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({weights:[]}));
-  const jl = await fetch('data/lengths.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>({records:[]}));
-  baseW = jw.weights||[]; baseL = jl.records||[]; renderWL();
+  try {
+    const jw = await fetch('data/weights.json',{cache:'no-store'}).then(r=>r.json());
+    baseW = jw.weights || [];
+  } catch(e){ console.warn('weights.json failed:', e); baseW = []; }
+
+  try {
+    const jl = await fetch('data/lengths.json',{cache:'no-store'}).then(r=>r.json());
+    baseL = jl.records || [];
+  } catch(e){ console.warn('lengths.json failed:', e); baseL = []; }
+
+  renderWL();
 }
 loadWL();
 document.getElementById('addWL').addEventListener('click',()=>{
@@ -352,32 +366,38 @@ renderCare();
 
 let BIO = [];
 async function loadBios(){
-  const fromRepo = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
-  const local = JSON.parse(localStorage.getItem('bios')||'null');
-  BIO = Array.isArray(local) ? local : fromRepo;
+  try {
+    const fromRepo = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json());
+    const local = JSON.parse(localStorage.getItem('bios')||'null');
+    BIO = Array.isArray(local) ? local : fromRepo;
+  } catch(e){
+    console.warn('dogs.json failed:', e);
+    BIO = JSON.parse(localStorage.getItem('bios')||'[]');
+  }
   renderBios();
 }
 function bioCard(d,i){
-  const isPup = (d.id||'').startsWith('pup');
+  const isPup = (d.id || '').startsWith('pup');
+  const r = d.rehoming || {};
   const wrap=document.createElement('div'); wrap.className='card';
   wrap.innerHTML=`
     <div class="form-grid">
-      <label>Name<input value="${d.name||''}" data-k="name" data-i="${i}"></label>
-      <label>Breed<input value="${d.breed||''}" data-k="breed" data-i="${i}"></label>
-      <label>Sex<input value="${d.sex||''}" data-k="sex" data-i="${i}"></label>
-      <label>DOB<input value="${d.dob||''}" data-k="dob" data-i="${i}"></label>
-      <label>Weight<input value="${d.weight||''}" data-k="weight" data-i="${i}"></label>
-      <label>Microchip<input value="${d.microchip||''}" data-k="microchip" data-i="${i}"></label>
-      <label style="grid-column:1/-1">Last vet<input value="${d.last_vet||''}" data-k="last_vet" data-i="${i}"></label>
-      <label style="grid-column:1/-1">Notes<textarea rows="2" data-k="notes" data-i="${i}">${d.notes or ''}</textarea></label>
+      <label>Name<input value="${d.name || ''}" data-k="name" data-i="${i}"></label>
+      <label>Breed<input value="${d.breed || ''}" data-k="breed" data-i="${i}"></label>
+      <label>Sex<input value="${d.sex || ''}" data-k="sex" data-i="${i}"></label>
+      <label>DOB<input value="${d.dob || ''}" data-k="dob" data-i="${i}"></label>
+      <label>Weight<input value="${d.weight || ''}" data-k="weight" data-i="${i}"></label>
+      <label>Microchip<input value="${d.microchip || ''}" data-k="microchip" data-i="${i}"></label>
+      <label style="grid-column:1/-1">Last vet<input value="${d.last_vet || ''}" data-k="last_vet" data-i="${i}"></label>
+      <label style="grid-column:1/-1">Notes<textarea rows="2" data-k="notes" data-i="${i}">${d.notes || ''}</textarea></label>
       ${isPup ? `<div style="grid-column:1/-1"><b>Rehoming</b></div>
-      <label>Price (AU$)<input value="${(d.rehoming||{}).price_aud or ''}" data-r="price_aud" data-i="${i}"></label>
-      <label>Available from<input type="date" value="${(d.rehoming||{}).available_from or ''}" data-r="available_from" data-i="${i}"></label>
-      <label>Adoption link<input value="${(d.rehoming||{}).adoption_link or ''}" data-r="adoption_link" data-i="${i}"></label>
-      <label>Desexing<input value="${(d.rehoming||{}).desexing or ''}" data-r="desexing" data-i="${i}"></label>
-      <label>Vaccinations<input value="${(d.rehoming||{}).vaccinations or ''}" data-r="vaccinations" data-i="${i}"></label>
-      <label>Worming<input value="${(d.rehoming||{}).worming or ''}" data-r="worming" data-i="${i}"></label>
-      <label>Flea/Tick<input value="${(d.rehoming||{}).flea_tick or ''}" data-r="flea_tick" data-i="${i}"></label>`:''}
+      <label>Price (AU$)<input value="${r.price_aud || ''}" data-r="price_aud" data-i="${i}"></label>
+      <label>Available from<input type="date" value="${r.available_from || ''}" data-r="available_from" data-i="${i}"></label>
+      <label>Adoption link<input value="${r.adoption_link || ''}" data-r="adoption_link" data-i="${i}"></label>
+      <label>Desexing<input value="${r.desexing || ''}" data-r="desexing" data-i="${i}"></label>
+      <label>Vaccinations<input value="${r.vaccinations || ''}" data-r="vaccinations" data-i="${i}"></label>
+      <label>Worming<input value="${r.worming || ''}" data-r="worming" data-i="${i}"></label>
+      <label>Flea/Tick<input value="${r.flea_tick || ''}" data-r="flea_tick" data-i="${i}"></label>`:''}
     </div>`;
   return wrap;
 }
