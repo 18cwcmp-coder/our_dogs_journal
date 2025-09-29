@@ -4,13 +4,23 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cato Dogs Journal</title>
 <style>
-:root{--b:#e2e8f0;--a:#2563eb;--text:#0f172a;--fs:18px}
-*{box-sizing:border-box}body{font-family:system-ui,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f7fafc;color:var(--text);margin:0;font-size:var(--fs)}
-header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);padding:14px 18px;z-index:10}
+:root{
+  --b:#dbe3ef; --a:#2563eb; --a-700:#1d4ed8; --text:#0f172a; --muted:#475569;
+  --fs:19px; --radius:18px; --shadow:0 6px 20px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box} body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:#f6f9ff;color:var(--text);margin:0;font-size:var(--fs)}
+header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--b);padding:16px 18px;z-index:20}
+h1{margin:0;font-weight:800;letter-spacing:.2px}
 .container{max-width:1100px;margin:0 auto;padding:18px}
-.card{background:#fff;border:1px solid var(--b);border-radius:16px;padding:18px;box-shadow:0 2px 8px rgba(15,23,42,.08);margin:18px 0}
+.card{background:#fff;border:1px solid var(--b);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin:18px 0}
+.banner{display:flex;gap:14px;align-items:center;border:1px dashed var(--b);padding:12px;border-radius:var(--radius);background:#fff}
+.banner img{width:96px;height:96px;border-radius:14px;border:1px solid var(--b);object-fit:cover}
+.btn{border:1px solid var(--b);background:#fff;border-radius:12px;padding:12px 16px;cursor:pointer;font-size:1rem}
+.btn:hover{border-color:#c6d0e2;background:#f8fbff}
+.btnp{background:var(--a);color:#fff;border-color:var(--a);box-shadow:0 4px 14px rgba(37,99,235,.35)}
+.btnp:hover{background:var(--a-700)}
 /* Radio tabs */
-.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 14px}
 .tabs label{padding:12px 16px;border:1px solid var(--b);background:#fff;border-radius:12px;cursor:pointer}
 input[name="tab"]{position:absolute;left:-9999px}
 #tab-overview:checked ~ .panels #panel-overview,
@@ -21,7 +31,6 @@ input[name="tab"]{position:absolute;left:-9999px}
 #tab-vet:checked      ~ .panels #panel-vet,
 #tab-photos:checked   ~ .panels #panel-photos{display:block}
 .panels > section{display:none}
-/* selected tab style */
 #tab-overview:checked ~ .tabs label[for="tab-overview"],
 #tab-weights:checked  ~ .tabs label[for="tab-weights"],
 #tab-care:checked     ~ .tabs label[for="tab-care"],
@@ -29,38 +38,43 @@ input[name="tab"]{position:absolute;left:-9999px}
 #tab-bios:checked     ~ .tabs label[for="tab-bios"],
 #tab-vet:checked      ~ .tabs label[for="tab-vet"],
 #tab-photos:checked   ~ .tabs label[for="tab-photos"]{background:var(--a);color:#fff;border-color:var(--a)}
-.banner{display:flex;gap:10px;align-items:center;border:1px dashed var(--b);padding:10px;border-radius:12px;background:#fff}
-.banner img{width:84px;height:84px;border-radius:12px;border:1px solid var(--b);object-fit:cover}
-.btn{border:1px solid var(--b);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
-.btnp{background:var(--a);color:#fff;border-color:var(--a)}
-table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid var(--b);padding:10px;text-align:center}
-.legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}.legend label{display:flex;gap:8px;align-items:center;border:1px solid var(--b);border-radius:10px;background:#fff;padding:8px 12px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid var(--b);padding:12px;text-align:center;font-size:1rem}
+th{background:#f1f6ff}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:10px 0}
+.form-grid input,.form-grid select,.form-grid textarea{width:100%;padding:12px;border:1px solid var(--b);border-radius:12px;font-size:1rem}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.legend label{display:flex;gap:10px;align-items:center;border:1px solid var(--b);border-radius:12px;background:#fff;padding:10px 12px}
+.legend label span{display:inline-block;width:18px;height:18px;border-radius:9px}
 #chart,#lengthChart{width:100%;height:760px}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:8px 0}
-.form-grid input,.form-grid select,.form-grid textarea{width:100%;padding:10px;border:1px solid var(--b);border-radius:10px}
-.week-tile{border:2px solid var(--a);border-radius:12px;padding:14px;margin:10px 0;background:#fff;display:flex;justify-content:space-between;align-items:center}
-.complete-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
-.photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
-.photos-grid img{width:100%;border-radius:8px;border:1px solid var(--b)}
+.week-tile{border:2px solid var(--a);border-radius:14px;padding:16px;margin:12px 0;background:#fff;display:flex;justify-content:space-between;align-items:center}
+.complete-btn{background:var(--a);color:#fff;border:none;border-radius:12px;padding:12px 16px;cursor:pointer}
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.photos-grid img{width:100%;border-radius:10px;border:1px solid var(--b)}
 /* Fullscreen chart modal */
-#fsModal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:50}
-#fsInner{background:#fff;border-radius:12px;max-width:98vw;max-height:92vh;padding:10px}
+#fsModal{position:fixed;inset:0;background:rgba(0,0,0,.84);display:none;align-items:center;justify-content:center;z-index:50}
+#fsInner{background:#fff;border-radius:14px;max-width:98vw;max-height:92vh;padding:10px}
 #fsInner svg{width:92vw;height:80vh}
-#fsClose{position:absolute;top:10px;right:14px;background:#ef4444;color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer}
+#fsClose{position:absolute;top:12px;right:16px;background:#ef4444;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+/* Mobile tweaks */
+@media (max-width:640px){
+  :root{--fs:20px}
+  .banner img{width:84px;height:84px}
+  #chart,#lengthChart{height:680px}
+}
 </style>
 </head>
 <body>
-<header><h1 style="margin:0">Cato Dogs Journal</h1></header>
+<header><h1>Cato Dogs Journal</h1></header>
 <main class="container">
   <div class="card banner">
     <img id="thorImg" src="photos/thor.jpg" alt="Thor"/>
     <img id="miaImg"  src="photos/mia.jpg"  alt="Mia"/>
-    <div>Thor (Cane Corso) • Mia (Rottweiler)</div>
+    <div style="font-weight:600">Thor (Cane Corso) • Mia (Rottweiler)</div>
     <label class="btn" style="margin-left:auto">Update Thor<input id="pickThor" type="file" accept="image/*" hidden></label>
     <label class="btn">Update Mia<input id="pickMia" type="file" accept="image/*" hidden></label>
   </div>
 
-  <!-- Radio controls (no JS needed) -->
   <input type="radio" name="tab" id="tab-overview" checked>
   <input type="radio" name="tab" id="tab-weights">
   <input type="radio" name="tab" id="tab-care">
@@ -83,20 +97,26 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
     <section id="panel-overview">
       <h2>Overview</h2>
       <div id="ovSummary"></div>
-      <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" style="color:#475569"></div></details>
+      <details style="margin-top:10px"><summary><b>Notes</b></summary><div id="ovNotes" style="color:var(--muted)"></div></details>
     </section>
 
     <section id="panel-weights">
       <h2>Weights & Lengths</h2>
-      <div class="card" style="margin:10px 0;background:#f8fafc">
+      <div class="card" style="margin:12px 0;background:#f8fbff">
         <h3 style="margin-top:0">Add new entry</h3>
         <div class="form-grid">
-          <label>Pup<select id="wlPup"><option value="pup2">Pup 2 (Blue)</option><option value="pup3">Pup 3 (Pink)</option><option value="pup5">Pup 5 (Orange)</option></select></label>
+          <label>Pup
+            <select id="wlPup">
+              <option value="pup2">Pup 2 (Blue)</option>
+              <option value="pup3">Pup 3 (Pink)</option>
+              <option value="pup5">Pup 5 (Orange)</option>
+            </select>
+          </label>
           <label>Day<input type="number" id="wlDay" min="1" placeholder="e.g., 15"></label>
           <label>Weight (g)<input type="number" id="wlWeight" min="1" placeholder="grams"></label>
           <label>Length (cm)<input type="number" id="wlLength" step="0.1" min="1" placeholder="centimetres"></label>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button id="addWL" class="btnp" type="button">Save entry</button>
           <button id="expW" class="btn" type="button">Download weights.json</button>
           <button id="expL" class="btn" type="button">Download lengths.json</button>
@@ -111,7 +131,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
       </div>
       <svg id="chart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
 
-      <details open style="margin-top:10px">
+      <details open style="margin-top:12px">
         <summary><b>Length Growth Chart</b></summary>
         <div class="legend" id="legendL"></div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0">
@@ -120,7 +140,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
         <svg id="lengthChart" viewBox="0 0 960 520" preserveAspectRatio="xMidYMid meet"></svg>
       </details>
 
-      <details open style="margin-top:10px">
+      <details open style="margin-top:12px">
         <summary><b>Data tables</b></summary>
         <h3>Weights</h3>
         <table id="tblW"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
@@ -143,14 +163,14 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
     <section id="panel-bios">
       <h2>Editable Bios (Parents & Pups)</h2>
       <div id="bioList"></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
         <button id="expBios" class="btn" type="button">Download dogs.json</button>
       </div>
     </section>
 
     <section id="panel-vet">
       <h2>Vet & Worming</h2>
-      <div class="card" style="background:#f8fafc">
+      <div class="card" style="background:#f8fbff">
         <div class="form-grid">
           <label>Who<select id="evWho"><option>Mia</option><option>Thor</option><option>Pup 2</option><option>Pup 3</option><option>Pup 5</option></select></label>
           <label>Date<input type="date" id="evDate"></label>
@@ -158,7 +178,7 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
           <label>Cost (AU$)<input type="number" id="evCost" step="0.01" placeholder="0.00"></label>
           <label style="grid-column:1/-1">Notes<input type="text" id="evNotes" placeholder="e.g., C3 @ Melton Family Vets"></label>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button id="addEvent" class="btnp" type="button">Add record</button>
           <button id="expCSV" class="btn" type="button">Download events.csv</button>
         </div>
@@ -174,14 +194,12 @@ table{width:100%;border-collapse:collapse;margin-top:8px}th,td{border:1px solid 
   </div>
 </main>
 
-<!-- Fullscreen modal -->
 <div id="fsModal">
   <button id="fsClose">Close</button>
   <div id="fsInner"></div>
 </div>
 
 <script>
-// Minimal JS (optional). Tabs already work via CSS radios.
 function blobDownload(name, blob){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 1500); }
 function setLocalImg(input, key, imgEl){ input.addEventListener('change', e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ localStorage.setItem(key, r.result); imgEl.src=r.result; }; r.readAsDataURL(f); }); const exist=localStorage.getItem(key); if(exist) imgEl.src=exist; }
 setLocalImg(document.getElementById('pickThor'),'thor_local',document.getElementById('thorImg'));
@@ -190,7 +208,7 @@ setLocalImg(document.getElementById('pickMia'),'mia_local',document.getElementBy
 function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const svg=document.getElementById(svgId); while(svg.firstChild) svg.removeChild(svg.firstChild);
   if(!rows.length) return;
-  const W=960,H=520,M={l:86,r:28,t:30,b:70}, iw=W-M.l-M.r, ih=H-M.t-M.b;
+  const W=960,H=520,M={l:90,r:28,t:32,b:78}, iw=W-M.l-M.r, ih=H-M.t-M.b;
   const xs=rows.map(r=>r[xKey]); const maxX=Math.max(...xs), minX=Math.min(...xs);
   const vals=[]; series.forEach(s=> rows.forEach(r=>{ if(r[s.k]!=null) vals.push(r[s.k]); }));
   const minY=Math.floor((Math.min(...vals)-yPad)/20)*20, maxY=Math.ceil((Math.max(...vals)+yPad)/20)*20;
@@ -198,8 +216,8 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
   const Y=v=>M.t + ih - ((v-minY)/(maxY-minY)) * ih;
   function L(x1,y1,x2,y2,c){const e=document.createElementNS('http://www.w3.org/2000/svg','line'); e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2);e.setAttribute('stroke',c||'#e2e8f0'); e.setAttribute('stroke-width','1'); return e;}
   function T(x,y,t,anc='middle'){const e=document.createElementNS('http://www.w3.org/2000/svg','text'); e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('font-size','18');e.setAttribute('fill','#334155');e.setAttribute('text-anchor',anc); e.textContent=t; return e;}
-  function P(d,c,w=3.5){const e=document.createElementNS('http://www.w3.org/2000/svg','path'); e.setAttribute('d',d); e.setAttribute('fill','none'); e.setAttribute('stroke',c); e.setAttribute('stroke-width',w); return e;}
-  function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle'); e.setAttribute('cx',cx); e.setAttribute('cy',cy); e.setAttribute('r',5.2); e.setAttribute('fill',c); return e;}
+  function P(d,c,w=3.9){const e=document.createElementNS('http://www.w3.org/2000/svg','path'); e.setAttribute('d',d); e.setAttribute('fill','none'); e.setAttribute('stroke',c); e.setAttribute('stroke-width',w); return e;}
+  function C(cx,cy,c){const e=document.createElementNS('http://www.w3.org/2000/svg','circle'); e.setAttribute('cx',cx); e.setAttribute('cy',cy); e.setAttribute('r',6); e.setAttribute('fill',c); return e;}
   for(let gy=minY; gy<=maxY; gy+=50){ const yy=Y(gy); svg.appendChild(L(M.l,yy,W-M.r,yy)); }
   svg.appendChild(L(M.l,M.t,M.l,H-M.b,'#94a3b8')); svg.appendChild(L(M.l,H-M.b,W-M.r,H-M.b,'#94a3b8'));
   const step=(window.innerWidth<=768)?2:1; for(let d=minX; d<=Math.max(15,maxX); d+=step){ svg.appendChild(T(X(d),H-M.b+28,'Day '+d)); }
@@ -209,7 +227,7 @@ function simpleLineChart(svgId, rows, series, xKey, yPad, legendId){
     series.forEach(s=>{
       const lab=document.createElement('label');
       const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=true; s.cb=cb;
-      const sw=document.createElement('span'); sw.style.cssText='display:inline-block;width:18px;height:18px;border-radius:9px;background:'+s.c;
+      const sw=document.createElement('span'); sw.style.background = s.c;
       const tx=document.createElement('span'); tx.textContent=' '+s.name;
       lab.appendChild(cb); lab.appendChild(sw); lab.appendChild(tx);
       legend.appendChild(lab);
@@ -295,7 +313,6 @@ document.getElementById('expAll').addEventListener('click',()=>{
   blobDownload('journal_export.json', new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'}));
 });
 
-// Fullscreen modal
 const fsModal = document.getElementById('fsModal');
 const fsInner = document.getElementById('fsInner');
 document.getElementById('fsClose').onclick = ()=>{ fsModal.style.display='none'; fsInner.innerHTML=''; };
@@ -308,7 +325,6 @@ function openFsFrom(svgId){
 document.getElementById('fsWeightBtn').onclick = ()=> openFsFrom('chart');
 document.getElementById('fsLengthBtn').onclick = ()=> openFsFrom('lengthChart');
 
-// Care plan
 const DOB='2025-09-12', WEEK_MS=7*24*3600*1000;
 const careWeeks=[
   {w:2, text:"Worming (pyrantel); gentle handling"},
@@ -324,7 +340,8 @@ function isOverdue(dob, w){ return new Date() > new Date(weekStart(dob,w).getTim
 function renderCare(){
   const wrap=document.getElementById('careTiles'); const comp=document.getElementById('completedWeeks'); wrap.innerHTML=''; comp.innerHTML='';
   careWeeks.forEach(k=>{
-    const tile=document.createElement('div'); tile.className='week-tile'; if(isOverdue(DOB,k.w) && !doneWeeks.includes(k.w)) tile.style.borderColor='#dc2626';
+    const tile=document.createElement('div'); tile.className='week-tile';
+    if(isOverdue(DOB,k.w) && !doneWeeks.includes(k.w)) tile.style.borderColor='#dc2626';
     tile.innerHTML=`<span><b>Week ${k.w}</b> — ${k.text}</span>`;
     const btn=document.createElement('button'); btn.textContent='Complete'; btn.className='complete-btn';
     btn.onclick=()=>{ if(!doneWeeks.includes(k.w)) { doneWeeks.push(k.w); localStorage.setItem('done_weeks',JSON.stringify(doneWeeks)); renderCare(); } };
@@ -333,7 +350,6 @@ function renderCare(){
 }
 renderCare();
 
-// Bios
 let BIO = [];
 async function loadBios(){
   const fromRepo = await fetch('data/dogs.json',{cache:'no-store'}).then(r=>r.json()).catch(()=>[]);
@@ -380,7 +396,6 @@ document.getElementById('expBios').onclick=()=>{
 };
 loadBios();
 
-// Events
 let EV = JSON.parse(localStorage.getItem('events')||'[]');
 function renderEvents(){ const tb=document.querySelector('#tblEvents tbody'); tb.innerHTML=''; EV.forEach(e=>{ const tr=document.createElement('tr'); tr.innerHTML = `<td>${e.date||''}</td><td>${e.who||''}</td><td>${e.type||''}</td><td>${e.cost||''}</td><td>${e.notes||''}</td>`; tb.appendChild(tr); }); }
 renderEvents();
@@ -389,7 +404,6 @@ document.getElementById('addEvent').addEventListener('click',()=>{
   EV.push(row); localStorage.setItem('events', JSON.stringify(EV)); renderEvents();
 });
 
-// Photos
 let photos=JSON.parse(localStorage.getItem('gallery')||'[]');
 function renderGallery(){ const g=document.getElementById('photoGrid'); g.innerHTML=''; photos.forEach(u=>{ const img=document.createElement('img'); img.src=u; g.appendChild(img); }); }
 renderGallery();
