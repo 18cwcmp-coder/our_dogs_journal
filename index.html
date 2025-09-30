@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +8,17 @@
   <style>
     body { font-size: 1.1rem; padding: 1rem; }
     .tab-content { margin-top: 1rem; }
-    .alert-error { background-color: #f8d7da; padding: 1rem; margin-bottom: 1rem; }
+    .alert-error { background-color: #f8d7da; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; }
     img.dog-photo { max-height: 150px; object-fit: cover; border-radius: 12px; margin: 0.5rem; }
+    .weight-table { max-width: 800px; margin: 0 auto; }
+    .empty-state { color: #6c757d; font-style: italic; padding: 2rem; text-align: center; }
   </style>
 </head>
 <body>
   <h1 class="text-center mb-4">Cato Dogs Journal</h1>
   <div class="d-flex justify-content-center mb-3">
-    <img src="photos/thor.jpg" alt="Thor" class="dog-photo">
-    <img src="photos/mia.jpg" alt="Mia" class="dog-photo">
+    <img src="photos/thor.jpg" alt="Thor" class="dog-photo" onerror="this.style.display='none'">
+    <img src="photos/mia.jpg" alt="Mia" class="dog-photo" onerror="this.style.display='none'">
   </div>
   <ul class="nav nav-tabs" id="mainTabs" role="tablist">
     <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button></li>
@@ -26,7 +27,6 @@
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#birthlog">Birth Log</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#bios">Bios</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#vet">Vet & Worming</button></li>
-    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#photos">Photos</button></li>
   </ul>
 
   <div class="tab-content">
@@ -48,9 +48,6 @@
     <div class="tab-pane fade" id="vet">
       <div id="vet-content" class="mt-3">Loading vet & worming info...</div>
     </div>
-    <div class="tab-pane fade" id="photos">
-      <div id="photos-content" class="mt-3">Loading photos...</div>
-    </div>
   </div>
 
   <div id="error-banner" class="alert-error d-none"></div>
@@ -62,30 +59,140 @@
         if (!response.ok) throw new Error('HTTP ' + response.status);
         return await response.json();
       } catch (err) {
-        document.getElementById('error-banner').classList.remove('d-none');
-        document.getElementById('error-banner').innerText = 'Failed to load ' + path + ': ' + err.message;
+        console.error('Failed to load ' + path, err);
         return null;
       }
     }
 
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function renderOverview(data) {
+      const content = document.getElementById('overview-content');
+      if (!data || !data.summary) {
+        content.innerHTML = '<div class="empty-state">No overview data available</div>';
+        return;
+      }
+      content.innerHTML = `<div class="card"><div class="card-body"><p class="lead">${data.summary}</p></div></div>`;
+    }
+
+    function renderWeights(data) {
+      const content = document.getElementById('weights-content');
+      if (!data || !data.weights || data.weights.length === 0) {
+        content.innerHTML = '<div class="empty-state">No weight data available</div>';
+        return;
+      }
+
+      const dob = data.dob ? `<p class="text-center mb-3"><strong>Date of Birth:</strong> ${formatDate(data.dob)}</p>` : '';
+      
+      let html = dob + '<div class="weight-table"><table class="table table-striped table-hover"><thead class="table-dark"><tr><th>Day</th>';
+      
+      const firstEntry = data.weights[0];
+      const pups = Object.keys(firstEntry).filter(k => k.startsWith('pup'));
+      pups.forEach(pup => {
+        html += `<th>${pup.charAt(0).toUpperCase() + pup.slice(1)}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+
+      data.weights.forEach(entry => {
+        html += `<tr><td><strong>Day ${entry.day}</strong></td>`;
+        pups.forEach(pup => {
+          const weight = entry[pup] || '-';
+          html += `<td>${weight !== '-' ? weight + 'g' : '-'}</td>`;
+        });
+        html += '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      content.innerHTML = html;
+    }
+
+    function renderCare(data) {
+      const content = document.getElementById('care-content');
+      if (!data || data.length === 0) {
+        content.innerHTML = '<div class="empty-state">No care plan entries yet</div>';
+        return;
+      }
+      let html = '<div class="list-group">';
+      data.forEach(entry => {
+        html += `<div class="list-group-item"><pre>${JSON.stringify(entry, null, 2)}</pre></div>`;
+      });
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function renderBirthLog(data) {
+      const content = document.getElementById('birthlog-content');
+      if (!data || data.length === 0) {
+        content.innerHTML = '<div class="empty-state">No birth log entries yet</div>';
+        return;
+      }
+      let html = '<div class="list-group">';
+      data.forEach(entry => {
+        html += `<div class="list-group-item"><pre>${JSON.stringify(entry, null, 2)}</pre></div>`;
+      });
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function renderBios(data) {
+      const content = document.getElementById('bios-content');
+      if (!data || Object.keys(data).length === 0) {
+        content.innerHTML = '<div class="empty-state">No dog bios available</div>';
+        return;
+      }
+      let html = '<div class="row">';
+      Object.keys(data).forEach(dogName => {
+        const dog = data[dogName];
+        const isEmpty = Object.keys(dog).length === 0;
+        html += `<div class="col-md-6 mb-3"><div class="card">
+          <div class="card-header"><h5>${dogName.charAt(0).toUpperCase() + dogName.slice(1)}</h5></div>
+          <div class="card-body">`;
+        if (isEmpty) {
+          html += '<p class="text-muted">No bio information yet</p>';
+        } else {
+          html += `<pre>${JSON.stringify(dog, null, 2)}</pre>`;
+        }
+        html += '</div></div></div>';
+      });
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function renderVet(data) {
+      const content = document.getElementById('vet-content');
+      if (!data || data.length === 0) {
+        content.innerHTML = '<div class="empty-state">No vet or worming records yet</div>';
+        return;
+      }
+      let html = '<div class="list-group">';
+      data.forEach(entry => {
+        html += `<div class="list-group-item"><pre>${JSON.stringify(entry, null, 2)}</pre></div>`;
+      });
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
     async function loadAll() {
       const overview = await getJson('data/overview.json');
-      if (overview) document.getElementById('overview-content').innerText = JSON.stringify(overview, null, 2);
+      renderOverview(overview);
 
       const weights = await getJson('data/weights.json');
-      if (weights) document.getElementById('weights-content').innerText = JSON.stringify(weights, null, 2);
+      renderWeights(weights);
 
       const care = await getJson('data/care.json');
-      if (care) document.getElementById('care-content').innerText = JSON.stringify(care, null, 2);
+      renderCare(care);
 
       const birthlog = await getJson('data/birth_log.json');
-      if (birthlog) document.getElementById('birthlog-content').innerText = JSON.stringify(birthlog, null, 2);
+      renderBirthLog(birthlog);
 
       const dogs = await getJson('data/dogs.json');
-      if (dogs) document.getElementById('bios-content').innerText = JSON.stringify(dogs, null, 2);
+      renderBios(dogs);
 
       const vet = await getJson('data/vet.json');
-      if (vet) document.getElementById('vet-content').innerText = JSON.stringify(vet, null, 2);
+      renderVet(vet);
     }
 
     loadAll();
