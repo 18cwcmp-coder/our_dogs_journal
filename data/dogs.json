@@ -3,87 +3,22 @@
     "id": "mia",
     "name": "Mia",
     "breed": "Rottweiler",
-    "sex": "Female",
-    "dob": "15 Jan 2020",
-    "weight": "~45 kg",
+    "sex": "F",
+    "dob": "2020-01-15",
+    "weight_kg": "~45",
     "microchip": "",
-    "last_vet": "23 Nov 2023 \u2014 C4 vaccination; routine checks",
-    "photo": "photos/mia.jpg",
-    "notes": "Calm, people\u2011focused, great mum."
+    "council_reg": "",
+    "notes": "First litter; calm attentive mum."
   },
   {
     "id": "thor",
     "name": "Thor",
     "breed": "Cane Corso",
-    "sex": "Male",
-    "dob": "10 Jul 2023",
-    "weight": "~45 kg",
-    "microchip": "74582 (Melton)",
-    "last_vet": "10 Jul 2025 \u2014 desexed; mass removed; bloods/x\u2011rays all good",
-    "photo": "photos/thor.jpg",
-    "notes": "Confident, friendly, well socialised."
-  },
-  {
-    "id": "pup2",
-    "name": "Pup 2 (Blue)",
-    "breed": "Rotti \u00d7 Cane Corso",
-    "sex": "Female",
-    "dob": "12 Sep 2025",
-    "weight": "",
+    "sex": "M",
+    "dob": "2023-07-10",
+    "weight_kg": "~45",
     "microchip": "",
-    "last_vet": "",
-    "photo": "",
-    "notes": "Confident feeder; steady temperament; early handling started.",
-    "rehoming": {
-      "price_aud": "",
-      "available_from": "2025-11-07",
-      "adoption_link": "",
-      "desexing": "not yet",
-      "vaccinations": "per schedule",
-      "worming": "every 2 weeks",
-      "flea_tick": "per vet"
-    }
-  },
-  {
-    "id": "pup3",
-    "name": "Pup 3 (Pink)",
-    "breed": "Rotti \u00d7 Cane Corso",
-    "sex": "Male",
-    "dob": "12 Sep 2025",
-    "weight": "",
-    "microchip": "",
-    "last_vet": "",
-    "photo": "",
-    "notes": "Loves contact; vocal; robust frame.",
-    "rehoming": {
-      "price_aud": "",
-      "available_from": "2025-11-07",
-      "adoption_link": "",
-      "desexing": "not yet",
-      "vaccinations": "per schedule",
-      "worming": "every 2 weeks",
-      "flea_tick": "per vet"
-    }
-  },
-  {
-    "id": "pup5",
-    "name": "Pup 5 (Orange)",
-    "breed": "Rotti \u00d7 Cane Corso",
-    "sex": "Female",
-    "dob": "13 Sep 2025",
-    "weight": "",
-    "microchip": "",
-    "last_vet": "",
-    "photo": "",
-    "notes": "Curious and active; strong latch.",
-    "rehoming": {
-      "price_aud": "",
-      "available_from": "2025-11-08",
-      "adoption_link": "",
-      "desexing": "not yet",
-      "vaccinations": "per schedule",
-      "worming": "every 2 weeks",
-      "flea_tick": "per vet"
-    }
+    "council_reg": "74582 (City of Melton)",
+    "notes": "Sire; desexed Jul 2025."
   }
 ]

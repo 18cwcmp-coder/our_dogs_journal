@@ -1,50 +1,50 @@
 [
   {
-    "p": "1",
-    "time": "19:15",
-    "sex": "\u2014",
-    "status": "Stillborn",
-    "placenta": "\u2014",
-    "notes": "Green fluid"
+    "p": 1,
+    "time": "19:15 12 Sep",
+    "sex": "M",
+    "status": "stillborn",
+    "placenta": "present",
+    "notes": "Green discharge."
   },
   {
-    "p": "2",
-    "time": "19:16",
-    "sex": "Female",
-    "status": "Alive",
-    "placenta": "\u2014",
-    "notes": "Top\u2011ups overnight; nursed"
+    "p": 2,
+    "time": "19:16 12 Sep",
+    "sex": "F",
+    "status": "live",
+    "placenta": "present",
+    "notes": "Latched after assistance; fed colostrum."
   },
   {
-    "p": "3",
-    "time": "19:42",
-    "sex": "Male",
-    "status": "Alive",
-    "placenta": "Eaten",
-    "notes": "Latched well"
+    "p": 3,
+    "time": "19:42 12 Sep",
+    "sex": "M",
+    "status": "live",
+    "placenta": "eaten by dam",
+    "notes": "Strong vocalization; latched quickly."
   },
   {
-    "p": "4",
+    "p": 4,
+    "time": "07:30 13 Sep",
+    "sex": "M",
+    "status": "live",
+    "placenta": "eaten by dam",
+    "notes": "Good size; latched straight away."
+  },
+  {
+    "p": 5,
+    "time": "10:30 13 Sep",
+    "sex": "?",
+    "status": "stillborn",
+    "placenta": "eaten by dam",
+    "notes": "Stillborn; confronting for family."
+  },
+  {
+    "p": 6,
     "time": "\u2014",
-    "sex": "\u2014",
-    "status": "Stillborn",
+    "sex": "?",
+    "status": "stillborn",
     "placenta": "\u2014",
-    "notes": ""
-  },
-  {
-    "p": "5",
-    "time": "07:30",
-    "sex": "Male",
-    "status": "Alive",
-    "placenta": "Eaten",
-    "notes": "Strong latch"
-  },
-  {
-    "p": "6",
-    "time": "10:30",
-    "sex": "\u2014",
-    "status": "Stillborn",
-    "placenta": "Eaten",
-    "notes": "Expected instinct"
+    "notes": "Count reconciled from litter summary."
   }
 ]
