@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cato Dogs Journal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
 <style>
-  body{padding:1rem}
-  .dog-photo{height:120px;width:120px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb}
-  .tab-pane{padding-top:1rem}
+  body{ padding:.75rem }
+  .dog-photo{height:110px;width:110px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb}
+  .sticky-form{ position:sticky; top:.5rem; z-index:1030; background:#fff; border:1px solid #e5e7eb; border-radius:.75rem; padding:.75rem }
   .error{background:#fee2e2;border:1px solid #ef4444;color:#991b1b;padding:.75rem;border-radius:.5rem;margin:.5rem 0}
+  .chart-wrap{ max-width:100%; overflow-x:auto; height:380px }
+  canvas{ max-height:360px }
 </style>
 </head>
 <body>
@@ -37,24 +40,72 @@
   </ul>
 
   <div class="tab-content">
-
-    <div class="tab-pane fade show active" id="ov"><div id="ovWrap" class="mt-2">Loading overview…</div></div>
+    <div class="tab-pane fade show active" id="ov">
+      <div id="ovWrap" class="mt-3">Loading overview…</div>
+    </div>
 
     <div class="tab-pane fade" id="wl">
-      <h5>Weights</h5>
+      <div class="sticky-form mb-3" id="quickAdd">
+        <div class="d-flex gap-2 mb-2">
+          <button class="btn btn-outline-primary btn-lg flex-fill" data-pup="pup2">Pup 2 • Blue ♂</button>
+          <button class="btn btn-outline-danger btn-lg flex-fill" data-pup="pup3">Pup 3 • Pink ♀</button>
+          <button class="btn btn-outline-success btn-lg flex-fill" data-pup="pup5">Pup 5 • Orange ♂</button>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <button class="btn btn-outline-secondary" id="dayMinus">−</button>
+          <div class="form-floating flex-fill">
+            <input id="inpDay" type="number" min="1" class="form-control form-control-lg" placeholder="Day">
+            <label>Day</label>
+          </div>
+          <button class="btn btn-outline-secondary" id="dayPlus">+</button>
+          <button class="btn btn-outline-dark ms-auto" id="todayBtn">Today</button>
+        </div>
+
+        <div class="row g-2 mb-2">
+          <div class="col-7">
+            <div class="form-floating">
+              <input id="inpW" type="number" step="1" min="0" class="form-control form-control-lg" placeholder="Weight (g)">
+              <label>Weight (g)</label>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-floating">
+              <input id="inpL" type="number" step="0.1" min="0" class="form-control form-control-lg" placeholder="Length (cm)">
+              <label>Length (cm)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary btn-lg flex-fill" id="btnSave">Save</button>
+          <button class="btn btn-outline-secondary" id="btnUndo">Undo</button>
+        </div>
+
+        <div class="mt-2 d-flex gap-2">
+          <button id="btnExportW" class="btn btn-outline-secondary btn-sm">Download weights.json</button>
+          <button id="btnExportL" class="btn btn-outline-secondary btn-sm">Download lengths.json</button>
+          <div class="ms-auto small text-muted">Autosaves locally; export to commit.</div>
+        </div>
+      </div>
+
+      <div class="chart-wrap mb-2"><canvas id="wChart"></canvas></div>
+
+      <h5 class="mt-3">Weights (table)</h5>
       <div class="table-responsive">
         <table class="table table-sm table-bordered" id="tblW"><thead><tr><th>Day</th><th>Pup 2 (Blue)</th><th>Pup 3 (Pink)</th><th>Pup 5 (Orange)</th></tr></thead><tbody></tbody></table>
       </div>
-      <h5 class="mt-3">Lengths</h5>
+
+      <h5 class="mt-3">Lengths (table)</h5>
       <div class="table-responsive">
         <table class="table table-sm table-bordered" id="tblL"><thead><tr><th>Day</th><th>Pup 2</th><th>Pup 3</th><th>Pup 5</th></tr></thead><tbody></tbody></table>
       </div>
     </div>
 
-    <div class="tab-pane fade" id="care"><div id="careWrap">Loading…</div></div>
+    <div class="tab-pane fade" id="care"><div id="careWrap" class="mt-2">Loading…</div></div>
 
     <div class="tab-pane fade" id="birth">
-      <div class="table-responsive">
+      <div class="table-responsive mt-2">
         <table class="table table-sm table-bordered" id="tblBirth">
           <thead><tr><th>#</th><th>Time</th><th>Sex</th><th>Status</th><th>Placenta</th><th>Notes</th></tr></thead>
           <tbody></tbody>
@@ -62,10 +113,10 @@
       </div>
     </div>
 
-    <div class="tab-pane fade" id="bios"><div id="biosWrap">Loading…</div></div>
+    <div class="tab-pane fade" id="bios"><div id="biosWrap" class="mt-2">Loading…</div></div>
 
     <div class="tab-pane fade" id="vet">
-      <div class="table-responsive">
+      <div class="table-responsive mt-2">
         <table class="table table-sm table-bordered" id="tblVet">
           <thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Cost</th><th>Notes</th></tr></thead>
           <tbody></tbody>
@@ -74,117 +125,260 @@
     </div>
 
     <div class="tab-pane fade" id="photosTab">
-      <div class="row g-2" id="photosWrap"></div>
-      <div class="text-muted small">Add image files to <code>/photos</code> and list them via <code>window.photosList</code>.</div>
+      <div class="row g-2 mt-2" id="photosWrap"></div>
+      <div class="text-muted small mt-1">Put images in <code>/photos</code> and list them via <code>window.photosList</code>.</div>
     </div>
-
   </div>
 
   <div id="err" class="error d-none"></div>
 
 <script>
-  function bust(u){ const x=new URL(u, location.href); x.searchParams.set('v', Date.now()); return x; }
-  async function jget(u){
-    try{
-      const r = await fetch(bust(u), {cache:'no-store'});
-      if(!r.ok) throw new Error('HTTP '+r.status);
-      return await r.json();
-    }catch(e){
-      const el=document.getElementById('err'); el.classList.remove('d-none'); el.textContent='Failed to load '+u+' → '+e.message; 
-      return null;
+function bust(u){ const x=new URL(u, location.href); x.searchParams.set('v', Date.now()); return x; }
+async function jget(u){
+  try{ const r=await fetch(bust(u),{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }
+  catch(e){ const el=document.getElementById('err'); el.classList.remove('d-none'); el.textContent='Failed to load '+u+' → '+e.message; return null; }
+}
+function cell(v){ return (v===undefined||v===null)? '' : v; }
+
+const LS_W='cj_weights_pending', LS_L='cj_lengths_pending';
+function getPendingW(){ return JSON.parse(localStorage.getItem(LS_W)||'[]'); }
+function setPendingW(v){ localStorage.setItem(LS_W, JSON.stringify(v)); }
+function getPendingL(){ return JSON.parse(localStorage.getItem(LS_L)||'[]'); }
+function setPendingL(v){ localStorage.setItem(LS_L, JSON.stringify(v)); }
+
+function mergeWeights(base, pending){
+  const byDay = new Map(base.map(r=>[r.day, {...r}]));
+  pending.forEach(p=>{
+    const r = byDay.get(p.day) || {day:p.day};
+    r[p.pup] = p.weight;
+    byDay.set(p.day, r);
+  });
+  return Array.from(byDay.values()).sort((a,b)=>a.day-b.day);
+}
+function mergeLengths(base, pending){
+  const byDay = new Map(base.map(r=>[r.day, {...r}]));
+  pending.forEach(p=>{
+    const r = byDay.get(p.day) || {day:p.day};
+    r[p.pup] = p.length;
+    byDay.set(p.day, r);
+  });
+  return Array.from(byDay.values()).sort((a,b)=>a.day-b.day);
+}
+
+let WBASE=[], LBASE=[];
+let chart;
+
+function renderTables(weights, lengths){
+  const tbW = document.querySelector('#tblW tbody'); tbW.innerHTML='';
+  weights.forEach(r=>{ tbW.innerHTML += `<tr><td>${cell(r.day)}</td><td>${cell(r.pup2)}</td><td>${cell(r.pup3)}</td><td>${cell(r.pup5)}</td></tr>`; });
+  const tbL = document.querySelector('#tblL tbody'); tbL.innerHTML='';
+  lengths.forEach(r=>{ tbL.innerHTML += `<tr><td>${cell(r.day)}</td><td>${cell(r.pup2)}</td><td>${cell(r.pup3)}</td><td>${cell(r.pup5)}</td></tr>`; });
+}
+
+function renderChart(weights){
+  const days = weights.map(r=>r.day);
+  const d2 = weights.map(r=>r.pup2??null);
+  const d3 = weights.map(r=>r.pup3??null);
+  const d5 = weights.map(r=>r.pup5??null);
+  const ctx = document.getElementById('wChart').getContext('2d');
+  if(chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type:'line',
+    data:{ labels: days,
+      datasets:[
+        {label:'Pup 2 (Blue ♂)', data:d2, borderWidth:3, pointRadius:4},
+        {label:'Pup 3 (Pink ♀)', data:d3, borderWidth:3, pointRadius:4},
+        {label:'Pup 5 (Orange ♂)', data:d5, borderWidth:3, pointRadius:4},
+      ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      scales:{ y:{title:{display:true,text:'Weight (g)'}}, x:{title:{display:true,text:'Day'}}},
+      plugins:{ legend:{ display:true, position:'bottom' } }
     }
-  }
-  function cell(v){ return (v===undefined||v===null)? '' : v; }
+  });
+}
 
-  async function loadOverview(){
-    const ov = await jget('data/overview.json');
-    const w = document.getElementById('ovWrap');
-    if(!ov){ w.textContent=''; return; }
-    if(ov.summary){
-      w.innerHTML = '<p>'+ov.summary+'</p>'+ (ov.notes? '<div class="text-muted">'+ov.notes+'</div>':'');
-      return;
+async function loadOverview(){
+  const ov = await jget('data/overview.json');
+  const w = document.getElementById('ovWrap');
+  if(!ov){ w.textContent=''; return; }
+  const s = ov.litter_summary || {}
+  w.innerHTML = '<table class="table table-sm table-bordered"><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>' +
+                `<tr><td>${cell(s.total_pups)}</td><td>${cell(s.live)}</td><td>${cell(s.stillborn)}</td><td>${cell(s.whelping_window)}</td></tr></table>` +
+                (ov.notes? `<div class="text-muted">${ov.notes}</div>`:'');
+}
+
+async function loadWL(){
+  const w = await jget('data/weights.json');
+  const l = await jget('data/lengths.json');
+  WBASE = (w?.weights || w?.records || []);
+  LBASE = (l?.records || []);
+  refreshWL();
+}
+function refreshWL(){
+  const weights = mergeWeights(WBASE, getPendingW());
+  const lengths = mergeLengths(LBASE, getPendingL());
+  renderTables(weights, lengths);
+  renderChart(weights);
+}
+
+async function loadCare(){
+  const c = await jget('data/care.json');
+  const w = document.getElementById('careWrap'); w.innerHTML='';
+  (c || []).forEach(item=>{
+    const row = document.createElement('div');
+    row.className='border rounded p-2 mb-2';
+    row.innerHTML = `<b>Week ${cell(item.week)}</b> — ${cell(item.text)} ${item.done? '<span class="badge text-bg-success ms-2">Done</span>':''}`;
+    w.appendChild(row);
+  });
+  if(!(c||[]).length) w.textContent='No care entries yet.';
+}
+
+async function loadBirth(){
+  const bl = await jget('data/birth_log.json');
+  const tb = document.querySelector('#tblBirth tbody'); tb.innerHTML='';
+  (bl || []).forEach((r,i)=>{
+    tb.innerHTML += `<tr><td>${cell(r.p) || (i+1)}</td><td>${cell(r.time)}</td><td>${cell(r.sex)}</td><td>${cell(r.status)}</td><td>${cell(r.placenta)}</td><td>${cell(r.notes)}</td></tr>`;
+  });
+}
+
+async function loadBios(){
+  let bios = await jget('data/dogs.json');
+  if(bios && !Array.isArray(bios)){
+    bios = Object.keys(bios).map(k=> { const o=bios[k]; o.id=k; o.name=k.charAt(0).toUpperCase()+k.slice(1); return o; });
+  }
+  const host = document.getElementById('biosWrap'); host.innerHTML='';
+  (bios || []).forEach(b=>{
+    const card = document.createElement('div');
+    card.className='border rounded p-2 mb-2';
+    card.innerHTML = `<div><b>${cell(b.name)}</b> • ${cell(b.breed||'')}</div>
+      <div class="small text-muted">Sex: ${cell(b.sex)} | DOB: ${cell(b.dob)} | Weight: ${cell(b.weight||b.weight_kg||'')} | Microchip: ${cell(b.microchip||'')}</div>
+      ${b.last_vet? `<div class="small">Last vet: ${b.last_vet}</div>`:''}
+      ${b.notes? `<div class="small">${b.notes}</div>`:''}`;
+    host.appendChild(card);
+  });
+  if(!(bios||[]).length) host.textContent='No bios yet.';
+}
+
+async function loadVet(){
+  const ev = await jget('data/vet.json');
+  const tb = document.querySelector('#tblVet tbody'); tb.innerHTML='';
+  (ev || []).forEach(row=>{
+    tb.innerHTML += `<tr><td>${cell(row.date)}</td><td>${cell(row.who)}</td><td>${cell(row.type)}</td><td>${cell(row.cost)}</td><td>${cell(row.notes)}</td></tr>`;
+  });
+}
+
+function loadPhotos(){
+  const names = (window.photosList||[]);
+  const w = document.getElementById('photosWrap'); w.innerHTML='';
+  names.forEach(n=>{
+    const col = document.createElement('div'); col.className='col-6 col-md-3';
+    col.innerHTML = `<img src="photos/${n}" class="img-fluid rounded border" onerror="this.src='photos/placeholder.png'">`;
+    w.appendChild(col);
+  });
+  if(!names.length){
+    w.innerHTML = '<div class="text-muted">Add images to <code>/photos</code> and list them in <code>window.photosList</code>.</div>';
+  }
+}
+
+// Quick Add logic
+const LS_LAST = 'cj_last_selection';
+const LS_HISTORY = 'cj_quick_history';
+function getLast(){ return JSON.parse(localStorage.getItem(LS_LAST) || '{"pup":"pup2","day":1}'); }
+function setLast(v){ localStorage.setItem(LS_LAST, JSON.stringify(v)); }
+function getHist(){ return JSON.parse(localStorage.getItem(LS_HISTORY) || '[]'); }
+function pushHist(e){ const h=getHist(); h.push(e); localStorage.setItem(LS_HISTORY, JSON.stringify(h.slice(-50))); }
+
+function selectPup(pup){
+  const wrap = document.getElementById('quickAdd');
+  wrap.querySelectorAll('[data-pup]').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-pup')===pup);
+  });
+  const last = getLast(); last.pup = pup; setLast(last);
+}
+
+function setDay(d){
+  const inp = document.getElementById('inpDay');
+  inp.value = Math.max(1, parseInt(d||1,10));
+  const last = getLast(); last.day = parseInt(inp.value,10); setLast(last);
+}
+
+function initQuickAdd(){
+  document.querySelectorAll('#quickAdd [data-pup]').forEach(btn=>{
+    btn.addEventListener('click', ()=> selectPup(btn.getAttribute('data-pup')));
+  });
+
+  document.getElementById('dayMinus').onclick = ()=> setDay(parseInt(document.getElementById('inpDay').value||1,10)-1);
+  document.getElementById('dayPlus').onclick  = ()=> setDay(parseInt(document.getElementById('inpDay').value||1,10)+1);
+  document.getElementById('todayBtn').onclick = ()=>{
+    const day1 = new Date('2025-09-13T00:00:00');
+    const today = new Date();
+    const diff = Math.floor((today - day1)/(1000*60*60*24))+1;
+    setDay(Math.max(1,diff));
+  };
+
+  document.getElementById('inpDay').addEventListener('change', (e)=> setDay(e.target.value));
+
+  const last = getLast();
+  selectPup(last.pup || 'pup2');
+  setDay(last.day || 1);
+
+  const w = document.getElementById('inpW');
+  const l = document.getElementById('inpL');
+  w.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); l.focus(); }});
+  l.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('btnSave').click(); }});
+
+  document.getElementById('btnUndo').onclick = ()=>{
+    const h = getHist();
+    const last = h.pop();
+    if(!last){ alert('Nothing to undo'); return; }
+    localStorage.setItem(LS_HISTORY, JSON.stringify(h));
+
+    if(last.kind==='w'){
+      const p = getPendingW().filter(x=>!(x.day===last.day && x.pup===last.pup && x.weight===last.value));
+      setPendingW(p);
+    }else if(last.kind==='l'){
+      const p = getPendingL().filter(x=>!(x.day===last.day && x.pup===last.pup && x.length===last.value));
+      setPendingL(p);
     }
-    const s = ov.litter_summary || {};
-    w.innerHTML = '<table class="table table-sm table-bordered"><tr><th>Total Pups</th><th>Live</th><th>Stillborn</th><th>Whelping Window</th></tr>' +
-                  `<tr><td>${cell(s.total_pups)}</td><td>${cell(s.live)}</td><td>${cell(s.stillborn)}</td><td>${cell(s.whelping_window)}</td></tr></table>` +
-                  (ov.notes? `<div class="text-muted">${ov.notes}</div>`:'');
+    refreshWL();
+  };
+}
+
+document.addEventListener('click', e=>{
+  if(e.target.id==='btnSave'){
+    const last = getLast();
+    const pup = last.pup;
+    const day = parseInt(document.getElementById('inpDay').value,10);
+    const w = parseInt(document.getElementById('inpW').value,10);
+    const l = parseFloat(document.getElementById('inpL').value);
+
+    if(!day || (!w && !l)) { alert('Enter at least Day and Weight or Length'); return; }
+
+    if(w){ const pending=getPendingW(); const rec={day,pup,weight:w}; pending.push(rec); setPendingW(pending); pushHist({kind:'w',...rec, value:w}); }
+    if(l){ const pending=getPendingL(); const rec={day,pup,length:l}; pending.push(rec); setPendingL(pending); pushHist({kind:'l',...rec, value:l}); }
+
+    document.getElementById('inpW').value=''; document.getElementById('inpL').value='';
+    setDay(day+1);
+    refreshWL();
+    if(navigator.vibrate){ navigator.vibrate(15); }
   }
-
-  async function loadWL(){
-    const w = await jget('data/weights.json');
-    const l = await jget('data/lengths.json');
-    const tbW = document.querySelector('#tblW tbody'); tbW.innerHTML='';
-    const tbL = document.querySelector('#tblL tbody'); tbL.innerHTML='';
-    (w?.weights || w?.records || []).forEach(r=>{
-      tbW.innerHTML += `<tr><td>${cell(r.day)}</td><td>${cell(r.pup2)}</td><td>${cell(r.pup3)}</td><td>${cell(r.pup5)}</td></tr>`;
-    });
-    (l?.records || []).forEach(r=>{
-      tbL.innerHTML += `<tr><td>${cell(r.day)}</td><td>${cell(r.pup2)}</td><td>${cell(r.pup3)}</td><td>${cell(r.pup5)}</td></tr>`;
-    });
+  if(e.target.id==='btnExportW'){
+    const merged=mergeWeights(WBASE, getPendingW());
+    const blob=new Blob([JSON.stringify({weights:merged}, null, 2)], {type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='weights.json'; a.click();
   }
-
-  async function loadCare(){
-    const c = await jget('data/care.json');
-    const w = document.getElementById('careWrap'); w.innerHTML='';
-    (c || []).forEach(item=>{
-      const row = document.createElement('div');
-      row.className='border rounded p-2 mb-2';
-      row.innerHTML = `<b>Week ${cell(item.week)}</b> — ${cell(item.text)} ${item.done? '<span class="badge text-bg-success ms-2">Done</span>':''}`;
-      w.appendChild(row);
-    });
-    if(!(c||[]).length) w.textContent='No care entries yet.';
+  if(e.target.id==='btnExportL'){
+    const merged=mergeLengths(LBASE, getPendingL());
+    const blob=new Blob([JSON.stringify({records:merged}, null, 2)], {type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='lengths.json'; a.click();
   }
+});
 
-  async function loadBirth(){
-    const bl = await jget('data/birth_log.json');
-    const tb = document.querySelector('#tblBirth tbody'); tb.innerHTML='';
-    (bl || []).forEach((r,i)=>{
-      tb.innerHTML += `<tr><td>${cell(r.p) || (i+1)}</td><td>${cell(r.time)}</td><td>${cell(r.sex)}</td><td>${cell(r.status)}</td><td>${cell(r.placenta)}</td><td>${cell(r.notes)}</td></tr>`;
-    });
-  }
+window.photosList = ["thor.jpg","mia.jpg"];
 
-  async function loadBios(){
-    let bios = await jget('data/dogs.json');
-    if(bios && !Array.isArray(bios)){ // also support {mia:{}, thor:{}}
-      bios = Object.keys(bios).map(k=> { const o=bios[k]; o.id=k; o.name=k.charAt(0).toUpperCase()+k.slice(1); return o; });
-    }
-    const host = document.getElementById('biosWrap'); host.innerHTML='';
-    (bios || []).forEach(b=>{
-      const card = document.createElement('div');
-      card.className='border rounded p-2 mb-2';
-      card.innerHTML = `<div><b>${cell(b.name)}</b> • ${cell(b.breed||'')}</div>
-        <div class="small text-muted">Sex: ${cell(b.sex)} | DOB: ${cell(b.dob)} | Weight: ${cell(b.weight||b.weight_kg||'')} | Microchip: ${cell(b.microchip||'')}</div>
-        ${b.last_vet? `<div class="small">Last vet: ${b.last_vet}</div>`:''}
-        ${b.notes? `<div class="small">${b.notes}</div>`:''}`;
-      host.appendChild(card);
-    });
-    if(!(bios||[]).length) host.textContent='No bios yet.';
-  }
-
-  async function loadVet(){
-    const ev = await jget('data/vet.json');
-    const tb = document.querySelector('#tblVet tbody'); tb.innerHTML='';
-    (ev || []).forEach(row=>{
-      tb.innerHTML += `<tr><td>${cell(row.date)}</td><td>${cell(row.who)}</td><td>${cell(row.type)}</td><td>${cell(row.cost)}</td><td>${cell(row.notes)}</td></tr>`;
-    });
-  }
-
-  function loadPhotos(){
-    const names = (window.photosList||[]);
-    const w = document.getElementById('photosWrap'); w.innerHTML='';
-    names.forEach(n=>{
-      const col = document.createElement('div'); col.className='col-6 col-md-3';
-      col.innerHTML = `<img src="photos/${n}" class="img-fluid rounded border" onerror="this.src='photos/placeholder.png'">`;
-      w.appendChild(col);
-    });
-    if(!names.length){
-      w.innerHTML = '<div class="text-muted">Add image files to <code>/photos</code> and list them in <code>window.photosList</code>.</div>';
-    }
-  }
-
-  window.photosList = ["thor.jpg", "mia.jpg"]; // edit to your actual filenames
-
-  loadOverview(); loadWL(); loadCare(); loadBirth(); loadBios(); loadVet(); loadPhotos();
+loadOverview(); loadWL(); loadCare(); loadBirth(); loadBios(); loadVet(); loadPhotos();
+document.addEventListener('DOMContentLoaded', initQuickAdd);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

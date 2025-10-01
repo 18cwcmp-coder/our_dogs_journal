@@ -8,6 +8,7 @@
     "weight_kg": "~45",
     "microchip": "",
     "council_reg": "",
+    "last_vet": "",
     "notes": "First litter; calm attentive mum."
   },
   {
@@ -19,6 +20,7 @@
     "weight_kg": "~45",
     "microchip": "",
     "council_reg": "74582 (City of Melton)",
+    "last_vet": "2025-07-10 desexed",
     "notes": "Sire; desexed Jul 2025."
   }
 ]
