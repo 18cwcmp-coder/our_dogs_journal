@@ -1,23 +1,37 @@
-{
-  "Pup 2": [
-    {
-      "task": "Week 2 Worming",
-      "due": "2025-09-26",
-      "done": false
-    }
-  ],
-  "Pup 3": [
-    {
-      "task": "Week 2 Worming",
-      "due": "2025-09-26",
-      "done": false
-    }
-  ],
-  "Pup 5": [
-    {
-      "task": "Week 2 Worming",
-      "due": "2025-09-26",
-      "done": false
-    }
-  ]
-}
+[
+  {
+    "date": "2025-07-10",
+    "who": "Thor",
+    "type": "Desexed",
+    "cost": "\u2014",
+    "notes": "Melton Family Vets."
+  },
+  {
+    "date": "2025-09-14",
+    "who": "Pups",
+    "type": "Worming Week 2 (pyrantel)",
+    "cost": "\u2014",
+    "notes": ""
+  },
+  {
+    "date": "2025-09-28",
+    "who": "Pups",
+    "type": "Worming Week 4",
+    "cost": "\u2014",
+    "notes": ""
+  },
+  {
+    "date": "2025-10-12",
+    "who": "Pups",
+    "type": "Week 6 vet check + 1st vaccination + microchips",
+    "cost": "\u2014",
+    "notes": ""
+  },
+  {
+    "date": "2025-10-26",
+    "who": "Pups",
+    "type": "Worming Week 8",
+    "cost": "\u2014",
+    "notes": ""
+  }
+]

@@ -1,4 +1,9 @@
 {
-  "summary": "3 pups live, 3 stillborn. Tracking growth, health, and care milestones.",
-  "notes": "Thor (Cane Corso) and Mia (Rottweiler). Litter born 12\u201313 Sep 2025."
+  "litter_summary": {
+    "total_pups": 6,
+    "live": 3,
+    "stillborn": 3,
+    "whelping_window": "12\u201313 Sep 2025"
+  },
+  "notes": "Mia (Rottweiler, DOB 2020-01-15) first litter; Thor (Cane Corso, DOB 2023-07-10) sire. Family journal with daily growth tracking."
 }

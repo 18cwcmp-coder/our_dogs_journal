@@ -1,12 +1,50 @@
 [
   {
-    "time": "7:30am",
-    "pup": "Male",
-    "status": "Alive"
+    "p": 1,
+    "time": "19:15 12 Sep",
+    "sex": "M",
+    "status": "stillborn",
+    "placenta": "present",
+    "notes": "Green discharge."
   },
   {
-    "time": "10:30am",
-    "pup": "Female",
-    "status": "Stillborn"
+    "p": 2,
+    "time": "19:16 12 Sep",
+    "sex": "F",
+    "status": "live",
+    "placenta": "present",
+    "notes": "Latched after assistance; fed colostrum."
+  },
+  {
+    "p": 3,
+    "time": "19:42 12 Sep",
+    "sex": "M",
+    "status": "live",
+    "placenta": "eaten by dam",
+    "notes": "Strong vocalization; latched quickly."
+  },
+  {
+    "p": 4,
+    "time": "07:30 13 Sep",
+    "sex": "M",
+    "status": "live",
+    "placenta": "eaten by dam",
+    "notes": "Good size; latched straight away."
+  },
+  {
+    "p": 5,
+    "time": "10:30 13 Sep",
+    "sex": "?",
+    "status": "stillborn",
+    "placenta": "eaten by dam",
+    "notes": "Stillborn; confronting for family."
+  },
+  {
+    "p": 6,
+    "time": "\u2014",
+    "sex": "?",
+    "status": "stillborn",
+    "placenta": "\u2014",
+    "notes": "Total reconciled."
   }
 ]
