@@ -1,0 +1,23 @@
+{
+  "Pup 2": {
+    "name": "Blue Boy",
+    "sex": "Male",
+    "microchip": "",
+    "dob": "2025-09-12",
+    "photo": "pup2.jpg"
+  },
+  "Pup 3": {
+    "name": "Pink Girl",
+    "sex": "Female",
+    "microchip": "",
+    "dob": "2025-09-12",
+    "photo": "pup3.jpg"
+  },
+  "Pup 5": {
+    "name": "Orange Boy",
+    "sex": "Male",
+    "microchip": "",
+    "dob": "2025-09-12",
+    "photo": "pup5.jpg"
+  }
+}
