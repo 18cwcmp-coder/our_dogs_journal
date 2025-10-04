@@ -1,26 +1,53 @@
 [
   {
-    "id": "mia",
-    "name": "Mia",
-    "breed": "Rottweiler",
-    "sex": "F",
-    "dob": "2020-01-15",
-    "weight_kg": "~45",
-    "microchip": "",
-    "council_reg": "",
-    "last_vet": "",
-    "notes": "First litter; calm attentive mum."
-  },
-  {
     "id": "thor",
     "name": "Thor",
     "breed": "Cane Corso",
-    "sex": "M",
+    "sex": "Male",
     "dob": "2023-07-10",
-    "weight_kg": "~45",
-    "microchip": "",
-    "council_reg": "74582 (City of Melton)",
-    "last_vet": "2025-07-10 desexed",
-    "notes": "Sire; desexed Jul 2025."
+    "weightKg": "~45",
+    "microchip": "956000016676229",
+    "councilRegistration": "Melton City Council #74582",
+    "vetClinic": "Melton Family Vets",
+    "photo": "thor.jpg",
+    "notes": "Rescued to family 16 Mar 2025; desexed Jul 2025.",
+    "vaccinations": [
+      {
+        "date": "2023-11-23",
+        "product": "Protech C4"
+      }
+    ],
+    "parasiteControl": [
+      {
+        "date": "2025-10-04",
+        "product": "NexGard Spectra (30.1\u201360kg)",
+        "status": "given"
+      },
+      {
+        "date": "2025-07-01",
+        "product": "Advocate (previous months)",
+        "status": "historical"
+      }
+    ]
+  },
+  {
+    "id": "mia",
+    "name": "Mia",
+    "breed": "Rottweiler",
+    "sex": "Female",
+    "dob": "2020-01-15",
+    "weightKg": "~45",
+    "microchip": "956000012200691",
+    "certificateNo": "4403139",
+    "vetClinic": "Melton Family Vets",
+    "photo": "mia.jpg",
+    "notes": "Owned since 8 weeks old. First litter at 4y 8m.",
+    "parasiteControl": [
+      {
+        "date": "2025-10-04",
+        "product": "NexGard Spectra (30.1\u201360kg)",
+        "status": "given"
+      }
+    ]
   }
 ]

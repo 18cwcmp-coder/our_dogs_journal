@@ -1,0 +1,48 @@
+{
+  "parents": [
+    {
+      "dogId": "mia",
+      "date": "2025-10-04",
+      "type": "parasite",
+      "product": "NexGard Spectra 30.1\u201360 kg",
+      "status": "given"
+    },
+    {
+      "dogId": "thor",
+      "date": "2025-10-04",
+      "type": "parasite",
+      "product": "NexGard Spectra 30.1\u201360 kg",
+      "status": "given"
+    },
+    {
+      "dogId": "thor",
+      "date": "2023-11-23",
+      "type": "vaccine",
+      "product": "Protech C4",
+      "status": "given"
+    }
+  ],
+  "pups": [
+    {
+      "pupId": "pup2",
+      "date": "2025-10-04",
+      "type": "wormer",
+      "product": "Drontal Puppy Syrup",
+      "status": "scheduled"
+    },
+    {
+      "pupId": "pup3",
+      "date": "2025-10-04",
+      "type": "wormer",
+      "product": "Drontal Puppy Syrup",
+      "status": "scheduled"
+    },
+    {
+      "pupId": "pup5",
+      "date": "2025-10-04",
+      "type": "wormer",
+      "product": "Drontal Puppy Syrup",
+      "status": "scheduled"
+    }
+  ]
+}

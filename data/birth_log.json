@@ -1,50 +1,22 @@
 [
   {
-    "p": 1,
-    "time": "19:15 12 Sep",
-    "sex": "M",
-    "status": "stillborn",
-    "placenta": "present",
-    "notes": "Green discharge."
+    "time": "2025-09-12 19:15",
+    "event": "Pup born (stillborn) with green fluid; placenta eaten by dam."
   },
   {
-    "p": 2,
-    "time": "19:16 12 Sep",
-    "sex": "F",
-    "status": "live",
-    "placenta": "present",
-    "notes": "Latched after assistance; fed colostrum."
+    "time": "2025-09-12 19:16",
+    "event": "Pup 2 (male, Blue) born; latched quickly."
   },
   {
-    "p": 3,
-    "time": "19:42 12 Sep",
-    "sex": "M",
-    "status": "live",
-    "placenta": "eaten by dam",
-    "notes": "Strong vocalization; latched quickly."
+    "time": "2025-09-12 19:42",
+    "event": "Pup 3 (female, Pink) born; vocal, needed brief assistance to latch."
   },
   {
-    "p": 4,
-    "time": "07:30 13 Sep",
-    "sex": "M",
-    "status": "live",
-    "placenta": "eaten by dam",
-    "notes": "Good size; latched straight away."
+    "time": "2025-09-12 22:30",
+    "event": "Stillborn pup; placenta eaten."
   },
   {
-    "p": 5,
-    "time": "10:30 13 Sep",
-    "sex": "?",
-    "status": "stillborn",
-    "placenta": "eaten by dam",
-    "notes": "Stillborn; confronting for family."
-  },
-  {
-    "p": 6,
-    "time": "\u2014",
-    "sex": "?",
-    "status": "stillborn",
-    "placenta": "\u2014",
-    "notes": "Total reconciled."
+    "time": "2025-09-13 07:30",
+    "event": "Pup 5 (male, Orange) born; latched immediately."
   }
 ]

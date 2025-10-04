@@ -1,0 +1,32 @@
+[
+  {
+    "id": "pup2",
+    "name": "Pup 2",
+    "collarColor": "Blue",
+    "sex": "Male",
+    "dob": "2025-09-12",
+    "microchip": "",
+    "photo": "pup2.jpg",
+    "notes": "Healthy; strongest feeder; teething early Oct."
+  },
+  {
+    "id": "pup3",
+    "name": "Pup 3",
+    "collarColor": "Pink",
+    "sex": "Female",
+    "dob": "2025-09-12",
+    "microchip": "",
+    "photo": "pup3.jpg",
+    "notes": "Healthy; first BlackHawk Puppy sampler Oct 4."
+  },
+  {
+    "id": "pup5",
+    "name": "Pup 5",
+    "collarColor": "Orange",
+    "sex": "Male",
+    "dob": "2025-09-13",
+    "microchip": "",
+    "photo": "pup5.jpg",
+    "notes": "Healthy; good latch."
+  }
+]
