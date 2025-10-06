@@ -1,102 +1,158 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!doctype html>
+<html lang='en'><head><meta charset='utf-8'/><meta name='viewport' content='width=device-width,initial-scale=1'/>
 <title>Cato Dogs Journal</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net"/>
+<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+<link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap' rel='stylesheet'>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
 <style>
-:root{--bg:#f8fafc;--card:#ffffff;--ink:#0f172a;--brand:#2563eb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Arial}
-.container{max-width:1100px;margin:24px auto;padding:0 16px}
-h1{font-size:clamp(28px,4vw,40px);margin:0 0 16px}
-.nav{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 24px}
-.nav a{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid #e5e7eb;text-decoration:none;color:var(--ink)}
-.nav a.active{background:var(--brand);border-color:var(--brand);color:#fff}
-.card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;padding:16px}
-.portraits{display:flex;gap:16px;margin-bottom:12px}
-.portraits img{width:96px;height:96px;border-radius:12px;object-fit:cover;border:2px solid #e5e7eb;background:#fff}
-.chips{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.chip{padding:10px 14px;border-radius:999px;border:1px solid #cbd5e1;background:#fff;color:var(--ink);cursor:pointer}
-.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-button.primary{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:12px 16px;font-weight:600}
-button.ghost{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{border-bottom:1px solid #e5e7eb;padding:8px;text-align:left;font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.notice{padding:10px 12px;background:#f1f5f9;border:1px solid #e5e7eb;border-radius:10px}
-canvas{max-width:100%;height:340px}
-@media(max-width:600px){canvas{height:260px}}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head><body><div class="container">
+:root{--accent:#2563eb;--bg:#f7f8fb;--card:#fff;--line:#e6e8f0;--text:#0f172a;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui; background:var(--bg);color:var(--text)}
+.wrap{max-width:1100px;margin:24px auto;padding:0 16px}h1{margin:0 0 12px;font-size:34px}
+.badge{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+border-radius:14px;padding:12px 14px}
+.badge img{width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
+.tabs{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 8px}
+.tab{background:var(--card);border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer}
+.tab.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)} 
+section.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap}.grow{flex:1 1 280px}.pill{padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;display:inline-block}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px 14px;font-weight:600;cursor:pointer}
+.btn-outline{background:#fff;color:var(--text);border:1px solid var(--line)}label.small{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+input[type=number],input[type=text]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse}th,td{padding:8px 10px;border-bottom:1px solid var(--line);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.bio-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.bio-card img{width:100%;height:140px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.flag{font-size:12px;color:#fff;border-radius:6px;padding:2px 6px;display:inline-block}.blue{background:#2563eb}.pink{background:#ef4444}.orange{background:#f59e0b}
+.muted{color:var(--muted)}.checkline{display:flex;align-items:center;gap:10px;margin:4px 0}details summary{cursor:pointer;font-weight:600;margin:8px 0}
+canvas{max-height:420px}@media(max-width:600px){h1{font-size:28px}.badge img{width:56px;height:56px}canvas{max-height:360px}}
+</style></head>
+<body><div class='wrap'>
 <h1>Cato Dogs Journal</h1>
-<div class="portraits">
-  <figure><img id="thorImg" alt="Thor"><figcaption>Thor</figcaption></figure>
-  <figure><img id="miaImg" alt="Mia"><figcaption>Mia</figcaption></figure>
+<div class='top' id='parentBadges'></div>
+<div class='tabs'>
+  <div class='tab active' data-tab='overview'>Overview</div>
+  <div class='tab' data-tab='weights'>Weights & Lengths</div>
+  <div class='tab' data-tab='care'>Care Plan</div>
+  <div class='tab' data-tab='birth'>Birth Log</div>
+  <div class='tab' data-tab='bios'>Bios</div>
+  <div class='tab' data-tab='vet'>Vet & Worming</div>
+  <div class='tab' data-tab='photos'>Photos</div>
 </div>
-<nav class="nav" id="tabs">
-  <a href="#overview" class="active">Overview</a>
-  <a href="#wl">Weights & Lengths</a>
-  <a href="#care">Care Plan</a>
-  <a href="#birth">Birth Log</a>
-  <a href="#bios">Bios</a>
-  <a href="#vet">Vet & Worming</a>
-  <a href="#photos">Photos</a>
-</nav>
-<section id="overview" class="card">
-  <h2>Overview</h2><div class="notice" id="ovText"></div>
-</section>
-<section id="wl" class="card" hidden>
-  <h2>Weights & Lengths</h2>
-  <div class="chips" id="pupChips"></div>
-  <div class="controls">
-    <input id="dayInput" class="ghost" placeholder="Day (e.g., 21)">
-    <div><input id="wInput" class="ghost" placeholder="Weight (g)"><input id="lInput" class="ghost" placeholder="Length (cm)" style="margin-left:8px"></div>
+<section class='card' id='tab-overview'></section>
+<section class='card' id='tab-weights' hidden>
+  <div class='row'>
+    <div class='grow'>
+      <label class='small'>Pup</label>
+      <div class='row'>
+        <button class='pill' id='sel-pup2'>Pup 2 • <span class='flag blue'>Blue ♂</span></button>
+        <button class='pill' id='sel-pup3'>Pup 3 • <span class='flag pink'>Pink ♀</span></button>
+        <button class='pill' id='sel-pup5'>Pup 5 • <span class='flag orange'>Orange ♂</span></button>
+      </div>
+    </div>
+    <div><label class='small'>Day</label><input type='number' id='in-day' min='1' step='1' placeholder='e.g., 23'/></div>
+    <div><label class='small'>Weight (g)</label><input type='number' id='in-weight' min='0' step='1' placeholder='grams'/></div>
+    <div><label class='small'>Length (cm)</label><input type='number' id='in-length' min='0' step='0.1' placeholder='cm'/></div>
   </div>
-  <div style="display:flex;justify-content:space-between;gap:8px"><button class="primary" id="saveBtn">Save</button>
-    <div><button class="ghost" id="dlW">Download weights.json</button><button class="ghost" id="dlL" style="margin-left:8px">Download lengths.json</button></div>
+  <div class='row' style='margin-top:8px'>
+    <button class='btn' id='saveEntry'>Save</button>
+    <button class='btn btn-outline' id='undoEntry'>Undo</button>
+    <button class='btn btn-outline' id='dlWeights'>Download weights.json</button>
+    <button class='btn btn-outline' id='dlLengths'>Download lengths.json</button>
   </div>
-  <div style="margin-top:12px"><canvas id="wChart"></canvas></div>
-  <h3>Weights (table)</h3><table class="table" id="wTable"></table>
+  <div style='margin-top:16px'><canvas id='weightChart'></canvas></div>
+  <details open style='margin-top:8px'><summary>Weights (table)</summary><div id='weightsTable'></div></details>
 </section>
-<section id="care" class="card" hidden><h2>Care Plan</h2>
-  <div class="grid" id="careGrid"></div>
+<section class='card' id='tab-care' hidden><div id='careTiles' class='grid'></div></section>
+<section class='card' id='tab-birth' hidden><table id='birthTable'><thead><tr><th>Time</th><th>Event</th></tr></thead><tbody></tbody></table></section>
+<section class='card' id='tab-bios' hidden>
+  <h3>Parents</h3><div id='parentCards' class='grid' style='margin-bottom:10px'></div>
+  <h3>Pups</h3><div id='pupCards' class='grid'></div>
 </section>
-<section id="birth" class="card" hidden><h2>Birth Log</h2><table class="table" id="birthTable"></table></section>
-<section id="bios" class="card" hidden><h2>Pup Bios</h2><div class="grid" id="bioGrid"></div></section>
-<section id="vet" class="card" hidden><h2>Vet & Worming</h2><div id="vetWrap"></div></section>
-<section id="photos" class="card" hidden><h2>Photos</h2><div class="notice">Add photos to <b>/photos</b> and set filenames in <b>/data/pups.json</b> or <b>/data/dogs.json</b>.</div></section>
+<section class='card' id='tab-vet' hidden>
+  <div class='row'>
+    <div class='grow'><h3>Parents</h3><table id='vetParents'><thead><tr><th>Date</th><th>Name</th><th>Type</th><th>Notes</th></tr></thead><tbody></tbody></table></div>
+    <div class='grow'><h3>Pups</h3><table id='vetPups'><thead><tr><th>Date</th><th>Who</th><th>Type</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+<section class='card' id='tab-photos' hidden>
+  <p class='muted'>Drop images into <code>/photos/</code> and reference them in <code>data/dogs.json</code> or <code>data/pups.json</code>.</p>
+  <div id='photoGrid' class='grid'></div>
+</section>
 </div>
 <script>
-const DATA={overview:'data/overview.json',dogs:'data/dogs.json',pups:'data/pups.json',weights:'data/weights.json',lengths:'data/lengths.json',birth:'data/birth_log.json',vet:'data/vet_worming.json'};
-const state={dogs:[],pups:[],weights:{},lengths:{},activePup:'pup2',chart:null};
-function setActiveTab(hash){document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===hash));document.querySelectorAll('section').forEach(s=>s.hidden=true);document.getElementById((hash||'#overview').slice(1)).hidden=false;history.replaceState(null,'',hash);}
-document.getElementById('tabs').addEventListener('click',e=>{if(e.target.tagName==='A'){e.preventDefault();setActiveTab(e.target.getAttribute('href'));}});
-async function loadJSON(u){const r=await fetch(u);return await r.json();}
-function fmtAge(d){const t=new Date(d),n=new Date();const days=Math.floor((n-t)/86400000),w=Math.floor(days/7),r=days%7;return `${w}w ${r}d`;}
-function download(name,content){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'application/json'}));a.download=name;a.click();}
-async function init(){
-  const [overview,dogs,pups,weights,lengths,birth,vet]=await Promise.all([loadJSON(DATA.overview),loadJSON(DATA.dogs),loadJSON(DATA.pups),loadJSON(DATA.weights),loadJSON(DATA.lengths),loadJSON(DATA.birth),loadJSON(DATA.vet)]);
-  state.dogs=dogs;state.pups=pups;state.weights=weights;state.lengths=lengths;
-  document.getElementById('thorImg').src='photos/'+dogs.find(d=>d.id==='thor').photo;
-  document.getElementById('miaImg').src='photos/'+dogs.find(d=>d.id==='mia').photo;
-  document.getElementById('ovText').innerHTML=`<div><b>Summary:</b> ${overview.summary}</div><div><b>Notes:</b> ${overview.notes}</div>`;
-  const bT=document.getElementById('birthTable');bT.innerHTML='<tr><th>Time</th><th>Event</th></tr>'+birth.map(x=>`<tr><td>${x.time}</td><td>${x.event}</td></tr>`).join('');
-  const chips=document.getElementById('pupChips');const colors={pup2:'#2563eb',pup3:'#ef4444',pup5:'#f59e0b'};
-  chips.innerHTML=pups.map(p=>`<button class="chip" data-id="${p.id}" style="border-color:${colors[p.id]}">${p.name} • ${p.collarColor} ${p.sex==='Male'?'♂':'♀'}</button>`).join('');
-  chips.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;state.activePup=b.dataset.id;updateChips();drawChart();fillTable();});
-  function updateChips(){chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c.dataset.id===state.activePup));} updateChips();
-  function daysAll(){return[...new Set([].concat(...Object.values(state.weights).map(a=>a.map(x=>x[0]))))].sort((a,b)=>a-b);}
-  function fillTable(){const days=daysAll();const head='<tr><th>Day</th>'+pups.map(p=>`<th>${p.name} (${p.collarColor})</th>`).join('')+'</tr>';const rows=days.map(d=>{const cols=pups.map(p=>{const hit=(state.weights[p.id]||[]).find(x=>x[0]===d);return `<td>${hit?hit[1]:''}</td>`}).join('');return `<tr><td>${d}</td>${cols}</tr>`}).join('');document.getElementById('wTable').innerHTML=head+rows;}
-  function drawChart(){const ctx=document.getElementById('wChart');const cfg={type:'line',data:{datasets:[{label:'Pup 2 (Blue ♂)',data:(state.weights.pup2||[]).map(([x,y])=>({x,y})),borderColor:'#2563eb',backgroundColor:'#2563eb',tension:.25},{label:'Pup 3 (Pink ♀)',data:(state.weights.pup3||[]).map(([x,y])=>({x,y})),borderColor:'#ef4444',backgroundColor:'#ef4444',tension:.25},{label:'Pup 5 (Orange ♂)',data:(state.weights.pup5||[]).map(([x,y])=>({x,y})),borderColor:'#f59e0b',backgroundColor:'#f59e0b',tension:.25}]},options:{parsing:false,scales:{x:{type:'linear',title:{text:'Day',display:true}},y:{title:{text:'Weight (g)',display:true}}},plugins:{legend:{position:'bottom'}}}}; if(state.chart){state.chart.destroy()} state.chart=new Chart(ctx,cfg);}
-  const dayI=document.getElementById('dayInput'),wI=document.getElementById('wInput'),lI=document.getElementById('lInput');
-  document.getElementById('saveBtn').onclick=()=>{const d=parseInt(dayI.value,10),w=parseInt(wI.value,10),l=parseInt(lI.value,10);if(!Number.isFinite(d))return alert('Enter day');if(Number.isFinite(w)){state.weights[state.activePup]=(state.weights[state.activePup]||[]).filter(x=>x[0]!==d).concat([[d,w]]).sort((a,b)=>a[0]-b[0]);}if(Number.isFinite(l)){state.lengths[state.activePup]=(state.lengths[state.activePup]||[]).filter(x=>x[0]!==d).concat([[d,l]]).sort((a,b)=>a[0]-b[0]);}localStorage.setItem('weights',JSON.stringify(state.weights));localStorage.setItem('lengths',JSON.stringify(state.lengths));drawChart();fillTable();};
-  try{const wL=localStorage.getItem('weights'),lL=localStorage.getItem('lengths');if(wL)state.weights=JSON.parse(wL);if(lL)state.lengths=JSON.parse(lL);}catch{}
-  document.getElementById('dlW').onclick=()=>download('weights.json',JSON.stringify(state.weights,null,2));
-  document.getElementById('dlL').onclick=()=>download('lengths.json',JSON.stringify(state.lengths,null,2));
-  const bio=document.getElementById('bioGrid');function latest(pid){const a=(state.weights[pid]||[]);if(!a.length)return'';const [d,w]=a[a.length-1];return `${w} g on day ${d}`;}
-  bio.innerHTML=pups.map(p=>`<div class="card"><div style="display:flex;gap:10px"><img src="photos/${p.photo}" style="width:88px;height:88px;border-radius:10px;border:1px solid #e5e7eb;object-fit:cover"><div><div><b>${p.name}</b> • <span style="font-size:12px;background:#eef;padding:2px 8px;border-radius:999px">${p.collarColor}</span></div><div style="color:#475569;font-size:14px">Sex: <b>${p.sex}</b> • DOB: <b>${p.dob}</b> • Age: <b>${fmtAge(p.dob)}</b></div><div style="color:#475569;font-size:14px">Latest weight: <b>${latest(p.id)}</b></div></div></div><p style="color:#475569;font-size:14px">Notes: <b>${p.notes||''}</b></p><button class="ghost" onclick="location.hash='#wl';setTimeout(()=>{document.querySelector('#pupChips .chip[data-id=${JSON.stringify(p.id)}]').click()},50)">View growth</button></div>`).join('');
-  const vw=document.getElementById('vetWrap');function rowify(list,label){return `<table class="table"><tr><th>Date</th><th>Animal</th><th>Type</th><th>Product</th><th>Status</th></tr>`+list.map(x=>`<tr><td>${x.date}</td><td>${label(x)}</td><td>${x.type}</td><td>${x.product}</td><td>${x.status||'—'}</td></tr>`).join('')+`</table>`;} vw.innerHTML=`<h3>Parents</h3>${rowify(vet.parents,x=>x.dogId==='mia'?'Mia':'Thor')}<h3>Pups</h3>${rowify(vet.pups,x=>(pups.find(p=>p.id===x.pupId)||{}).name||x.pupId)}<div class="notice">Edit <b>/data/vet_worming.json</b> to add records, or build a form later.</div>`;
-  drawChart();fillTable();setActiveTab(location.hash||'#overview');
-}
-init();
+const path='data/'; let DATA={overview:{},dogs:{},pups:{},weights:{},lengths:{},birthlog:[],vet:{},care:{}};
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+async function loadJSON(f){const r=await fetch(path+f); return r.json();}
+function daysOld(d){const b=new Date(d), n=new Date(); return Math.floor((n-b)/86400000);}
+function switchTab(n){$$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===n));
+  $('#tab-overview').hidden=n!=='overview'; $('#tab-weights').hidden=n!=='weights'; $('#tab-care').hidden=n!=='care';
+  $('#tab-birth').hidden=n!=='birth'; $('#tab-bios').hidden=n!=='bios'; $('#tab-vet').hidden=n!=='vet'; $('#tab-photos').hidden=n!=='photos';
+  if(n==='weights'){renderWeightChart(); renderWeightsTable();}}
+$$('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
+function renderOverview(){const o=DATA.overview; let html=`<p><b>Summary:</b> ${o.summary}</p>`;
+ if(o.notes&&o.notes.length){html+=`<p><b>Notes:</b> ${o.notes.join(' ')}</p>`;} $('#tab-overview').innerHTML=html;}
+function renderBadges(){const box=$('#parentBadges'); box.innerHTML=''; DATA.dogs.parents.forEach(p=>{
+  const el=document.createElement('div'); el.className='badge'; el.innerHTML=`<img src="photos/${p.photo}" alt="${p.name}"/>
+  <div><div style="font-weight:700">${p.name}</div><div class="muted" style="font-size:13px">${p.breed}</div></div>`; box.appendChild(el);});}
+function renderBios(){const pBox=$('#parentCards'); pBox.innerHTML=''; DATA.dogs.parents.forEach(p=>{
+  const age=daysOld(p.dob);
+  pBox.insertAdjacentHTML('beforeend',`<div class="bio-card"><img src="photos/${p.photo}" alt="${p.name}"/>
+  <h4 style="margin:8px 0 4px">${p.name} <span class="muted">(${p.breed})</span></h4>
+  <div class="muted" style="font-size:13px">DOB ${p.dob} • ~${Math.floor(age/365)}y ${age%365}d</div>
+  <div style="margin:6px 0"><div class="checkline"><b>Microchip:</b> ${p.microchip||'—'}</div>
+  ${p.council_registration? `<div class="checkline"><b>Council:</b> ${p.council_registration.council} #${p.council_registration.number}</div>`:''}
+  <div class="checkline"><b>Clinic:</b> ${p.clinic||'—'}</div></div>
+  <button class="btn btn-outline" onclick="goGrowth('pup2')">View Growth (Blue)</button></div>`);});
+  const pupBox=$('#pupCards'); pupBox.innerHTML=''; DATA.pups.pups.forEach(pp=>{const age=daysOld(pp.dob);
+  pupBox.insertAdjacentHTML('beforeend',`<div class="bio-card"><img src="photos/${pp.photo}" alt="${pp.label}"/>
+  <div class="flag ${pp.collar_color}" style="margin-top:8px">${pp.label}</div>
+  <div class="muted" style="font-size:13px">DOB ${pp.dob} • ${age} days old</div>
+  <div class="checkline"><b>Sex:</b> ${pp.sex}</div><div class="checkline" id="latest-${pp.id}">Latest weight: —</div>
+  <button class="btn btn-outline" onclick="goGrowth('${pp.id}')">View Growth</button></div>`);});
+  Object.entries(DATA.weights).forEach(([pid,arr])=>{if(arr.length){const last=arr[arr.length-1][1];
+    const el=document.getElementById('latest-'+pid); if(el) el.innerHTML=`<b>Latest weight:</b> ${last} g`;}});}
+function renderVet(){const vp=$('#vetParents tbody'); vp.innerHTML=''; (DATA.vet.parents||[]).forEach(r=>{
+  vp.insertAdjacentHTML('beforeend',`<tr><td>${r.date}</td><td>${r.name}</td><td>${r.type}</td><td>${r.notes||r.clinic||''}</td></tr>`);});
+  const vpu=$('#vetPups tbody'); vpu.innerHTML=''; (DATA.vet.pups||[]).forEach(r=>{
+  const color = r.status==='scheduled'||r.status==='planned' ? 'style="color:#b45309"' : ''; 
+  vpu.insertAdjacentHTML('beforeend',`<tr><td>${r.date}</td><td>${r.who}</td><td>${r.type}</td><td ${color}>${r.status||''}</td></tr>`);});}
+function renderCare(){const area=$('#careTiles'); area.innerHTML=''; (DATA.care.weeks||[]).forEach(w=>{
+  const key='care_w'+w.week; const done=localStorage.getItem(key)==='1';
+  const items=w.items.map((it,i)=>{const cid=key+'_i'+i,checked=localStorage.getItem(cid)==='1';
+  return `<label class="checkline"><input type="checkbox" ${checked?'checked':''} onchange="localStorage.setItem('${cid}', this.checked?'1':'0'); this.parentElement.style.opacity=this.checked?.7:1;"> ${it}</label>`;}).join('');
+  area.insertAdjacentHTML('beforeend',`<div class="bio-card" style="border-left:6px solid ${done?'#16a34a':'#eab308'}">
+  <div class="row" style="justify-content:space-between;align-items:center"><div><b>Week ${w.week}</b> — ${w.title}</div>
+  <button class="btn btn-outline" onclick="localStorage.setItem('${key}','${done?'0':'1'}'); renderCare();">${done?'Completed':'Mark complete'}</button></div>
+  <div style="margin-top:6px">${items}</div></div>`);});}
+let weightChart;
+function buildSeries(pid,color){const arr=(DATA.weights[pid]||[]).map(p=>({x:p[0],y:p[1]}));
+  return {label: pid==='pup2'?'Pup 2 (Blue ♂)':pid==='pup3'?'Pup 3 (Pink ♀)':'Pup 5 (Orange ♂)', data:arr, borderColor:color,backgroundColor:color,tension:.25,fill:false,pointRadius:3};}
+function renderWeightChart(){const ctx=$('#weightChart').getContext('2d'); if(weightChart) weightChart.destroy();
+  weightChart=new Chart(ctx,{type:'line',data:{datasets:[buildSeries('pup2','#2563eb'),buildSeries('pup3','#ef4444'),buildSeries('pup5','#f59e0b')]},
+  options:{responsive:true,scales:{x:{type:'linear',title:{display:true,text:'Day'}},y:{title:{display:true,text:'Weight (g)'}},
+  plugins:{legend:{position:'bottom'}}}});}
+function renderWeightsTable(){const days=new Set(); Object.values(DATA.weights).forEach(arr=>arr.forEach(d=>days.add(d[0])));
+  const sorted=[...days].sort((a,b)=>a-b); let html='<table><thead><tr><th>Day</th><th>Pup 2 (Blue)</th><th>Pup 3 (Pink)</th><th>Pup 5 (Orange)</th></tr></thead><tbody>';
+  sorted.forEach(d=>{const g=(pid)=>{const f=(DATA.weights[pid]||[]).find(x=>x[0]===d); return f?f[1]:'';};
+  html+=`<tr><td>${d}</td><td>${g('pup2')}</td><td>${g('pup3')}</td><td>${g('pup5')}</td></tr>`;}); html+='</tbody></table>'; $('#weightsTable').innerHTML=html;}
+function saveEntry(){const pup=currentPup; const day=parseInt($('#in-day').value); const wt=$('#in-weight').value?parseInt($('#in-weight').value):null; const ln=$('#in-length').value?parseFloat($('#in-length').value):null;
+  if(!day||(!wt&&!ln)) return; if(wt!==null){const arr=DATA.weights[pup]||[]; const ex=arr.findIndex(p=>p[0]===day); if(ex>=0) arr[ex][1]=wt; else arr.push([day,wt]); arr.sort((a,b)=>a[0]-b[0]); localStorage.setItem('weights',JSON.stringify(DATA.weights)); renderWeightChart(); renderWeightsTable();}
+  if(ln!==null){const arrL=DATA.lengths[pup]||[]; const ex2=arrL.findIndex(p=>p[0]===day); if(ex2>=0) arrL[ex2][1]=ln; else arrL.push([day,ln]); arrL.sort((a,b)=>a[0]-b[0]); localStorage.setItem('lengths',JSON.stringify(DATA.lengths));}
+  $('#in-weight').value=''; $('#in-length').value='';}
+function undoEntry(){const pup=currentPup; const arr=DATA.weights[pup]||[]; arr.pop(); localStorage.setItem('weights',JSON.stringify(DATA.weights)); renderWeightChart(); renderWeightsTable();}
+$('#saveEntry').addEventListener('click',saveEntry); $('#undoEntry').addEventListener('click',undoEntry);
+function downloadFile(name,obj){const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,2)],{type:'application/json'})); a.download=name; a.click();}
+$('#dlWeights').addEventListener('click',()=>downloadFile('weights.json',DATA.weights)); $('#dlLengths').addEventListener('click',()=>downloadFile('lengths.json',DATA.lengths));
+let currentPup='pup2'; function setPup(pid){currentPup=pid; ['sel-pup2','sel-pup3','sel-pup5'].forEach(id=>$('#'+id).style.borderColor='#e5e7eb'); $('#sel-'+pid).style.borderColor='#2563eb';}
+['pup2','pup3','pup5'].forEach(pid=>$('#sel-'+pid).addEventListener('click',()=>setPup(pid)));
+function goGrowth(pid){switchTab('weights'); setPup(pid); scrollTo({top:$('#tab-weights').offsetTop-8, behavior:'smooth'});} window.goGrowth=goGrowth;
+function renderPhotos(){const grid=$('#photoGrid'); grid.innerHTML=''; const parent=DATA.dogs.parents.map(p=>'photos/'+p.photo); const pup=DATA.pups.pups.map(p=>'photos/'+p.photo);
+  [...parent,...pup].forEach(src=>grid.insertAdjacentHTML('beforeend',`<img src="${src}" style="width:100%;height:200px;object-fit:cover;border:1px solid var(--line);border-radius:12px"/>`));}
+async function boot(){DATA.overview=await loadJSON('overview.json'); DATA.dogs=await loadJSON('dogs.json'); DATA.pups=await loadJSON('pups.json');
+  DATA.weights=JSON.parse(localStorage.getItem('weights'))||await loadJSON('weights.json'); DATA.lengths=JSON.parse(localStorage.getItem('lengths'))||await loadJSON('lengths.json');
+  DATA.birthlog=await loadJSON('birth_log.json'); DATA.vet=await loadJSON('vet_worming.json'); DATA.care=await loadJSON('care_plan.json');
+  renderOverview(); renderBadges(); renderBios(); renderVet(); renderCare(); renderPhotos(); const tb=$('#birthTable tbody'); DATA.birthlog.forEach(r=>tb.insertAdjacentHTML('beforeend',`<tr><td>${r.time}</td><td>${r.event}</td></tr>`));
+  switchTab('weights'); setPup('pup2');}
+boot();
 </script></body></html>
